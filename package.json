@@ -1,0 +1,29 @@
+{
+    "main": "index.js",
+    "scripts": {
+        "build": "webpack --mode=production",
+        "build:dev": "webpack --mode=development --watch",
+        "start:dev": "webpack-dev-server --mode=development",
+        "deploy": "aws s3 sync ./dest s3://www.rock-and-games.com/ --delete --profile RockAndGames"
+    },
+    "devDependencies": {
+        "autoprefixer": "^9.7.5",
+        "bulma": "^0.8.1",
+        "clean-webpack-plugin": "^3.0.0",
+        "css-loader": "^3.4.2",
+        "cssnano": "^4.1.10",
+        "html-webpack-plugin": "^4.2.0",
+        "mini-css-extract-plugin": "^0.9.0",
+        "postcss-cli": "^7.1.0",
+        "postcss-import": "^12.0.1",
+        "postcss-loader": "^3.0.0",
+        "postcss-simple-vars": "^5.0.2",
+        "sass": "^1.26.3",
+        "sass-loader": "^8.0.2",
+        "url-loader": "^4.0.0",
+        "webpack": "^4.42.1",
+        "webpack-cli": "^3.3.11",
+        "webpack-dev-server": "^3.10.3"
+    },
+    "private": true
+}
