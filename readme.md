@@ -21,7 +21,7 @@ npm install
 - package.jsonに定義したnpm scriptを参照
 
 ```
-# 本番用
+# 本番用ビルド(/以下にバンドルファイルを出力)
 > npm run build
 
 # 開発用 ファイルに変更がある度に変更箇所に依存する箇所だけ再ビルドする
@@ -29,6 +29,7 @@ npm install
 
 # 開発用 ローカルサーバーを実行
 > start:dev
+
 ```
 
 # デプロイ方法
