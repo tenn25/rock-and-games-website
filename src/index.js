@@ -2,6 +2,7 @@ import './css/style.sass';
 import circleLogoImage from './images/Circle_Logo.png';
 import circleRectLogoImage from './images/Circle_Logo_Rectangle.png';
 import haienaImage from './images/haiena_top.png';
+import haiena2Image from './images/haiena2_top.jpg';
 import gemumaLogoImage from './images/Gemuma_Logo.png';
 import twitterLogoImage from './images/Twitter_Logo.png';
 import noteLogoImage from './images/Note_Logo.png';
@@ -30,6 +31,10 @@ haienaLogo.src = haienaImage;
 document.getElementById('haiena-logo').appendChild(haienaLogo);
 haienaLogo.setAttribute("alt", "ハイエナ勇者はサボリたい");
 
+let haiena2Logo = document.createElement('img');
+haiena2Logo.src = haiena2Image;
+document.getElementById('haiena2-logo').appendChild(haiena2Logo);
+haiena2Logo.setAttribute("alt", "ハイエナ勇者はサボリたい(拡張版)");
 
 let gemumaLogo = document.createElement('img');
 gemumaLogo.src = gemumaLogoImage;

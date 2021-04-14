@@ -36,13 +36,13 @@ npm install
 
 Amazon S3でホストしているので、対象バケットにファイルをアップロード
 
-1. [AWS CLI](https://aws.amazon.com/jp/cli/)をインストール  
+1. (初回のみ)[AWS CLI](https://aws.amazon.com/jp/cli/)をインストール  
 
-2. IAMユーザー作成
+2. (初回のみ)IAMユーザー作成
     - AWSマネジメントコンソール上から作成
     - RockAndGamesグループに追加
 
-3. 発行されるCredentialを以下のファイルに追記
+3. (初回のみ)発行されるCredentialを以下のファイルに追記
 
     - Windowsの場合
         - %USERPROFILE%\.aws\config\

@@ -79,9 +79,14 @@ module.exports = {
         //HTMLファイルの出力。バンドルファイルのリンク自動付与
         new HtmlWebpackPlugin({
             template: './src/index.html',
+            filename: 'index.html',
             favicon: './src/images/favicon.ico',
         }),
-
+        new HtmlWebpackPlugin({
+            template: './src/profile.html',
+            filename: 'profile.html',
+            favicon: './src/images/favicon.ico',
+        }),
     ],
     output: {
         path: `${__dirname}/dest/`, //dest/bundle.jsを出力
