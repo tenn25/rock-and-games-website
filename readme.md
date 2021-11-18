@@ -28,7 +28,7 @@ npm install
 > npm run build:dev
 
 # 開発用 ローカルサーバーを実行
-> start:dev
+> npm run start:dev
 
 ```
 

@@ -3,6 +3,7 @@ import circleLogoImage from './images/Circle_Logo.png';
 import circleRectLogoImage from './images/Circle_Logo_Rectangle.png';
 import haienaImage from './images/haiena_top.png';
 import haiena2Image from './images/haiena2_top.jpg';
+import navirabiImage from './images/navirabi_top.png';
 import gemumaLogoImage from './images/Gemuma_Logo.png';
 import twitterLogoImage from './images/Twitter_Logo.png';
 import noteLogoImage from './images/Note_Logo.png';
@@ -35,6 +36,11 @@ let haiena2Logo = document.createElement('img');
 haiena2Logo.src = haiena2Image;
 document.getElementById('haiena2-logo').appendChild(haiena2Logo);
 haiena2Logo.setAttribute("alt", "ハイエナ勇者はサボリたい(拡張版)");
+
+let navirabiLogo = document.createElement('img');
+navirabiLogo.src = navirabiImage;
+document.getElementById('navirabi-logo').appendChild(navirabiLogo);
+navirabiLogo.setAttribute("alt", "ナビラビ");
 
 let gemumaLogo = document.createElement('img');
 gemumaLogo.src = gemumaLogoImage;
