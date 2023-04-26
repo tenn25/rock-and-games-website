@@ -1,8 +1,9 @@
 import './css/style.sass';
 import circleLogoImage from './images/Circle_Logo.png';
 import circleRectLogoImage from './images/Circle_Logo_Rectangle.png';
+import kamimaImage from './images/kamima_top.jpg';
 import haienaImage from './images/haiena_top.png';
-import haiena2Image from './images/haiena2_top.jpg';
+//import haiena2Image from './images/haiena2_top.jpg';
 import navirabiImage from './images/navirabi_top.png';
 import gemumaLogoImage from './images/Gemuma_Logo.png';
 import twitterLogoImage from './images/Twitter_Logo.png';
@@ -26,16 +27,22 @@ circleRectLogo.src = circleRectLogoImage;
 document.getElementById('circle-rect-logo').appendChild(circleRectLogo);
 circleRectLogo.setAttribute("alt", "RockAndGames");
 
+let kamimaLogo = document.createElement('img');
+kamimaLogo.src = kamimaImage;
+document.getElementById('kamima-logo').appendChild(kamimaLogo);
+kamimaLogo.setAttribute("alt", "カミサマーケット");
 
 let haienaLogo = document.createElement('img');
 haienaLogo.src = haienaImage;
 document.getElementById('haiena-logo').appendChild(haienaLogo);
 haienaLogo.setAttribute("alt", "ハイエナ勇者はサボリたい");
 
-let haiena2Logo = document.createElement('img');
-haiena2Logo.src = haiena2Image;
-document.getElementById('haiena2-logo').appendChild(haiena2Logo);
-haiena2Logo.setAttribute("alt", "ハイエナ勇者はサボリたい(拡張版)");
+
+// let haiena2Logo = document.createElement('img');
+// haiena2Logo.src = haiena2Image;
+// document.getElementById('haiena2-logo').appendChild(haiena2Logo);
+// haiena2Logo.setAttribute("alt", "ハイエナ勇者はサボリたい(拡張版)");
+
 
 let navirabiLogo = document.createElement('img');
 navirabiLogo.src = navirabiImage;
