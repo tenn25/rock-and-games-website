@@ -232,11 +232,12 @@ footer {
 /* スマホレイアウト */
 
 @media (max-width: 768px) {
-    .navbar {
-        /* スマホではヘッダーを縦に配置 */
-        flex-direction: column;
-        /* パディングを増やしても幅が崩れないようにする */
-        padding: 10px;
+    .navbar-brand {
+        width: 100%;
+        /* 幅を100%にしてロゴを左揃えにする */
+        text-align: center;
+        margin: 0;
+        padding: 0;
     }
     .purchase-button {
         /* 購入リンクを非表示に */
