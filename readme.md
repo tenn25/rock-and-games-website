@@ -42,6 +42,11 @@ aws s3 sync ./src s3://www.rock-and-games.com/ --delete --profile RockAndGames
 ```
 
 
+# その他
+
+活動履歴は編集しやすいようにJSONファイルに外出し
+activity.jsonを修正してデプロイするだけでOK
+
 # フリー素材の利用
 - [問い合わせ・アンケートアイコン](https://icooon-mono.com/?s=question)
     - 改変OKぽいので余白幅だけ変えて利用
