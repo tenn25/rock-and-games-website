@@ -12,28 +12,41 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a202c; /* Tailwind gray-900 */
-            color: #e2e8f0; /* Tailwind gray-300 */
+            background-color: #1a202c;
+            /* Tailwind gray-900 */
+            color: #e2e8f0;
+            /* Tailwind gray-300 */
         }
+        
         .navbar-logo {
-            height: 40px; /* Adjust as needed */
+            height: 40px;
+            /* Adjust as needed */
         }
+        
         .activity-content-item p {
-            margin-bottom: 0.5rem; /* Tailwind mb-2 */
+            margin-bottom: 0.5rem;
+            /* Tailwind mb-2 */
         }
         /* Custom scrollbar (optional, for consistency if used elsewhere) */
+        
         body::-webkit-scrollbar {
             width: 8px;
         }
+        
         body::-webkit-scrollbar-track {
-            background: #2d3748; /* Tailwind gray-800 */
+            background: #2d3748;
+            /* Tailwind gray-800 */
         }
+        
         body::-webkit-scrollbar-thumb {
-            background: #4a5568; /* Tailwind gray-600 */
+            background: #4a5568;
+            /* Tailwind gray-600 */
             border-radius: 4px;
         }
+        
         body::-webkit-scrollbar-thumb:hover {
-            background: #718096; /* Tailwind gray-500 */
+            background: #718096;
+            /* Tailwind gray-500 */
         }
     </style>
 </head>
@@ -46,9 +59,8 @@
                 <img src="images/Circle_Logo_Rectangle.png" alt="サークルロゴ" class="navbar-logo">
             </a>
             <div>
-                <a href="./index.html"
-                   class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-1.5 px-3 text-sm rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    ホームへ戻る
+                <a href="./index.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-1.5 px-3 text-sm rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                    ホーム
                 </a>
             </div>
         </div>
@@ -83,7 +95,7 @@
 
             try {
                 // Ensure the path to activity.json is correct relative to this HTML file
-                const response = await fetch('./contents/activity.json'); 
+                const response = await fetch('./contents/activity.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
                 }
@@ -148,4 +160,5 @@
     -->
 
 </body>
+
 </html>
