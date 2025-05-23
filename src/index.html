@@ -4,187 +4,267 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="メンバー全員Web/ゲーム業界なアナログゲームサークル RockAndGames。ゲームマーケット等で「ハイエナ勇者はサボリたい」などのボードゲームを作成・販売しています。">
     <meta property="og:title" content="メンバー全員Web/ゲーム業界なアナログゲームサークル RockAndGames。ゲームマーケット等で「ハイエナ勇者はサボリたい」などのボードゲームを作成・販売しています。" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.rock-and-games.com/" />
-    <meta property="og:image" content="./favicon.ico" />
-    <meta property="og:site_name" content="Rock and games" />
+    <meta property="og:image" content="./favicon.ico" /> <meta property="og:site_name" content="Rock and games" />
     <meta property="og:description" content="メンバー全員Web/ゲーム業界なアナログゲームサークル RockAndGames。ゲームマーケット等で「ハイエナ勇者はサボリたい」などのボードゲームを作成・販売しています。" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@69andGames" />
     <title>RockAndGames アナログゲームサークル</title>
-    <link rel="stylesheet" href="css/index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Tailwind gray-900 */
+            color: #e2e8f0; /* Tailwind gray-300 */
+        }
+        .navbar-logo {
+            height: 40px; /* Adjust as needed */
+        }
+        .tile-image {
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+        .activity-content p {
+            margin-bottom: 0.25rem;
+        }
+        /* Custom scrollbar for activity list (optional) */
+        #activity-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        #activity-list::-webkit-scrollbar-track {
+            background: #2d3748; /* Tailwind gray-800 */
+        }
+        #activity-list::-webkit-scrollbar-thumb {
+            background: #4a5568; /* Tailwind gray-600 */
+            border-radius: 4px;
+        }
+        #activity-list::-webkit-scrollbar-thumb:hover {
+            background: #718096; /* Tailwind gray-500 */
+        }
+    </style>
 </head>
 
-<body>
-    <nav class="navbar">
-        <a href="./index.html" class="navbar-brand">
-            <img src="images/Circle_Logo_Rectangle.png" alt="サークルロゴ">
-        </a>
-        <div class="navbar-end">
-            <a href="https://bodoge.hoobby.net/market/items?q%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank" class="purchase-button">
-                <strong>ゲームの購入はこちら</strong>
+<body class="bg-gray-900 text-gray-300">
+
+    <nav class="bg-white shadow-md fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <a href="./index.html" class="flex items-center">
+                <img src="images/Circle_Logo_Rectangle.png" alt="サークルロゴ" class="navbar-logo">
             </a>
+            <div class="hidden md:block">
+                <a href="https://bodoge.hoobby.net/market/items?q%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank"
+                   class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                    ゲームの購入はこちら
+                </a>
+            </div>
+            <div class="md:hidden">
+                 <a href="https://bodoge.hoobby.net/market/items?q%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank"
+                   class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-1.5 px-3 text-xs rounded-lg transition duration-300 ease-in-out">
+                    購入
+                </a>
+            </div>
         </div>
     </nav>
 
+    <main class="pt-24"> <section class="text-center mb-16 px-4">
+            <img src="images/Circle_Logo.png" alt="Rock and Gamesのロゴ" class="mx-auto max-w-lg w-full h-auto">
+        </section>
 
-    <main>
-        <h1 id="circle-logo">
-            <img src="images/Circle_Logo.png" alt="Rock and Games">
-        </h1>
-
-        <section class="content-tiles">
-            <div class="tile-row row-1">
-                <div class="tile-item">
-                    <a href="https://rock-and-games.com/" class="link-image">
-                        <img src="images/kamima_top.png" alt="カミサマーケット">
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+            <h2 class="text-3xl font-bold text-center text-white mb-10">制作ゲーム</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-800 rounded-xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                    <a href="https://rock-and-games.com/" target="_blank" class="block">
+                        <img src="images/kamima_top.png" alt="カミサマーケットの画像" class="w-full h-64 object-cover tile-image">
                     </a>
-                    <p class="title">カミサマーケット</p>
-                    <p class="subtitle">「価値変動」する世界創造バトル！</p>
-                </div>
-                <div class="tile-item">
-                    <a href="https://navirabi.rock-and-games.com/" class="link-image">
-                        <img src="images/navirabi_top.png" alt="ナビラビ">
-                    </a>
-                    <p class="title">ナビラビ</p>
-                    <p class="subtitle">信じて行動。見極めろ指令。</p>
-                </div>
-                <div class="tile-item">
-                    <a href="https://haiena.rock-and-games.com/" class="link-image">
-                        <img src="images/haiena_top.png" alt="ハイエナ勇者はサボりたい">
-                    </a>
-                    <p class="title">ハイエナ勇者はサボリたい(拡張同梱版)</p>
-                    <p class="subtitle">協力×駆け引き 新感覚サボタージュRPG</p>
-                </div>
-            </div>
-            <div class="tile-row row-2">
-                <div class="tile-item">
-                    <a href="https://bodoge.hoobby.net/games?search%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank" class="link-image">
-                        <img src="images/Bodogema_Logo.png" alt="ボドゲーマ">
-                    </a>
-                    <p class="title">ボドゲーマ</p>
-                </div>
-                <div class="tile-item">
-                    <a href="https://twitter.com/69andgames" target="_blank" class="link-image">
-                        <img src="images/Twitter_Logo.png" alt="Twitter">
-                    </a>
-                    <p class="title">Twitter</p>
-                </div>
-                <div class="tile-item">
-                    <a href="https://www.youtube.com/@rockandgames455" target="_blank" class="link-image">
-                        <img src="images/Youtube_Logo.png" alt="Youtube">
-                    </a>
-                    <p class="title">Youtube</p>
-                </div>
-                <div class="tile-item">
-                    <a href="https://note.com/rock_and_games" target="_blank" class="link-image">
-                        <img src="images/Note_Logo.png" alt="Note">
-                    </a>
-                    <p class="title">Note</p>
-                </div>
-                <div class="tile-item">
-                    <a href="mailto:69andgames@gmail.com" target="_blank" class="link-image">
-                        <img src="images/Question_Logo.png" alt="問い合わせ">
-                    </a>
-                    <p class="title">問い合わせ</p>
-                </div>
-                <div class="tile-item">
-                    <a href="https://forms.gle/LG2kpvP7HJ8mgoKZA" target="_blank" class="link-image">
-                        <img src="images/Survey_Logo.png" alt="アンケート">
-                    </a>
-                    <p class="title">アンケート</p>
-                </div>
-            </div>
-            <div class="tile-row row-3">
-                <div class="tile-item activity-history-tile">
-                    <h2 class="title">活動履歴</h2>
-                    <div id="activity-list">
-                        <!-- JSONデータを元に最新の活動履歴のみ表示される -->
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-white mb-2">カミサマーケット</h3>
+                        <p class="text-gray-400 text-base">「価値変動」する世界創造バトル！</p>
                     </div>
-                    <a href="profile.html" class="view-more-button">もっと見る</a>
                 </div>
-                <div class="tile-item member-tile">
-                    <h2 class="title">メンバー</h2>
-                    <div class="member-list">
-                        <div class="member">tenn25</div>
-                        <div class="member">f.a.d</div>
-                        <div class="member">Do</div>
-                        <div class="member">KEI</div>
-                        <div class="member">KOJI</div>
-                        <div class="member">ringo</div>
+                <div class="bg-gray-800 rounded-xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                    <a href="https://navirabi.rock-and-games.com/" target="_blank" class="block">
+                        <img src="images/navirabi_top.png" alt="ナビラビの画像" class="w-full h-64 object-cover tile-image">
+                    </a>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-white mb-2">ナビラビ</h3>
+                        <p class="text-gray-400 text-base">信じて行動。見極めろ指令。</p>
+                    </div>
+                </div>
+                <div class="bg-gray-800 rounded-xl shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                    <a href="https://haiena.rock-and-games.com/" target="_blank" class="block">
+                        <img src="images/haiena_top.png" alt="ハイエナ勇者はサボりたいの画像" class="w-full h-64 object-cover tile-image">
+                    </a>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-white mb-2">ハイエナ勇者はサボリたい(拡張同梱版)</h3>
+                        <p class="text-gray-400 text-base">協力×駆け引き 新感覚サボタージュRPG</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+            <h2 class="text-3xl font-bold text-center text-white mb-10">関連リンク</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <a href="https://bodoge.hoobby.net/games?search%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank" class="group">
+                    <div class="bg-gray-800 p-6 rounded-xl shadow-lg text-center transform group-hover:bg-gray-700 group-hover:scale-110 transition-all duration-300">
+                        <img src="images/Bodogema_Logo.png" alt="ボドゲーマのロゴ" class="h-16 w-16 mx-auto mb-3 rounded-lg object-contain">
+                        <p class="text-white font-medium">ボドゲーマ</p>
+                    </div>
+                </a>
+                <a href="https://twitter.com/69andgames" target="_blank" class="group">
+                    <div class="bg-gray-800 p-6 rounded-xl shadow-lg text-center transform group-hover:bg-gray-700 group-hover:scale-110 transition-all duration-300">
+                        <img src="images/Twitter_Logo.png" alt="Twitterのロゴ" class="h-16 w-16 mx-auto mb-3 rounded-lg object-contain">
+                        <p class="text-white font-medium">Twitter</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/@rockandgames455" target="_blank" class="group"> <div class="bg-gray-800 p-6 rounded-xl shadow-lg text-center transform group-hover:bg-gray-700 group-hover:scale-110 transition-all duration-300">
+                        <img src="images/Youtube_Logo.png" alt="Youtubeのロゴ" class="h-16 w-16 mx-auto mb-3 rounded-lg object-contain">
+                        <p class="text-white font-medium">Youtube</p>
+                    </div>
+                </a>
+                <a href="https://note.com/rock_and_games" target="_blank" class="group">
+                    <div class="bg-gray-800 p-6 rounded-xl shadow-lg text-center transform group-hover:bg-gray-700 group-hover:scale-110 transition-all duration-300">
+                        <img src="images/Note_Logo.png" alt="Noteのロゴ" class="h-16 w-16 mx-auto mb-3 rounded-lg object-contain">
+                        <p class="text-white font-medium">Note</p>
+                    </div>
+                </a>
+                <a href="mailto:69andgames@gmail.com" class="group">
+                    <div class="bg-gray-800 p-6 rounded-xl shadow-lg text-center transform group-hover:bg-gray-700 group-hover:scale-110 transition-all duration-300">
+                        <img src="images/Question_Logo.png" alt="問い合わせのアイコン" class="h-16 w-16 mx-auto mb-3 rounded-lg object-contain">
+                        <p class="text-white font-medium">問い合わせ</p>
+                    </div>
+                </a>
+                <a href="https://forms.gle/LG2kpvP7HJ8mgoKZA" target="_blank" class="group">
+                    <div class="bg-gray-800 p-6 rounded-xl shadow-lg text-center transform group-hover:bg-gray-700 group-hover:scale-110 transition-all duration-300">
+                        <img src="images/Survey_Logo.png" alt="アンケートのアイコン" class="h-16 w-16 mx-auto mb-3 rounded-lg object-contain">
+                        <p class="text-white font-medium">アンケート</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="bg-gray-800 p-6 sm:p-8 rounded-xl shadow-2xl">
+                    <h2 class="text-2xl font-bold text-white mb-6">活動履歴</h2>
+                    <div id="activity-list" class="space-y-6 max-h-96 overflow-y-auto pr-2">
+                        <p class="text-gray-400">活動履歴を読み込み中...</p>
+                    </div>
+                    <div class="mt-6 text-right">
+                         <a href="profile.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                            もっと見る
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 p-6 sm:p-8 rounded-xl shadow-2xl">
+                    <h2 class="text-2xl font-bold text-white mb-6">メンバー</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <div class="bg-gray-700 p-4 rounded-lg text-center">
+                            <p class="text-white font-medium">tenn25</p>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg text-center">
+                            <p class="text-white font-medium">f.a.d</p>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg text-center">
+                            <p class="text-white font-medium">Do</p>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg text-center">
+                            <p class="text-white font-medium">KEI</p>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg text-center">
+                            <p class="text-white font-medium">KOJI</p>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg text-center">
+                            <p class="text-white font-medium">ringo</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer>
-        <p>©2024 Rock And Games. All rights reserved.</p>
+    <footer class="bg-gray-800 border-t border-gray-700 py-8 text-center">
+        <p class="text-gray-400">© <span id="current-year"></span> Rock And Games. All rights reserved.</p>
     </footer>
-</body>
 
-<!-- Google Tag Manager -->
-<script>
-    (function(w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({
-            'gtm.start': new Date().getTime(),
-            event: 'gtm.js'
-        });
-        var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-N3GT5ZP');
-</script>
-<!-- End Google Tag Manager -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N3GT5ZP"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-<!-- Twitter universal website tag code -->
-<script>
-    ! function(e, t, n, s, u, a) {
-        e.twq || (s = e.twq = function() {
-                s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
-            }, s.version = '1.1', s.queue = [], u = t.createElement(n), u.async = !0, u.src = '//static.ads-twitter.com/uwt.js',
-            a = t.getElementsByTagName(n)[0], a.parentNode.insertBefore(u, a))
-    }(window, document, 'script');
-    // Insert Twitter Pixel ID and Standard Event data below
-    twq('init', 'o5v4x');
-    twq('track', 'PageView');
-</script>
-<!-- End Twitter universal website tag code -->
-<script>
-    // JSONファイルからデータを取得する
-    fetch('./contents/activity.json')
-        .then(response => response.json())
-        .then(data => {
+        // Fetch and display activity history
+        async function fetchActivityHistory() {
             const activityContainer = document.getElementById('activity-list');
+            activityContainer.innerHTML = '<p class="text-gray-400">活動履歴を読み込み中...</p>'; // Clear previous and show loading
 
-            data.activities.slice(0, 1).forEach(activity => { // 最新の活動のみ表示
-                const activityElement = document.createElement('div');
-                activityElement.classList.add('activity-item');
+            try {
+                // Path to activity.json remains as relative path
+                const response = await fetch('./contents/activity.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
+                }
+                const data = await response.json();
 
-                const dateElement = document.createElement('p');
-                dateElement.textContent = activity.date;
-                activityElement.appendChild(dateElement);
+                if (data && data.activities && data.activities.length > 0) {
+                    activityContainer.innerHTML = ''; // Clear loading message
+                    
+                    // 最新の活動1件のみを表示するように変更
+                    const latestActivity = data.activities.slice(0, 1); 
 
-                activity.content.forEach(line => {
-                    const contentElement = document.createElement('p');
-                    contentElement.textContent = line;
-                    activityElement.appendChild(contentElement);
-                });
+                    latestActivity.forEach(activity => {
+                        const activityElement = document.createElement('div');
+                        activityElement.classList.add('activity-item', 'bg-gray-700', 'p-4', 'rounded-lg', 'shadow-md');
 
-                activityContainer.appendChild(activityElement);
-            });
-        })
-        .catch(error => {
-            console.error('エラーが発生しました:', error);
-        });
-</script>
+                        const dateElement = document.createElement('p');
+                        dateElement.classList.add('text-sm', 'text-indigo-400', 'font-semibold', 'mb-2');
+                        dateElement.textContent = activity.date;
+                        activityElement.appendChild(dateElement);
 
+                        const contentWrapper = document.createElement('div');
+                        contentWrapper.classList.add('activity-content', 'text-gray-300');
+                        activity.content.forEach(line => {
+                            const contentElement = document.createElement('p');
+                            contentElement.textContent = line;
+                            contentWrapper.appendChild(contentElement);
+                        });
+                        activityElement.appendChild(contentWrapper);
+
+                        activityContainer.appendChild(activityElement);
+                    });
+                } else {
+                    activityContainer.innerHTML = '<p class="text-gray-400">活動履歴はありません。</p>';
+                }
+            } catch (error) {
+                console.error('活動履歴の読み込みに失敗しました:', error);
+                activityContainer.innerHTML = `<p class="text-red-400">活動履歴の読み込みに失敗しました。詳細: ${error.message}</p>`;
+            }
+        }
+
+        // Call the function to load activities when the page loads
+        document.addEventListener('DOMContentLoaded', fetchActivityHistory);
+    </script>
+
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-N3GT5ZP');
+    </script>
+    <script>
+        !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+        },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+        a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+        twq('init','o5v4x');
+        twq('track','PageView');
+    </script>
+    </body>
 </html>
