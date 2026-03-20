@@ -8,87 +8,130 @@
     <title>活動履歴 | RockAndGames アナログゲームサークル</title>
     <meta name="description" content="RockAndGamesの活動履歴一覧です。">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a202c;
-            /* Tailwind gray-900 */
+            background-color: #0f172a;
             color: #e2e8f0;
-            /* Tailwind gray-300 */
         }
-        
-        .navbar-logo {
-            height: 40px;
-            /* Adjust as needed */
+
+        .nav-blur {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
-        
+
+        .gradient-text {
+            background: linear-gradient(135deg, #818cf8, #6366f1, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.3), transparent);
+        }
+
         .activity-content-item p {
             margin-bottom: 0.5rem;
-            /* Tailwind mb-2 */
         }
-        /* Custom scrollbar (optional, for consistency if used elsewhere) */
-        
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar */
         body::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
-        
         body::-webkit-scrollbar-track {
-            background: #2d3748;
-            /* Tailwind gray-800 */
+            background: transparent;
         }
-        
         body::-webkit-scrollbar-thumb {
-            background: #4a5568;
-            /* Tailwind gray-600 */
-            border-radius: 4px;
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 3px;
         }
-        
         body::-webkit-scrollbar-thumb:hover {
-            background: #718096;
-            /* Tailwind gray-500 */
+            background: rgba(99, 102, 241, 0.5);
         }
     </style>
 </head>
 
-<body class="bg-gray-900 text-gray-300">
+<body class="bg-slate-950 text-gray-300 antialiased">
 
-    <nav class="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
-            <a href="./index.html" class="flex items-center">
-                <img src="images/Circle_Logo_Rectangle.png" alt="サークルロゴ" class="navbar-logo">
+    <!-- Navbar -->
+    <nav class="nav-blur bg-slate-950/80 border-b border-slate-800/50 fixed w-full top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="./index.html" class="flex items-center gap-3">
+                <img src="images/Circle_Logo_Rectangle.png" alt="サークルロゴ" class="h-8">
             </a>
-            <div>
-                <a href="./index.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 text-sm rounded-lg transition duration-300">
-                    ホーム
-                </a>
-            </div>
+            <a href="./index.html" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 px-6 rounded-full text-sm tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/25">
+                ホーム
+            </a>
         </div>
     </nav>
 
-    <main class="pt-20 pb-12">
+    <main class="pt-32 pb-16">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <header class="mb-12 text-center py-6 md:py-10">
-                <h1 class="text-5xl md:text-6xl font-bold text-white">活動履歴</h1>
+            <!-- Header -->
+            <header class="mb-12 md:mb-16">
+                <p class="text-indigo-400 font-semibold text-sm tracking-widest uppercase mb-3">Activity</p>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white">活動履歴</h1>
             </header>
 
-            <section id="activity-list-container" class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-md">
-                <div id="activity-list" class="space-y-8">
+            <!-- Activity list -->
+            <section id="activity-list-container" class="bg-slate-800/40 border border-slate-700/50 p-6 md:p-8 rounded-2xl fade-up">
+                <div id="activity-list" class="space-y-4">
                     <p class="text-gray-400 text-center py-8">活動履歴を読み込み中...</p>
                 </div>
             </section>
         </div>
     </main>
 
-    <footer class="bg-gray-800 border-t border-gray-700 py-16 text-center mt-20">
-        <div class="max-w-5xl mx-auto">
-            <p class="text-gray-400 text-sm">© <span id="current-year"></span> Rock And Games. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/50 mt-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <img src="images/Circle_Logo_Rectangle.png" alt="サークルロゴ" class="h-8 opacity-60">
+                </div>
+                <p class="text-gray-600 text-xs">&copy; <span id="current-year"></span> Rock And Games</p>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Set current year in footer
+        // Current year
         document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
         // Fetch and display all activity history
         async function fetchAllActivityHistory() {
@@ -96,7 +139,6 @@
             activityListContainer.innerHTML = '<p class="text-gray-400 text-center py-4">活動履歴を読み込み中...</p>';
 
             try {
-                // Ensure the path to activity.json is correct relative to this HTML file
                 const response = await fetch('./contents/activity.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
@@ -104,19 +146,19 @@
                 const data = await response.json();
 
                 if (data && data.activities && data.activities.length > 0) {
-                    activityListContainer.innerHTML = ''; // Clear loading message
+                    activityListContainer.innerHTML = '';
 
                     data.activities.forEach(activity => {
                         const activityElement = document.createElement('div');
-                        activityElement.classList.add('activity-item', 'bg-gray-700', 'p-6', 'rounded-lg', 'shadow-md');
+                        activityElement.classList.add('bg-slate-700/40', 'p-5', 'md:p-6', 'rounded-xl', 'border', 'border-slate-700/50');
 
                         const dateElement = document.createElement('p');
-                        dateElement.classList.add('text-lg', 'text-indigo-400', 'font-semibold', 'mb-3');
+                        dateElement.classList.add('text-base', 'text-indigo-400', 'font-semibold', 'mb-3');
                         dateElement.textContent = activity.date;
                         activityElement.appendChild(dateElement);
 
                         const contentContainer = document.createElement('div');
-                        contentContainer.classList.add('activity-content-item', 'text-gray-300', 'pl-4', 'border-l-2', 'border-indigo-500');
+                        contentContainer.classList.add('activity-content-item', 'text-gray-300', 'pl-4', 'border-l-2', 'border-indigo-500/50');
 
                         activity.content.forEach(line => {
                             const contentElement = document.createElement('p');
@@ -136,31 +178,8 @@
             }
         }
 
-        // Call the function to load activities when the page loads
         document.addEventListener('DOMContentLoaded', fetchAllActivityHistory);
     </script>
-
-    <!--
-    <script>
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-YOUR_GTM_ID');
-    </script>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-YOUR_GTM_ID"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    -->
-    <!--
-    <script>
-        !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
-        },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
-        a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
-        twq('init','YOUR_TWITTER_PIXEL_ID');
-        twq('track','PageView');
-    </script>
-    -->
-
 </body>
 
 </html>
