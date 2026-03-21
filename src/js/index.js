@@ -64,6 +64,7 @@ async function fetchActivityHistory() {
 
 const DEFAULT_CHARACTER_FILES = ['anubis.png', 'bastet.png', 'horus.png', 'kunum.png', 'seto.png'];
 const CHARACTER_MANIFEST_URL = './contents/character-files.json';
+const LOGO_VIBRATION_MS = 180;
 let characterFiles = [...DEFAULT_CHARACTER_FILES];
 
 // Load character image files from images/character directory.
@@ -154,16 +155,45 @@ document.addEventListener('DOMContentLoaded', async() => {
 
     // Character display logic
     const heroSection = document.querySelector('.hero-section');
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const logoHint = document.getElementById('hero-logo-hint');
+
+    if (logoHint) {
+        logoHint.textContent = isTouchDevice ? '＼ロゴをタップ／' : '＼ロゴをクリック／';
+    }
 
     if (heroSection) {
         let isShown = false;
         let isAnimating = false; // アニメーション中フラグ
+        const heroLogo = document.querySelector('.hero-logo');
+
+        const triggerLogoFeedback = () => {
+            if (!heroLogo) {
+                return;
+            }
+
+            heroLogo.classList.remove('is-jiggle');
+            void heroLogo.offsetWidth;
+            heroLogo.classList.add('is-jiggle');
+        };
+
+        const stopLogoFeedback = (delayMs = 0) => {
+            if (!heroLogo) {
+                return;
+            }
+
+            setTimeout(() => {
+                heroLogo.classList.remove('is-jiggle');
+            }, delayMs);
+        };
 
         // Function to show characters (初回表示用)
         const showCharacters = () => {
             if (!isShown && !isAnimating) {
                 randomizeCharacters();
                 heroSection.classList.add('show-characters');
+                // 初回は表示後も少し震えを残す
+                stopLogoFeedback(LOGO_VIBRATION_MS);
                 isShown = true;
             }
         };
@@ -177,7 +207,7 @@ document.addEventListener('DOMContentLoaded', async() => {
                 heroSection.classList.remove('show-characters');
                 heroSection.classList.add('hide-characters');
 
-                // 2. アニメーション完了を待つ（0.25秒）
+                // 2. アニメーション完了を待つ（少し長めにして振動時間を確保）
                 setTimeout(() => {
                     // 3. 新しいキャラクターをランダムに選択
                     randomizeCharacters();
@@ -188,59 +218,28 @@ document.addEventListener('DOMContentLoaded', async() => {
                     // 5. 即座に新しいキャラクターをスライドイン
                     setTimeout(() => {
                         heroSection.classList.add('show-characters');
+                        stopLogoFeedback();
                         isAnimating = false;
-                    }, 20);
-                }, 250);
+                    }, 10);
+                }, LOGO_VIBRATION_MS);
             }
         };
 
-        // PC用: mouseenterで初回表示
-        heroSection.addEventListener('mouseenter', function() {
-            showCharacters();
-        });
-
-        // モバイル用: 画面タッチ（スクロール開始）で初回表示
-        let touchTriggered = false;
-
-        // タッチデバイスの判定
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-        if (isTouchDevice) {
-            // 初回タッチで自動的にキャラクター表示（スクロール操作の一環として）
-            document.addEventListener('touchstart', function handleFirstTouch() {
-                if (!touchTriggered && !isShown) {
-                    showCharacters();
-                    touchTriggered = true;
-                    // 初回のみなので、リスナーを削除
-                    document.removeEventListener('touchstart', handleFirstTouch);
-                }
-            }, { passive: true, once: true });
-
-            // スクロールでも表示（タッチを逃した場合のバックアップ）
-            window.addEventListener('scroll', function handleFirstScroll() {
-                if (!touchTriggered && !isShown && window.scrollY > 10) {
-                    showCharacters();
-                    touchTriggered = true;
-                    window.removeEventListener('scroll', handleFirstScroll);
-                }
-            }, { passive: true, once: true });
-        }
-
-        // キャラクター切り替え用: ロゴエリアのクリック/タップ
+        // キャラクター表示/切り替え: ロゴエリアのクリック/タップ
         const heroMainRow = document.querySelector('.hero-main-row');
 
         if (heroMainRow) {
-            heroMainRow.addEventListener('click', function(e) {
-                // リンクやボタンのクリックは除外
+            heroMainRow.addEventListener('pointerdown', function(e) {
                 if (e.target.closest('a') || e.target.closest('button')) {
                     return;
                 }
 
-                // 既にキャラクターが表示されている場合のみ切り替え
+                triggerLogoFeedback();
+
+                // 初回は表示、2回目以降は切り替え（即時開始）
                 if (isShown && !isAnimating) {
                     switchCharacters();
-                } else if (!isShown && !isTouchDevice) {
-                    // PCの場合は初回クリックでも表示
+                } else if (!isShown) {
                     showCharacters();
                 }
             });

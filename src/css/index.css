@@ -41,15 +41,81 @@
     /* Remove tap highlight on mobile */
 }
 
+.hero-logo-hint {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+    z-index: 4;
+    pointer-events: none;
+    animation: logoHintBob 1.6s ease-in-out infinite;
+}
+
 .hero-logo {
     width: 500px;
     max-width: 40vw;
     height: auto;
     max-height: 100%;
     filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 26px rgba(0, 0, 0, 0.45)) drop-shadow(0 8px 18px rgba(0, 0, 0, 0.5));
+    transition: transform 0.14s ease;
     position: relative;
     z-index: 3;
     object-fit: contain;
+}
+
+.hero-logo.is-jiggle {
+    animation: logoJiggle 0.07s linear infinite;
+}
+
+@keyframes logoJiggle {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    10% {
+        transform: translate(-3.8px, 1.8px) rotate(-1.6deg) scale(0.996);
+    }
+    20% {
+        transform: translate(3.8px, -1.8px) rotate(1.6deg) scale(0.996);
+    }
+    30% {
+        transform: translate(-3.4px, 1.5px) rotate(-1.4deg) scale(0.996);
+    }
+    40% {
+        transform: translate(3.4px, -1.5px) rotate(1.4deg) scale(0.996);
+    }
+    50% {
+        transform: translate(-2.8px, 1.2px) rotate(-1.1deg) scale(0.997);
+    }
+    60% {
+        transform: translate(2.8px, -1.2px) rotate(1.1deg) scale(0.997);
+    }
+    70% {
+        transform: translate(-2.2px, 1px) rotate(-0.9deg) scale(0.998);
+    }
+    80% {
+        transform: translate(2.2px, -1px) rotate(0.9deg) scale(0.998);
+    }
+    90% {
+        transform: translate(-1.4px, 0.6px) rotate(-0.5deg) scale(0.999);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+}
+
+@keyframes logoHintBob {
+    0%,
+    100% {
+        transform: translate(-50%, 0);
+    }
+    50% {
+        transform: translate(-50%, 4px);
+    }
 }
 
 
@@ -120,7 +186,7 @@
     top: 0;
     z-index: 1;
     pointer-events: none;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.16s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .character-peek-left {
@@ -132,7 +198,7 @@
 }
 
 
-/* Desktop/Tablet: Hidden by default, visible on hover/show */
+/* Desktop/Tablet: Hidden by default, visible on click/show */
 
 @media (min-width: 641px) {
     .character-peek-left {
@@ -143,13 +209,11 @@
         opacity: 0;
         transform: translateX(200%);
     }
-    .hero-section.show-characters .character-peek-left,
-    .hero-section:hover .character-peek-left {
+    .hero-section.show-characters .character-peek-left {
         opacity: 0.9;
         transform: translateX(-30%);
     }
-    .hero-section.show-characters .character-peek-right,
-    .hero-section:hover .character-peek-right {
+    .hero-section.show-characters .character-peek-right {
         opacity: 0.9;
         transform: translateX(30%);
     }
@@ -192,11 +256,11 @@
     }
     /* 大画面では少し離す（でも以前より近く） */
     .hero-section.show-characters .character-peek-left,
-    .hero-section:hover .character-peek-left {
+    .hero-section.show-characters .character-peek-left {
         transform: translateX(-35%) !important;
     }
     .hero-section.show-characters .character-peek-right,
-    .hero-section:hover .character-peek-right {
+    .hero-section.show-characters .character-peek-right {
         transform: translateX(35%) !important;
     }
     /* 大画面用スライドアウト */
@@ -225,12 +289,12 @@
         max-height: 400px;
     }
     .hero-section.show-characters .character-peek-left,
-    .hero-section:hover .character-peek-left {
+    .hero-section.show-characters .character-peek-left {
         opacity: 0.85;
         transform: translateX(-25%) !important;
     }
     .hero-section.show-characters .character-peek-right,
-    .hero-section:hover .character-peek-right {
+    .hero-section.show-characters .character-peek-right {
         opacity: 0.85;
         transform: translateX(25%) !important;
     }
@@ -258,6 +322,10 @@
     .hero-main-row {
         height: 280px;
         overflow: hidden;
+    }
+    .hero-logo-hint {
+        top: 8px;
+        font-size: 0.82rem;
     }
     .hero-logo {
         width: 280px;
