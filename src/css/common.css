@@ -1,0 +1,224 @@
+/* ============================================
+   Common Styles - Shared across all pages
+   ============================================ */
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Noto Sans JP', -apple-system, sans-serif;
+    /* 背景を黒ベースに変更してmodern-bg.cssの効果を見えるように */
+    background: #0a0a0a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* body::beforeは削除（modern-bg.cssと重複するため） */
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Note: Background effects have been moved to modern-bg.css for 2024 design trends */
+
+/* Navigation */
+.navbar {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.08);
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;  /* パディングを含めた幅計算 */
+}
+
+/* ナビゲーションのロゴリンク */
+.nav-logo-link {
+    display: inline-block;
+    flex-shrink: 1;
+}
+
+/* ナビゲーションボタン専用スタイル */
+.nav-btn {
+    flex-shrink: 0;
+}
+
+/* ボタンテキストの表示制御 */
+.btn-text-full {
+    display: inline;
+}
+
+.btn-text-short {
+    display: none;
+}
+
+/* モバイル用ナビゲーション調整 */
+@media (max-width: 640px) {
+    .navbar {
+        padding: 0;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .nav-container {
+        padding: 0.5rem 0.75rem;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-logo-link {
+        max-width: calc(100% - 60px);
+        overflow: hidden;
+    }
+
+    .nav-logo {
+        height: 30px;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+    }
+
+    /* ボタンテキストの切り替え */
+    .btn-text-full {
+        display: none;
+    }
+
+    .btn-text-short {
+        display: inline;
+    }
+
+    /* ナビゲーションボタンのサイズ制限 */
+    .nav-btn {
+        padding: 6px 10px !important;
+        font-size: 0.85rem !important;
+    }
+}
+
+.nav-logo {
+    height: 40px;
+    transition: all 0.3s ease;
+    opacity: 0.9;
+}
+
+.nav-logo:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.btn-home {
+    background: transparent;
+    color: #374151;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.05), transparent);
+    transition: left 0.3s ease;
+}
+
+.btn-home:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+    color: #6366f1;
+    transform: translateY(-1px);
+}
+
+.btn-home:hover::before {
+    left: 100%;
+}
+
+/* Main Container */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Footer */
+footer {
+    background: #0f0f0f;
+    border-top: 1px solid #2d3748;
+    padding: 40px 0;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-text {
+    color: #718096;
+    font-size: 0.875rem;
+}
+
+/* Scrollbar styling */
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background: rgba(45, 55, 72, 0.5);
+}
+
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #6366f1, #4f46e5);
+    border-radius: 5px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0.65rem 1rem;
+    }
+
+    .nav-logo {
+        height: 32px;
+    }
+
+    .btn-home {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+}

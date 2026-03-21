@@ -1,0 +1,43 @@
+/* ============================================
+   Modern Background Effects - Subtle Moving Gradient
+   ============================================ */
+
+/* アニメーショングラデーション背景 */
+.gradient-bg {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: -1;
+    background: linear-gradient(
+        -45deg,
+        #0a0a0a,
+        #1a1a2e,
+        #0f0f1e,
+        #16213e,
+        #0a0a0a
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite;
+}
+
+/* ゆっくりとしたグラデーションの動き */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* パフォーマンス最適化 */
+@media (prefers-reduced-motion: reduce) {
+    .gradient-bg {
+        animation: none;
+    }
+}

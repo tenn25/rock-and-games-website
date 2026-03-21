@@ -1,0 +1,821 @@
+/* ============================================
+   Index Page Specific Styles
+   ============================================ */
+
+/* Hero Section - Restructured Layout */
+.hero-section {
+    margin-top: 64px; /* Tailwind h-16 = 4rem = 64px */
+    padding: 40px 20px;
+    background: linear-gradient(135deg, rgba(26, 32, 44, 0.4) 0%, rgba(45, 55, 72, 0.3) 100%);
+    position: relative;
+    overflow: hidden; /* x軸y軸両方とも隠す */
+    z-index: 1;
+}
+
+.hero-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Main content row - Logo and Characters */
+.hero-main-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 500px; /* Fixed height for consistency */
+}
+
+.hero-logo {
+    width: 500px;
+    max-width: 40vw;
+    height: auto;
+    max-height: 100%;
+    /* より強いドロップシャドウと外光彩効果 */
+    filter:
+        drop-shadow(0 0 20px rgba(0, 0, 0, 0.9))
+        drop-shadow(0 0 40px rgba(0, 0, 0, 0.7))
+        drop-shadow(0 10px 25px rgba(0, 0, 0, 0.8));
+    position: relative;
+    /* z-indexを上げてキャラクターより前面に */
+    z-index: 3;
+    object-fit: contain;
+}
+
+/* Text content below logo/characters */
+.hero-text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    text-align: center;
+}
+
+.hero-subtitle {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #a0aec0;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+/* X (Twitter) Link Button */
+.hero-x-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    color: #e2e8f0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.x-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+.hero-x-link:hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(99, 102, 241, 0.3);
+    /* translateX(-50%)を削除してバグを修正 */
+    transform: translateY(-2px);
+    /* box-shadowを削除（外側のエフェクトを無くす） */
+}
+
+/* ======================
+   CHARACTER PEEK SYSTEM
+   ====================== */
+
+/* Character setup - same container as logo */
+.character-peek {
+    /* Size - match container height */
+    height: 100%;
+    width: auto;
+    max-height: 500px;
+
+    /* Display */
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    /* Transition for smooth appearance - 高速化＆スムーズ化 */
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* LEFT CHARACTER - Position only */
+.character-peek-left {
+    left: 0;
+}
+
+/* RIGHT CHARACTER - Position only */
+.character-peek-right {
+    right: 0;
+}
+
+/* DESKTOP/TABLET: Hidden by default, visible on hover/show */
+@media (min-width: 641px) {
+    .character-peek-left {
+        opacity: 0;
+        transform: translateX(-200%);
+    }
+
+    .character-peek-right {
+        opacity: 0;
+        transform: scaleX(-1) translateX(-200%);
+    }
+
+    .hero-section.show-characters .character-peek-left,
+    .hero-section:hover .character-peek-left {
+        opacity: 0.9;
+        /* ロゴに近づける: -50% → -30% */
+        transform: translateX(-30%);
+    }
+
+    .hero-section.show-characters .character-peek-right,
+    .hero-section:hover .character-peek-right {
+        opacity: 0.9;
+        /* ロゴに近づける: -50% → -30% */
+        transform: scaleX(-1) translateX(-30%);
+    }
+
+    /* スライドアウト用のクラス - !importantで優先度を上げる */
+    .hero-section.hide-characters .character-peek-left {
+        opacity: 0 !important;
+        transform: translateX(-200%) !important;
+    }
+
+    .hero-section.hide-characters .character-peek-right {
+        opacity: 0 !important;
+        transform: scaleX(-1) translateX(-200%) !important;
+    }
+}
+
+/* MOBILE: Hidden by default, visible on tap/show */
+@media (max-width: 640px) {
+    .character-peek-left {
+        opacity: 0;
+        transform: translateX(-200%);
+    }
+
+    .character-peek-right {
+        opacity: 0;
+        transform: scaleX(-1) translateX(-200%);
+    }
+}
+
+
+/* Large screens */
+@media (min-width: 1400px) {
+    .hero-main-row {
+        height: 600px;
+    }
+
+    .hero-logo {
+        width: 600px;
+    }
+
+    .character-peek {
+        max-height: 600px;
+    }
+
+    /* 大画面では少し離す（でも以前より近く） */
+    .hero-section.show-characters .character-peek-left,
+    .hero-section:hover .character-peek-left {
+        transform: translateX(-35%) !important;
+    }
+
+    .hero-section.show-characters .character-peek-right,
+    .hero-section:hover .character-peek-right {
+        transform: scaleX(-1) translateX(-35%) !important;
+    }
+
+    /* 大画面用スライドアウト */
+    .hero-section.hide-characters .character-peek-left {
+        opacity: 0 !important;
+        transform: translateX(-200%) !important;
+    }
+
+    .hero-section.hide-characters .character-peek-right {
+        opacity: 0 !important;
+        transform: scaleX(-1) translateX(-200%) !important;
+    }
+}
+
+
+/* ======================
+   TABLET (641px - 1023px)
+   ====================== */
+@media (max-width: 1023px) and (min-width: 641px) {
+    .hero-main-row {
+        height: 400px;
+    }
+
+    .hero-logo {
+        width: 400px;
+        max-width: 50vw;
+    }
+
+    .character-peek {
+        max-height: 400px;
+    }
+
+    /* タブレットサイズではさらにロゴに近づける */
+    .hero-section.show-characters .character-peek-left,
+    .hero-section:hover .character-peek-left {
+        opacity: 0.85;
+        transform: translateX(-25%) !important;
+    }
+
+    .hero-section.show-characters .character-peek-right,
+    .hero-section:hover .character-peek-right {
+        opacity: 0.85;
+        transform: scaleX(-1) translateX(-25%) !important;
+    }
+
+    /* タブレット用スライドアウト */
+    .hero-section.hide-characters .character-peek-left {
+        opacity: 0 !important;
+        transform: translateX(-200%) !important;
+    }
+
+    .hero-section.hide-characters .character-peek-right {
+        opacity: 0 !important;
+        transform: scaleX(-1) translateX(-200%) !important;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-x-link {
+        padding: 7px 18px;
+        font-size: 0.88rem;
+    }
+}
+
+/* ======================
+   MOBILE (max 640px) - OVERRIDE
+   ====================== */
+@media (max-width: 640px) {
+    .hero-main-row {
+        height: 280px;
+        overflow: hidden; /* キャラクターのはみ出しを防ぐ */
+    }
+
+    .hero-logo {
+        width: 280px;
+        max-width: 65vw;
+        /* モバイルでさらに強調 */
+        filter:
+            drop-shadow(0 0 30px rgba(0, 0, 0, 1))
+            drop-shadow(0 0 15px rgba(0, 0, 0, 0.9))
+            drop-shadow(0 5px 20px rgba(0, 0, 0, 0.8));
+    }
+
+    .character-peek {
+        /* 高さは親コンテナに合わせて固定 */
+        height: 280px;
+        width: auto;
+        /* max-widthを削除してキャラのアスペクト比を維持 */
+        /* max-width: 150px; <- これを削除 */
+        object-fit: contain;
+    }
+
+    /* モバイル表示状態: タップまたはshow-charactersクラスで表示 */
+    /* 注: 初期の非表示状態は176-185行目で既に定義済み */
+    .hero-section.show-characters .character-peek-left {
+        /* さらに濃く表示 */
+        opacity: 0.85 !important;
+        /* ロゴにより近づけて、一部被るように調整 */
+        transform: translateX(-20%) !important;
+    }
+
+    .hero-section.show-characters .character-peek-right {
+        /* さらに濃く表示 */
+        opacity: 0.85 !important;
+        /* ロゴにより近づけて、一部被るように調整 */
+        transform: scaleX(-1) translateX(-20%) !important;
+    }
+
+    /* モバイル用スライドアウト */
+    .hero-section.hide-characters .character-peek-left {
+        opacity: 0 !important;
+        transform: translateX(-200%) !important;
+    }
+
+    .hero-section.hide-characters .character-peek-right {
+        opacity: 0 !important;
+        transform: scaleX(-1) translateX(-200%) !important;
+    }
+
+    .hero-subtitle {
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+    .hero-x-link {
+        padding: 6px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+/* ======================
+   ANIMATIONS
+   ====================== */
+
+/* Simple slide in animations */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-200%);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: scaleX(-1) translateX(-200%);
+    }
+    to {
+        transform: scaleX(-1) translateX(-50%);
+    }
+}
+
+/* Float animations after characters are shown */
+@keyframes floatLeft {
+    0%, 100% {
+        transform: translateX(-50%);
+    }
+    50% {
+        transform: translateX(-45%);
+    }
+}
+
+@keyframes floatRight {
+    0%, 100% {
+        transform: scaleX(-1) translateX(-50%);
+    }
+    50% {
+        transform: scaleX(-1) translateX(-45%);
+    }
+}
+
+/* Mobile floating animations that maintain position */
+@keyframes mobileFloatLeft {
+    0%, 100% {
+        transform: translateY(-50%) translateX(-25%);
+    }
+    25% {
+        transform: translateY(calc(-50% - 10px)) translateX(-25%);
+    }
+    75% {
+        transform: translateY(calc(-50% + 10px)) translateX(-25%);
+    }
+}
+
+@keyframes mobileFloatRight {
+    0%, 100% {
+        transform: translateY(-50%) scaleX(-1) translateX(-25%);
+    }
+    25% {
+        transform: translateY(calc(-50% - 10px)) scaleX(-1) translateX(-25%);
+    }
+    75% {
+        transform: translateY(calc(-50% + 10px)) scaleX(-1) translateX(-25%);
+    }
+}
+
+/* Small mobile floating animations */
+@keyframes mobileFloatLeftSmall {
+    0%, 100% {
+        transform: translateY(-50%) translateX(-15%);
+    }
+    25% {
+        transform: translateY(calc(-50% - 10px)) translateX(-15%);
+    }
+    75% {
+        transform: translateY(calc(-50% + 10px)) translateX(-15%);
+    }
+}
+
+@keyframes mobileFloatRightSmall {
+    0%, 100% {
+        transform: translateY(-50%) scaleX(-1) translateX(-15%);
+    }
+    25% {
+        transform: translateY(calc(-50% - 10px)) scaleX(-1) translateX(-15%);
+    }
+    75% {
+        transform: translateY(calc(-50% + 10px)) scaleX(-1) translateX(-15%);
+    }
+}
+
+/* Button Styles */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+    color: white;
+    font-weight: 500;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;  /* 縮小を防ぐ */
+}
+
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover {
+    /* 外側へのエフェクトを削除、ボタン内だけの変化に */
+    background: linear-gradient(135deg, #7c7ff3, #9297f8);
+}
+
+.btn-primary:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Games Section */
+.games-section {
+    padding: 80px 0;
+    background: linear-gradient(180deg,
+        rgba(10, 10, 10, 0) 0%,
+        rgba(15, 15, 25, 0.4) 50%,
+        rgba(10, 10, 10, 0) 100%
+    );
+    position: relative;
+    z-index: 1;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    color: white;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.5px;
+}
+
+/* Game Cards Grid */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.game-card {
+    background: #2d3748;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #4a5568;
+    position: relative;
+    z-index: 2;
+}
+
+.game-card:hover {
+    /* 外側へのエフェクトを最小限に */
+    transform: translateY(-2px);
+    border-color: #6366f1;
+}
+
+.game-image-wrapper {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    background: #374151;
+}
+
+.game-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.game-card:hover .game-image {
+    transform: scale(1.05);
+}
+
+.game-content {
+    padding: 20px;
+}
+
+.game-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+}
+
+.game-description {
+    color: #a0aec0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+/* Game tags */
+.game-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.game-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.game-meta {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid #4a5568;
+    color: #718096;
+    font-size: 0.875rem;
+}
+
+/* Links Section - Stylish minimal design */
+.links-section {
+    padding: 80px 0;
+    background: linear-gradient(90deg,
+        rgba(10, 10, 10, 0) 0%,
+        rgba(15, 20, 30, 0.35) 50%,
+        rgba(10, 10, 10, 0) 100%
+    );
+    position: relative;
+    z-index: 1;
+}
+
+
+.links-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.link-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: transparent;
+    color: #e2e8f0;
+    border: 1px solid #4a5568;
+    border-radius: 50px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.link-button:hover {
+    /* 外側へのエフェクトを削除、ボタン内の変化のみ */
+    background: #2d3748;
+    border-color: #6366f1;
+    color: #a5b4fc;
+}
+
+/* Info Section (Activity & Members) */
+.info-section {
+    padding: 50px 0;
+    background: linear-gradient(135deg,
+        rgba(10, 10, 10, 0) 0%,
+        rgba(20, 15, 30, 0.3) 50%,
+        rgba(10, 10, 10, 0) 100%
+    );
+    position: relative;
+    z-index: 1;
+}
+
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 30px;
+}
+
+@media (max-width: 1100px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-card {
+    background: transparent;
+    padding: 0;
+    position: relative;
+}
+
+.info-card-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.activity-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 12px;
+}
+
+.activity-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.activity-list::-webkit-scrollbar-track {
+    background: rgba(55, 65, 81, 0.3);
+    border-radius: 10px;
+}
+
+.activity-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #6366f1, #4f46e5);
+    border-radius: 10px;
+}
+
+.activity-list::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
+}
+
+.activity-item {
+    background: transparent;
+    padding: 12px 0;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.activity-item:hover {
+    transform: translateX(5px);
+    border-bottom-color: rgba(99, 102, 241, 0.3);
+}
+
+.activity-date {
+    color: #818cf8;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+}
+
+.activity-content {
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Members Grid */
+.members-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.member-card {
+    background: transparent;
+    padding: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.member-card:hover {
+    transform: translateY(-2px);
+}
+
+.member-name {
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+/* More button */
+.btn-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 20px;
+    padding: 0;
+    background: transparent;
+    color: #a5b4fc;
+    border: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.btn-more::after {
+    content: '→';
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.btn-more::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, #6366f1, #a5b4fc);
+    transition: width 0.3s ease;
+}
+
+.btn-more:hover {
+    color: #6366f1;
+    transform: translateX(3px);
+}
+
+.btn-more:hover::after {
+    transform: translateX(5px);
+}
+
+.btn-more:hover::before {
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 60px 20px;
+    }
+
+    .section-title,
+    .info-card-title {
+        font-size: 1.5rem;
+    }
+
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .members-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .links-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .link-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* モバイル用ボタン調整は common.css で管理 */
+}

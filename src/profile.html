@@ -5,162 +5,54 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>活動履歴 | RockAndGames アナログゲームサークル</title>
-    <meta name="description" content="RockAndGamesの活動履歴一覧です。">
+    <title>活動履歴 | Rock and Games アナログゲームサークル</title>
+    <meta name="description" content="Rock and Gamesの活動履歴一覧です。">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #1a202c;
-            /* Tailwind gray-900 */
-            color: #e2e8f0;
-            /* Tailwind gray-300 */
-        }
-        
-        .navbar-logo {
-            height: 40px;
-            /* Adjust as needed */
-        }
-        
-        .activity-content-item p {
-            margin-bottom: 0.5rem;
-            /* Tailwind mb-2 */
-        }
-        /* Custom scrollbar (optional, for consistency if used elsewhere) */
-        
-        body::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        body::-webkit-scrollbar-track {
-            background: #2d3748;
-            /* Tailwind gray-800 */
-        }
-        
-        body::-webkit-scrollbar-thumb {
-            background: #4a5568;
-            /* Tailwind gray-600 */
-            border-radius: 4px;
-        }
-        
-        body::-webkit-scrollbar-thumb:hover {
-            background: #718096;
-            /* Tailwind gray-500 */
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/common.css?v=2">
+    <link rel="stylesheet" href="css/modern-bg.css?v=2">
+    <link rel="stylesheet" href="css/profile.css?v=2">
 </head>
 
-<body class="bg-gray-900 text-gray-300">
+<body>
+    <!-- Modern Background Effects (Static Gradient Mesh) -->
+    <div class="static-gradient-mesh"></div>
+    <div class="noise-overlay"></div>
 
-    <nav class="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
-            <a href="./index.html" class="flex items-center">
-                <img src="images/Circle_Logo_Rectangle.png" alt="サークルロゴ" class="navbar-logo">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="./index.html">
+                <img src="images/Circle_Logo_Rectangle.png" alt="Rock and Games" class="nav-logo">
             </a>
-            <div>
-                <a href="./index.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 text-sm rounded-lg transition duration-300">
-                    ホーム
-                </a>
-            </div>
+            <a href="./index.html" class="btn-home">ホーム</a>
         </div>
     </nav>
 
-    <main class="pt-20 pb-12">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <header class="mb-12 text-center py-6 md:py-10">
-                <h1 class="text-5xl md:text-6xl font-bold text-white">活動履歴</h1>
-            </header>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <h1 class="page-title">活動履歴</h1>
 
-            <section id="activity-list-container" class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-md">
-                <div id="activity-list" class="space-y-8">
-                    <p class="text-gray-400 text-center py-8">活動履歴を読み込み中...</p>
+            <div id="activity-container">
+                <!-- Activities will be loaded here dynamically -->
+                <div class="activity-card">
+                    <p class="activity-description">活動履歴を読み込み中...</p>
                 </div>
-            </section>
+            </div>
         </div>
-    </main>
+    </div>
 
-    <footer class="bg-gray-800 border-t border-gray-700 py-16 text-center mt-20">
-        <div class="max-w-5xl mx-auto">
-            <p class="text-gray-400 text-sm">© <span id="current-year"></span> Rock And Games. All rights reserved.</p>
-        </div>
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">© 2024 Rock and Games. All rights reserved.</p>
     </footer>
 
-    <script>
-        // Set current year in footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // Fetch and display all activity history
-        async function fetchAllActivityHistory() {
-            const activityListContainer = document.getElementById('activity-list');
-            activityListContainer.innerHTML = '<p class="text-gray-400 text-center py-4">活動履歴を読み込み中...</p>';
-
-            try {
-                // Ensure the path to activity.json is correct relative to this HTML file
-                const response = await fetch('./contents/activity.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
-                }
-                const data = await response.json();
-
-                if (data && data.activities && data.activities.length > 0) {
-                    activityListContainer.innerHTML = ''; // Clear loading message
-
-                    data.activities.forEach(activity => {
-                        const activityElement = document.createElement('div');
-                        activityElement.classList.add('activity-item', 'bg-gray-700', 'p-6', 'rounded-lg', 'shadow-md');
-
-                        const dateElement = document.createElement('p');
-                        dateElement.classList.add('text-lg', 'text-indigo-400', 'font-semibold', 'mb-3');
-                        dateElement.textContent = activity.date;
-                        activityElement.appendChild(dateElement);
-
-                        const contentContainer = document.createElement('div');
-                        contentContainer.classList.add('activity-content-item', 'text-gray-300', 'pl-4', 'border-l-2', 'border-indigo-500');
-
-                        activity.content.forEach(line => {
-                            const contentElement = document.createElement('p');
-                            contentElement.textContent = line;
-                            contentContainer.appendChild(contentElement);
-                        });
-
-                        activityElement.appendChild(contentContainer);
-                        activityListContainer.appendChild(activityElement);
-                    });
-                } else {
-                    activityListContainer.innerHTML = '<p class="text-gray-400 text-center py-4">活動履歴はありません。</p>';
-                }
-            } catch (error) {
-                console.error('活動履歴の読み込みに失敗しました:', error);
-                activityListContainer.innerHTML = `<p class="text-red-400 text-center py-4">活動履歴の読み込みに失敗しました。詳細: ${error.message}</p>`;
-            }
-        }
-
-        // Call the function to load activities when the page loads
-        document.addEventListener('DOMContentLoaded', fetchAllActivityHistory);
-    </script>
-
-    <!--
-    <script>
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-YOUR_GTM_ID');
-    </script>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-YOUR_GTM_ID"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    -->
-    <!--
-    <script>
-        !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
-        },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
-        a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
-        twq('init','YOUR_TWITTER_PIXEL_ID');
-        twq('track','PageView');
-    </script>
-    -->
-
+    <!-- External Scripts -->
+    <!-- Particles removed in favor of modern CSS effects -->
+    <script src="js/profile.js"></script>
 </body>
 
 </html>

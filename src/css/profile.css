@@ -1,0 +1,89 @@
+/* ============================================
+   Profile Page Specific Styles
+   ============================================ */
+
+/* Main Content */
+.main-content {
+    padding-top: 90px;
+    padding-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 32px;
+    background: linear-gradient(135deg, #ffffff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Activity Card */
+.activity-card {
+    background: transparent;
+    padding: 16px 0;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.activity-card:hover {
+    transform: translateX(5px);
+    border-bottom-color: rgba(99, 102, 241, 0.3);
+}
+
+.activity-date {
+    color: #818cf8;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+.activity-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.activity-description {
+    color: #cbd5e1;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.activity-content-item {
+    background: transparent;
+    padding: 6px 0;
+    margin-bottom: 6px;
+}
+
+.activity-content-item p {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .activity-title {
+        font-size: 1.25rem;
+    }
+}

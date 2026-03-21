@@ -1,0 +1,128 @@
+/* ナビゲーション修正用CSS - 最優先で適用 */
+
+/* ナビゲーションバー基本設定 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+/* コンテナ基本設定 */
+.nav-container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* ロゴ */
+.nav-logo {
+    height: 40px;
+    width: auto;
+}
+
+/* 購入ボタン基本設定 */
+.btn-primary.nav-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+/* PC用テキスト表示 */
+.btn-text-full {
+    display: inline;
+}
+
+.btn-text-short {
+    display: none;
+}
+
+/* モバイル対応 (640px以下) */
+@media screen and (max-width: 640px) {
+    /* ナビゲーションバー */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+    }
+
+    /* コンテナ - 超重要 */
+    .nav-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0.5rem 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        box-sizing: border-box;
+    }
+
+    /* ロゴリンク */
+    .nav-logo-link {
+        flex: 0 1 auto;
+        max-width: 70%;
+    }
+
+    /* ロゴ画像 */
+    .nav-logo {
+        height: 28px;
+        width: auto;
+        max-width: 100%;
+        display: block;
+    }
+
+    /* 購入ボタン - 位置修正 */
+    .btn-primary.nav-btn {
+        flex: 0 0 auto;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        margin: 0;
+        position: static;
+        transform: none;
+    }
+
+    /* テキスト切り替え */
+    .btn-text-full {
+        display: none;
+    }
+
+    .btn-text-short {
+        display: inline;
+    }
+}
+
+/* 超小型デバイス対応 (375px以下) */
+@media screen and (max-width: 375px) {
+    .nav-container {
+        padding: 0.5rem;
+    }
+
+    .nav-logo {
+        height: 26px;
+    }
+
+    .btn-primary.nav-btn {
+        padding: 5px 8px;
+        font-size: 0.75rem;
+    }
+}
