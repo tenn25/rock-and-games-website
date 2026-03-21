@@ -33,6 +33,8 @@
     position: relative;
     width: 100%;
     height: 500px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
 .hero-logo {
