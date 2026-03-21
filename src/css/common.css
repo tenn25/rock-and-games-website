@@ -1,0 +1,64 @@
+/* ============================================
+   Common Styles - Shared across all pages
+   ============================================ */
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Noto Sans JP', -apple-system, sans-serif;
+    background: #0a0a0a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Main Container */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Footer */
+footer {
+    background: #0f0f0f;
+    border-top: 1px solid #2d3748;
+    padding: 40px 0;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-text {
+    color: #718096;
+    font-size: 0.875rem;
+}
+
+/* Scrollbar styling */
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background: rgba(45, 55, 72, 0.5);
+}
+
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #6366f1, #4f46e5);
+    border-radius: 5px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
+}
+
