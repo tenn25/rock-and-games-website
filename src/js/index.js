@@ -62,9 +62,72 @@ async function fetchActivityHistory() {
     }
 }
 
+const DEFAULT_CHARACTER_FILES = ['anubis.png', 'bastet.png', 'horus.png', 'kunum.png', 'seto.png'];
+const CHARACTER_MANIFEST_URL = './contents/character-files.json';
+let characterFiles = [...DEFAULT_CHARACTER_FILES];
+
+// Load character image files from images/character directory.
+async function loadCharacterFiles() {
+    const directoryUrl = './images/character/';
+
+    // 1) Prefer explicit manifest for static hosting (S3/CloudFront etc.).
+    try {
+        const manifestResponse = await fetch(CHARACTER_MANIFEST_URL, { cache: 'no-cache' });
+        if (manifestResponse.ok) {
+            const manifest = await manifestResponse.json();
+            if (manifest && Array.isArray(manifest.files)) {
+                const fromManifest = manifest.files
+                    .filter(name => typeof name === 'string')
+                    .map(name => name.trim())
+                    .filter(name => /\.(png|jpe?g|webp|gif|svg)$/i.test(name));
+
+                const uniqueManifestFiles = [...new Set(fromManifest)];
+                if (uniqueManifestFiles.length >= 2) {
+                    characterFiles = uniqueManifestFiles;
+                    return;
+                }
+            }
+        }
+    } catch (error) {
+        // Continue to directory listing fallback.
+    }
+
+    try {
+        const response = await fetch(directoryUrl);
+        if (!response.ok) {
+            // Static hosts usually deny directory listing; fallback quietly.
+            if (response.status === 403 || response.status === 404) {
+                characterFiles = [...DEFAULT_CHARACTER_FILES];
+                return;
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const files = Array.from(doc.querySelectorAll('a[href]'))
+            .map(link => link.getAttribute('href') || '')
+            .map(href => href.split('/').pop() || '')
+            .filter(name => /\.(png|jpe?g|webp|gif|svg)$/i.test(name));
+
+        const uniqueFiles = [...new Set(files)];
+        if (uniqueFiles.length >= 2) {
+            characterFiles = uniqueFiles;
+            return;
+        }
+
+        characterFiles = [...DEFAULT_CHARACTER_FILES];
+    } catch (error) {
+        console.warn('キャラクター画像一覧の取得に失敗したため、既定値を使用します。', error);
+        characterFiles = [...DEFAULT_CHARACTER_FILES];
+    }
+}
+
 // Function to randomize characters
 function randomizeCharacters() {
-    const characters = ['anubis.png', 'Bastet.png', 'Horus.png', 'kunum.png', 'seto.png'];
+    const characters = characterFiles.length >= 2 ? characterFiles : DEFAULT_CHARACTER_FILES;
     const leftChar = document.querySelector('.character-peek-left');
     const rightChar = document.querySelector('.character-peek-right');
 
@@ -72,17 +135,19 @@ function randomizeCharacters() {
     const shuffled = characters.sort(() => 0.5 - Math.random());
     if (leftChar) {
         leftChar.src = `images/character/${shuffled[0]}`;
-        leftChar.setAttribute('data-character', shuffled[0].replace('.png', '').toLowerCase());
+        leftChar.setAttribute('data-character', shuffled[0].replace(/\.[^.]+$/, '').toLowerCase());
     }
     if (rightChar) {
         rightChar.src = `images/character/${shuffled[1]}`;
-        rightChar.setAttribute('data-character', shuffled[1].replace('.png', '').toLowerCase());
+        rightChar.setAttribute('data-character', shuffled[1].replace(/\.[^.]+$/, '').toLowerCase());
     }
 }
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async() => {
     fetchActivityHistory();
+
+    await loadCharacterFiles();
 
     // Initial character setup
     randomizeCharacters();
