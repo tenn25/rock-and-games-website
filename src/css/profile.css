@@ -4,7 +4,8 @@
 
 /* Main Content */
 .main-content {
-    padding-top: 90px;
+    margin-top: 64px; /* Fixed navbar height */
+    padding-top: 40px;
     padding-bottom: 40px;
     position: relative;
     z-index: 1;

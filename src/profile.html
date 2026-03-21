@@ -17,17 +17,22 @@
 </head>
 
 <body>
-    <!-- Modern Background Effects (Static Gradient Mesh) -->
-    <div class="static-gradient-mesh"></div>
-    <div class="noise-overlay"></div>
+    <!-- Modern Background Effects -->
+    <div class="gradient-bg"></div>
 
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="./index.html">
-                <img src="images/Circle_Logo_Rectangle.png" alt="Rock and Games" class="nav-logo">
-            </a>
-            <a href="./index.html" class="btn-home">ホーム</a>
+    <nav class="fixed top-0 left-0 right-0 w-full bg-white/95 backdrop-blur-lg border-b border-gray-100 z-[9999]" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between items-center h-16">
+                <a href="./index.html" class="flex-shrink-0">
+                    <img src="images/Circle_Logo_Rectangle.png" alt="Rock and Games" class="h-8 sm:h-10 w-auto">
+                </a>
+                <a href="./index.html"
+                   class="flex-shrink-0 px-4 py-2 sm:px-6 sm:py-2.5 bg-transparent border border-gray-300 text-gray-700 text-sm sm:text-base font-medium rounded-full hover:bg-gray-50 hover:border-indigo-500 hover:text-indigo-600 transition-all">
+                    <span class="hidden sm:inline">トップへ戻る</span>
+                    <span class="sm:hidden">戻る</span>
+                </a>
+            </div>
         </div>
     </nav>
 
