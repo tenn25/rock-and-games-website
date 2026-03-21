@@ -134,31 +134,51 @@ document.addEventListener('DOMContentLoaded', () => {
             showCharacters();
         });
 
-        // モバイル用: 初回タップで表示
-        let firstTouch = true;
-        heroSection.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            if (firstTouch) {
-                showCharacters();
-                firstTouch = false;
-            } else if (isShown && !isAnimating) {
-                // 2回目以降のタップで切り替え
-                switchCharacters();
-            }
-        });
+        // モバイル用: 画面タッチ（スクロール開始）で初回表示
+        let touchTriggered = false;
 
-        // クリックイベント（キャラクター切り替え用）
-        heroSection.addEventListener('click', function(e) {
-            // リンクやボタンのクリックは除外
-            if (e.target.closest('a') || e.target.closest('button')) {
-                return;
-            }
+        // タッチデバイスの判定
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-            if (!isShown) {
-                showCharacters();
-            } else {
-                switchCharacters();
-            }
-        });
+        if (isTouchDevice) {
+            // 初回タッチで自動的にキャラクター表示（スクロール操作の一環として）
+            document.addEventListener('touchstart', function handleFirstTouch() {
+                if (!touchTriggered && !isShown) {
+                    showCharacters();
+                    touchTriggered = true;
+                    // 初回のみなので、リスナーを削除
+                    document.removeEventListener('touchstart', handleFirstTouch);
+                }
+            }, { passive: true, once: true });
+
+            // スクロールでも表示（タッチを逃した場合のバックアップ）
+            window.addEventListener('scroll', function handleFirstScroll() {
+                if (!touchTriggered && !isShown && window.scrollY > 10) {
+                    showCharacters();
+                    touchTriggered = true;
+                    window.removeEventListener('scroll', handleFirstScroll);
+                }
+            }, { passive: true, once: true });
+        }
+
+        // キャラクター切り替え用: ロゴエリアのクリック/タップ
+        const heroMainRow = document.querySelector('.hero-main-row');
+
+        if (heroMainRow) {
+            heroMainRow.addEventListener('click', function(e) {
+                // リンクやボタンのクリックは除外
+                if (e.target.closest('a') || e.target.closest('button')) {
+                    return;
+                }
+
+                // 既にキャラクターが表示されている場合のみ切り替え
+                if (isShown && !isAnimating) {
+                    switchCharacters();
+                } else if (!isShown && !isTouchDevice) {
+                    // PCの場合は初回クリックでも表示
+                    showCharacters();
+                }
+            });
+        }
     }
 });
