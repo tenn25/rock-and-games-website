@@ -1,20 +1,20 @@
 {
-  "files": [
-    "anubis.png",
-    "asmodeus.png",
-    "bastet.png",
-    "beelzebub.png",
-    "belphegor.png",
-    "chocousa-kodo.png",
-    "chocousa-shirei.png",
-    "horus.png",
-    "kunum.png",
-    "leviathan.png",
-    "lucifer.png",
-    "mammon.png",
-    "mochiusa-kodo.png",
-    "mochiusa-shirei.png",
-    "satan.png",
-    "seto.png"
-  ]
+    "files": [
+        "anubis.png",
+        "asmodeus.png",
+        "bastet.png",
+        "beelzebub.png",
+        "belphegor.png",
+        "chocousa-kodo.png",
+        "chocousa-shirei.png",
+        "horus.png",
+        "kunum.png",
+        "leviathan.png",
+        "lucifer.png",
+        "mammon.png",
+        "mochiusa-kodo.png",
+        "mochiusa-shirei.png",
+        "satan.png",
+        "seto.png"
+    ]
 }

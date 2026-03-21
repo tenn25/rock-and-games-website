@@ -2,6 +2,7 @@
    Index Page Specific Styles
    ============================================ */
 
+
 /* ======================
    HERO SECTION
    ====================== */
@@ -25,7 +26,9 @@
     gap: 30px;
 }
 
+
 /* Logo and character container */
+
 .hero-main-row {
     display: flex;
     align-items: center;
@@ -34,7 +37,8 @@
     width: 100%;
     height: 500px;
     cursor: pointer;
-    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    -webkit-tap-highlight-color: transparent;
+    /* Remove tap highlight on mobile */
 }
 
 .hero-logo {
@@ -42,16 +46,15 @@
     max-width: 40vw;
     height: auto;
     max-height: 100%;
-    filter:
-        drop-shadow(0 0 20px rgba(0, 0, 0, 0.9))
-        drop-shadow(0 0 40px rgba(0, 0, 0, 0.7))
-        drop-shadow(0 10px 25px rgba(0, 0, 0, 0.8));
+    filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 26px rgba(0, 0, 0, 0.45)) drop-shadow(0 8px 18px rgba(0, 0, 0, 0.5));
     position: relative;
     z-index: 3;
     object-fit: contain;
 }
 
+
 /* Hero text and social link */
+
 .hero-text-container {
     display: flex;
     flex-direction: column;
@@ -69,7 +72,9 @@
     padding: 0 20px;
 }
 
+
 /* X (Twitter) Link Button */
+
 .hero-x-link {
     display: inline-flex;
     align-items: center;
@@ -103,7 +108,9 @@
    CHARACTER ANIMATIONS
    ====================== */
 
+
 /* Base character styles */
+
 .character-peek {
     height: 100%;
     width: auto;
@@ -124,187 +131,164 @@
     right: 0;
 }
 
+
 /* Desktop/Tablet: Hidden by default, visible on hover/show */
+
 @media (min-width: 641px) {
     .character-peek-left {
         opacity: 0;
         transform: translateX(-200%);
     }
-
     .character-peek-right {
         opacity: 0;
-        transform: scaleX(-1) translateX(-200%);
+        transform: translateX(200%);
     }
-
     .hero-section.show-characters .character-peek-left,
     .hero-section:hover .character-peek-left {
         opacity: 0.9;
         transform: translateX(-30%);
     }
-
     .hero-section.show-characters .character-peek-right,
     .hero-section:hover .character-peek-right {
         opacity: 0.9;
-        transform: scaleX(-1) translateX(-30%);
+        transform: translateX(30%);
     }
-
     .hero-section.hide-characters .character-peek-left {
         opacity: 0 !important;
         transform: translateX(-200%) !important;
     }
-
     .hero-section.hide-characters .character-peek-right {
         opacity: 0 !important;
-        transform: scaleX(-1) translateX(-200%) !important;
+        transform: translateX(200%) !important;
     }
 }
 
+
 /* Mobile: Hidden by default, visible on tap/show */
+
 @media (max-width: 640px) {
     .character-peek-left {
         opacity: 0;
         transform: translateX(-200%);
     }
-
     .character-peek-right {
         opacity: 0;
-        transform: scaleX(-1) translateX(-200%);
+        transform: translateX(200%);
     }
 }
 
 
 /* Large screens */
+
 @media (min-width: 1400px) {
     .hero-main-row {
         height: 600px;
     }
-
     .hero-logo {
         width: 600px;
     }
-
     .character-peek {
         max-height: 600px;
     }
-
     /* 大画面では少し離す（でも以前より近く） */
     .hero-section.show-characters .character-peek-left,
     .hero-section:hover .character-peek-left {
         transform: translateX(-35%) !important;
     }
-
     .hero-section.show-characters .character-peek-right,
     .hero-section:hover .character-peek-right {
-        transform: scaleX(-1) translateX(-35%) !important;
+        transform: translateX(35%) !important;
     }
-
     /* 大画面用スライドアウト */
     .hero-section.hide-characters .character-peek-left {
         opacity: 0 !important;
         transform: translateX(-200%) !important;
     }
-
     .hero-section.hide-characters .character-peek-right {
         opacity: 0 !important;
-        transform: scaleX(-1) translateX(-200%) !important;
+        transform: translateX(200%) !important;
     }
 }
 
 
 /* Tablet breakpoint (641px - 1023px) */
+
 @media (max-width: 1023px) and (min-width: 641px) {
     .hero-main-row {
         height: 400px;
     }
-
     .hero-logo {
         width: 400px;
         max-width: 50vw;
     }
-
     .character-peek {
         max-height: 400px;
     }
-
     .hero-section.show-characters .character-peek-left,
     .hero-section:hover .character-peek-left {
         opacity: 0.85;
         transform: translateX(-25%) !important;
     }
-
     .hero-section.show-characters .character-peek-right,
     .hero-section:hover .character-peek-right {
         opacity: 0.85;
-        transform: scaleX(-1) translateX(-25%) !important;
+        transform: translateX(25%) !important;
     }
-
     .hero-section.hide-characters .character-peek-left {
         opacity: 0 !important;
         transform: translateX(-200%) !important;
     }
-
     .hero-section.hide-characters .character-peek-right {
         opacity: 0 !important;
-        transform: scaleX(-1) translateX(-200%) !important;
+        transform: translateX(200%) !important;
     }
-
     .hero-subtitle {
         font-size: 1rem;
     }
-
     .hero-x-link {
         padding: 7px 18px;
         font-size: 0.88rem;
     }
 }
 
+
 /* Mobile breakpoint (max 640px) */
+
 @media (max-width: 640px) {
     .hero-main-row {
         height: 280px;
         overflow: hidden;
     }
-
     .hero-logo {
         width: 280px;
         max-width: 65vw;
-        filter:
-            drop-shadow(0 0 30px rgba(0, 0, 0, 1))
-            drop-shadow(0 0 15px rgba(0, 0, 0, 0.9))
-            drop-shadow(0 5px 20px rgba(0, 0, 0, 0.8));
+        filter: drop-shadow(0 0 18px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)) drop-shadow(0 4px 14px rgba(0, 0, 0, 0.45));
     }
-
     .character-peek {
         height: 280px;
         width: auto;
         object-fit: contain;
     }
-
     .hero-section.show-characters .character-peek-left {
         opacity: 0.85 !important;
         transform: translateX(-20%) !important;
     }
-
     .hero-section.show-characters .character-peek-right {
         opacity: 0.85 !important;
-        transform: scaleX(-1) translateX(-20%) !important;
+        transform: translateX(20%) !important;
     }
-
     .hero-section.hide-characters .character-peek-left {
         opacity: 0 !important;
         transform: translateX(-200%) !important;
     }
-
     .hero-section.hide-characters .character-peek-right {
         opacity: 0 !important;
-        transform: scaleX(-1) translateX(-200%) !important;
+        transform: translateX(200%) !important;
     }
-
     .hero-subtitle {
         font-size: 0.85rem;
         line-height: 1.5;
     }
-
     .hero-x-link {
         padding: 6px 16px;
         font-size: 0.85rem;
@@ -359,13 +343,10 @@
 /* ======================
    GAMES SECTION
    ====================== */
+
 .games-section {
     padding: 80px 0;
-    background: linear-gradient(180deg,
-        rgba(10, 10, 10, 0) 0%,
-        rgba(15, 15, 25, 0.4) 50%,
-        rgba(10, 10, 10, 0) 100%
-    );
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0) 0%, rgba(15, 15, 25, 0.4) 50%, rgba(10, 10, 10, 0) 100%);
     position: relative;
     z-index: 1;
 }
@@ -379,7 +360,9 @@
     letter-spacing: 0.5px;
 }
 
+
 /* Game Cards Grid */
+
 .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -439,7 +422,9 @@
     margin-bottom: 16px;
 }
 
+
 /* Game tags */
+
 .game-tags {
     display: flex;
     flex-wrap: wrap;
@@ -450,8 +435,9 @@
 .game-tag {
     display: inline-block;
     padding: 4px 10px;
-    background: rgba(99, 102, 241, 0.2);
-    color: #a5b4fc;
+    background: rgba(79, 70, 229, 0.5);
+    color: #eef2ff;
+    border: 1px solid rgba(129, 140, 248, 0.75);
     border-radius: 12px;
     font-size: 0.75rem;
     font-weight: 500;
@@ -473,11 +459,7 @@
 
 .links-section {
     padding: 80px 0;
-    background: linear-gradient(90deg,
-        rgba(10, 10, 10, 0) 0%,
-        rgba(15, 20, 30, 0.35) 50%,
-        rgba(10, 10, 10, 0) 100%
-    );
+    background: linear-gradient(90deg, rgba(10, 10, 10, 0) 0%, rgba(15, 20, 30, 0.35) 50%, rgba(10, 10, 10, 0) 100%);
     position: relative;
     z-index: 1;
 }
@@ -520,11 +502,7 @@
 
 .info-section {
     padding: 50px 0;
-    background: linear-gradient(135deg,
-        rgba(10, 10, 10, 0) 0%,
-        rgba(20, 15, 30, 0.3) 50%,
-        rgba(10, 10, 10, 0) 100%
-    );
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0) 0%, rgba(20, 15, 30, 0.3) 50%, rgba(10, 10, 10, 0) 100%);
     position: relative;
     z-index: 1;
 }
@@ -607,7 +585,9 @@
     line-height: 1.5;
 }
 
+
 /* Members Grid */
+
 .members-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -632,7 +612,9 @@
     letter-spacing: 0.5px;
 }
 
+
 /* More button */
+
 .btn-more {
     display: inline-flex;
     align-items: center;
@@ -689,29 +671,23 @@
     .hero-section {
         padding: 60px 20px;
     }
-
     .section-title,
     .info-card-title {
         font-size: 1.5rem;
     }
-
     .games-grid {
         grid-template-columns: 1fr;
     }
-
     .members-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-
     .links-container {
         flex-direction: column;
         align-items: stretch;
     }
-
     .link-button {
         width: 100%;
         justify-content: center;
     }
-
     /* モバイル用ボタン調整は common.css で管理 */
 }
