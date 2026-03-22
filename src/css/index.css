@@ -61,7 +61,7 @@
     max-width: 40vw;
     height: auto;
     max-height: 100%;
-    filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 26px rgba(0, 0, 0, 0.45)) drop-shadow(0 8px 18px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 26px rgba(0, 0, 0, 0.6)) drop-shadow(0 8px 18px rgba(0, 0, 0, 0.7));
     transition: transform 0.14s ease;
     position: relative;
     z-index: 3;
@@ -69,42 +69,42 @@
 }
 
 .hero-logo.is-jiggle {
-    animation: logoJiggle 0.07s linear infinite;
+    animation: logoJiggle 0.18s ease-out;
 }
 
 @keyframes logoJiggle {
     0% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
+        transform: translate(0, 0) rotate(0deg);
     }
-    10% {
-        transform: translate(-3.8px, 1.8px) rotate(-1.6deg) scale(0.996);
+    8.33% {
+        transform: translate(-4px, 0) rotate(-2deg);
     }
-    20% {
-        transform: translate(3.8px, -1.8px) rotate(1.6deg) scale(0.996);
+    16.66% {
+        transform: translate(4px, 0) rotate(2deg);
     }
-    30% {
-        transform: translate(-3.4px, 1.5px) rotate(-1.4deg) scale(0.996);
+    25% {
+        transform: translate(0, 0) rotate(0deg);
     }
-    40% {
-        transform: translate(3.4px, -1.5px) rotate(1.4deg) scale(0.996);
+    33.33% {
+        transform: translate(-3px, 0) rotate(-1.5deg);
+    }
+    41.66% {
+        transform: translate(3px, 0) rotate(1.5deg);
     }
     50% {
-        transform: translate(-2.8px, 1.2px) rotate(-1.1deg) scale(0.997);
+        transform: translate(0, 0) rotate(0deg);
     }
-    60% {
-        transform: translate(2.8px, -1.2px) rotate(1.1deg) scale(0.997);
+    58.33% {
+        transform: translate(-2px, 0) rotate(-1deg);
     }
-    70% {
-        transform: translate(-2.2px, 1px) rotate(-0.9deg) scale(0.998);
+    66.66% {
+        transform: translate(2px, 0) rotate(1deg);
     }
-    80% {
-        transform: translate(2.2px, -1px) rotate(0.9deg) scale(0.998);
-    }
-    90% {
-        transform: translate(-1.4px, 0.6px) rotate(-0.5deg) scale(0.999);
+    75% {
+        transform: translate(0, 0) rotate(0deg);
     }
     100% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
+        transform: translate(0, 0) rotate(0deg);
     }
 }
 
@@ -259,11 +259,9 @@
         max-height: 600px;
     }
     /* 大画面では少し離す（でも以前より近く） */
-    .hero-section.show-characters .character-peek-left,
     .hero-section.show-characters .character-peek-left {
         transform: translateX(-35%) !important;
     }
-    .hero-section.show-characters .character-peek-right,
     .hero-section.show-characters .character-peek-right {
         transform: translateX(35%) !important;
     }
@@ -292,14 +290,12 @@
     .character-peek {
         max-height: 400px;
     }
-    .hero-section.show-characters .character-peek-left,
     .hero-section.show-characters .character-peek-left {
-        opacity: 0.85;
+        opacity: 0.9;
         transform: translateX(-25%) !important;
     }
-    .hero-section.show-characters .character-peek-right,
     .hero-section.show-characters .character-peek-right {
-        opacity: 0.85;
+        opacity: 0.9;
         transform: translateX(25%) !important;
     }
     .hero-section.hide-characters .character-peek-left {
@@ -342,11 +338,11 @@
         object-fit: contain;
     }
     .hero-section.show-characters .character-peek-left {
-        opacity: 0.85 !important;
+        opacity: 0.9 !important;
         transform: translateX(-20%) !important;
     }
     .hero-section.show-characters .character-peek-right {
-        opacity: 0.85 !important;
+        opacity: 0.9 !important;
         transform: translateX(20%) !important;
     }
     .hero-section.hide-characters .character-peek-left {
