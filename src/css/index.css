@@ -138,6 +138,10 @@
     padding: 0 20px;
 }
 
+.hero-subtitle .no-break {
+    white-space: nowrap;
+}
+
 
 /* X (Twitter) Link Button */
 
