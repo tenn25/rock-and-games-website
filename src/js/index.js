@@ -207,21 +207,24 @@ document.addEventListener('DOMContentLoaded', async() => {
                 heroSection.classList.remove('show-characters');
                 heroSection.classList.add('hide-characters');
 
-                // 2. アニメーション完了を待つ（少し長めにして振動時間を確保）
+                // 2. アニメーション完了を待つ（CSSのtransitionが完全に終わるまで待機）
                 setTimeout(() => {
                     // 3. 新しいキャラクターをランダムに選択
                     randomizeCharacters();
 
-                    // 4. hide状態をリセット
+                    // 4. hide状態をリセットして新しいキャラクターをスライドイン準備
                     heroSection.classList.remove('hide-characters');
 
-                    // 5. 即座に新しいキャラクターをスライドイン
-                    setTimeout(() => {
-                        heroSection.classList.add('show-characters');
-                        stopLogoFeedback();
-                        isAnimating = false;
-                    }, 10);
-                }, LOGO_VIBRATION_MS);
+                    // 5. DOMが更新されるのを待ってからスライドイン
+                    // requestAnimationFrameを2回呼ぶことで、確実にDOM更新後にアニメーション開始
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            heroSection.classList.add('show-characters');
+                            stopLogoFeedback();
+                            isAnimating = false;
+                        });
+                    });
+                }, 200); // CSSのtransition(0.16s)より少し長めに設定
             }
         };
 
