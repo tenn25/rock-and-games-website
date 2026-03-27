@@ -2,6 +2,50 @@
    Index Page Specific Styles
    ============================================ */
 
+/* ======================
+   NAVIGATION
+   ====================== */
+
+#navbar {
+    background: rgba(250, 250, 250, 0.95) !important;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.6) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-purchase-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    background: #6366f1;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+
+.nav-purchase-btn:hover {
+    background: #4f46e5;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    transform: translateY(-1px);
+}
+
+.nav-purchase-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(99, 102, 241, 0.3);
+}
+
+@media (max-width: 640px) {
+    .nav-purchase-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+}
+
 
 /* ======================
    HERO SECTION
@@ -62,49 +106,65 @@
     height: auto;
     max-height: 100%;
     filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 26px rgba(0, 0, 0, 0.6)) drop-shadow(0 8px 18px rgba(0, 0, 0, 0.7));
-    transition: transform 0.14s ease;
+    transition: transform 0.14s ease, filter 0.14s ease;
     position: relative;
     z-index: 3;
     object-fit: contain;
 }
 
 .hero-logo.is-jiggle {
-    animation: logoJiggle 0.18s ease-out;
+    animation: logoJiggle 0.4s ease-out, logoShadowPop 0.15s ease-out;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 16px rgba(0, 0, 0, 0.6)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+}
+
+@keyframes logoShadowPop {
+    0% {
+        filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 8px rgba(0, 0, 0, 0.6)) drop-shadow(0 1px 4px rgba(0, 0, 0, 0.7));
+    }
+    100% {
+        filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 26px rgba(0, 0, 0, 0.6)) drop-shadow(0 8px 18px rgba(0, 0, 0, 0.7));
+    }
 }
 
 @keyframes logoJiggle {
     0% {
-        transform: translate(0, 0) rotate(0deg);
+        transform: scale(0.88) translate(0, 0) rotate(0deg);
     }
-    8.33% {
-        transform: translate(-4px, 0) rotate(-2deg);
+    5% {
+        transform: scale(0.88) translate(-8px, 0) rotate(-4deg);
     }
-    16.66% {
-        transform: translate(4px, 0) rotate(2deg);
+    10% {
+        transform: scale(0.88) translate(8px, 0) rotate(4deg);
+    }
+    15% {
+        transform: scale(1) translate(0, 0) rotate(0deg);
+    }
+    20% {
+        transform: scale(1) translate(-6px, 0) rotate(-3deg);
     }
     25% {
-        transform: translate(0, 0) rotate(0deg);
+        transform: scale(1) translate(6px, 0) rotate(3deg);
     }
-    33.33% {
-        transform: translate(-3px, 0) rotate(-1.5deg);
+    30% {
+        transform: scale(1) translate(0, 0) rotate(0deg);
     }
-    41.66% {
-        transform: translate(3px, 0) rotate(1.5deg);
+    35% {
+        transform: scale(1) translate(-4px, 0) rotate(-2deg);
+    }
+    40% {
+        transform: scale(1) translate(4px, 0) rotate(2deg);
+    }
+    45% {
+        transform: scale(1) translate(-2px, 0) rotate(-1deg);
     }
     50% {
-        transform: translate(0, 0) rotate(0deg);
+        transform: scale(1) translate(2px, 0) rotate(1deg);
     }
-    58.33% {
-        transform: translate(-2px, 0) rotate(-1deg);
-    }
-    66.66% {
-        transform: translate(2px, 0) rotate(1deg);
-    }
-    75% {
-        transform: translate(0, 0) rotate(0deg);
+    55% {
+        transform: scale(1) translate(0, 0) rotate(0deg);
     }
     100% {
-        transform: translate(0, 0) rotate(0deg);
+        transform: scale(1) translate(0, 0) rotate(0deg);
     }
 }
 
@@ -332,6 +392,19 @@
         max-width: 65vw;
         filter: drop-shadow(0 0 18px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)) drop-shadow(0 4px 14px rgba(0, 0, 0, 0.45));
     }
+    .hero-logo.is-jiggle {
+        animation: logoJiggle 0.4s ease-out, logoShadowPopMobile 0.15s ease-out;
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 6px rgba(0, 0, 0, 0.5)) drop-shadow(0 1px 6px rgba(0, 0, 0, 0.45));
+    }
+
+    @keyframes logoShadowPopMobile {
+        0% {
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 3px rgba(0, 0, 0, 0.5)) drop-shadow(0 0px 3px rgba(0, 0, 0, 0.45));
+        }
+        100% {
+            filter: drop-shadow(0 0 18px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)) drop-shadow(0 4px 14px rgba(0, 0, 0, 0.45));
+        }
+    }
     .character-peek {
         height: 280px;
         width: auto;
@@ -433,60 +506,86 @@
 
 .games-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
     margin-bottom: 60px;
 }
 
 .game-card {
-    background: #2d3748;
-    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(45, 55, 72, 0.4) 0%, rgba(30, 41, 59, 0.3) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    border: 1px solid #4a5568;
+    border: 1px solid rgba(99, 102, 241, 0.15);
     position: relative;
     z-index: 2;
+    text-decoration: none;
+    display: block;
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(129, 140, 248, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .game-card:hover {
-    transform: translateY(-2px);
-    border-color: #6366f1;
+    transform: translateY(-8px);
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: inset 0 0 40px rgba(99, 102, 241, 0.15),
+                inset 0 0 80px rgba(99, 102, 241, 0.08);
+}
+
+.game-card:hover::before {
+    opacity: 1;
 }
 
 .game-image-wrapper {
     position: relative;
-    height: 220px;
+    height: 240px;
     overflow: hidden;
-    background: #374151;
+    background: linear-gradient(135deg, rgba(55, 65, 81, 0.5) 0%, rgba(31, 41, 55, 0.5) 100%);
 }
 
 .game-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .game-card:hover .game-image {
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
 .game-content {
-    padding: 20px;
+    padding: 24px;
+    position: relative;
+    z-index: 2;
 }
 
 .game-title {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     font-weight: 700;
     color: white;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
 }
 
 .game-description {
-    color: #a0aec0;
+    color: #cbd5e1;
     font-size: 0.95rem;
-    line-height: 1.5;
+    line-height: 1.6;
     margin-bottom: 16px;
 }
 
@@ -496,28 +595,38 @@
 .game-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
     margin-bottom: 16px;
 }
 
 .game-tag {
     display: inline-block;
-    padding: 4px 10px;
-    background: rgba(79, 70, 229, 0.5);
-    color: #eef2ff;
-    border: 1px solid rgba(129, 140, 248, 0.75);
-    border-radius: 12px;
+    padding: 6px 14px;
+    background: rgba(99, 102, 241, 0.15);
+    color: #e2e8f0;
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    border-radius: 6px;
     font-size: 0.75rem;
     font-weight: 500;
+    letter-spacing: 0.02em;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+}
+
+.game-card:hover .game-tag {
+    background: rgba(99, 102, 241, 0.25);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: #f1f5f9;
 }
 
 .game-meta {
     display: flex;
     justify-content: space-between;
-    padding-top: 12px;
-    border-top: 1px solid #4a5568;
-    color: #718096;
+    padding-top: 14px;
+    border-top: 1px solid rgba(99, 102, 241, 0.2);
+    color: #94a3b8;
     font-size: 0.875rem;
+    font-weight: 500;
 }
 
 

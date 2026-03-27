@@ -2,6 +2,49 @@
    Profile Page Specific Styles
    ============================================ */
 
+/* ======================
+   NAVIGATION
+   ====================== */
+
+#navbar {
+    background: rgba(250, 250, 250, 0.95) !important;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.6) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    background: transparent;
+    color: #4b5563;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.nav-back-btn:hover {
+    background: #f9fafb;
+    border-color: #6366f1;
+    color: #6366f1;
+}
+
+.nav-back-btn:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 640px) {
+    .nav-back-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+}
+
 /* Main Content */
 .main-content {
     margin-top: 64px; /* Fixed navbar height */
