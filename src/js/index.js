@@ -163,88 +163,52 @@ document.addEventListener('DOMContentLoaded', async() => {
     }
 
     if (heroSection) {
-        let isShown = false;
-        let isAnimating = false; // アニメーション中フラグ
+        let isAnimating = false; // キャラクター切り替えアニメーション中フラグ
         const heroLogo = document.querySelector('.hero-logo');
-
-        const triggerLogoFeedback = () => {
-            if (!heroLogo) {
-                return;
-            }
-
-            heroLogo.classList.remove('is-jiggle');
-            void heroLogo.offsetWidth;
-            heroLogo.classList.add('is-jiggle');
-        };
-
-        const stopLogoFeedback = (delayMs = 0) => {
-            if (!heroLogo) {
-                return;
-            }
-
-            setTimeout(() => {
-                heroLogo.classList.remove('is-jiggle');
-            }, delayMs);
-        };
-
-        // Function to show characters (初回表示用)
-        const showCharacters = () => {
-            if (!isShown && !isAnimating) {
-                randomizeCharacters();
-                heroSection.classList.add('show-characters');
-                // 初回は表示後も少し震えを残す
-                stopLogoFeedback(LOGO_VIBRATION_MS);
-                isShown = true;
-            }
-        };
-
-        // Function to switch characters (切り替え用)
-        const switchCharacters = () => {
-            if (isShown && !isAnimating) {
-                isAnimating = true;
-
-                // 1. 現在のキャラクターを外にスライドアウト
-                heroSection.classList.remove('show-characters');
-                heroSection.classList.add('hide-characters');
-
-                // 2. アニメーション完了を待つ（CSSのtransitionが完全に終わるまで待機）
-                setTimeout(() => {
-                    // 3. 新しいキャラクターをランダムに選択
-                    randomizeCharacters();
-
-                    // 4. hide状態をリセットして新しいキャラクターをスライドイン準備
-                    heroSection.classList.remove('hide-characters');
-
-                    // 5. DOMが更新されるのを待ってからスライドイン
-                    // requestAnimationFrameを2回呼ぶことで、確実にDOM更新後にアニメーション開始
-                    requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                            heroSection.classList.add('show-characters');
-                            stopLogoFeedback();
-                            isAnimating = false;
-                        });
-                    });
-                }, 200); // CSSのtransition(0.16s)より少し長めに設定
-            }
-        };
-
-        // キャラクター表示/切り替え: ロゴエリアのクリック/タップ
         const heroMainRow = document.querySelector('.hero-main-row');
 
-        if (heroMainRow) {
-            heroMainRow.addEventListener('pointerdown', function(e) {
+        if (heroMainRow && heroLogo) {
+            // クリック/タップ時の処理
+            heroMainRow.addEventListener('click', function(e) {
                 if (e.target.closest('a') || e.target.closest('button')) {
                     return;
                 }
 
-                triggerLogoFeedback();
-
-                // 初回は表示、2回目以降は切り替え（即時開始）
-                if (isShown && !isAnimating) {
-                    switchCharacters();
-                } else if (!isShown) {
-                    showCharacters();
+                // キャラクター切り替え中は何もしない
+                if (isAnimating) {
+                    return;
                 }
+
+                isAnimating = true;
+
+                // 1. 押し込みとブルブル震えを同時に開始
+                heroLogo.classList.remove('is-jiggle');
+                void heroLogo.offsetWidth;
+                heroLogo.classList.add('is-jiggle');
+
+                // 2. 即座にキャラクタースライドアウト開始
+                heroSection.classList.remove('show-characters');
+                heroSection.classList.add('hide-characters');
+
+                // 3. スライドアウト完了後に新キャラクター準備
+                setTimeout(() => {
+                    // 新しいキャラクターをランダムに選択
+                    randomizeCharacters();
+
+                    // hide状態をリセット
+                    heroSection.classList.remove('hide-characters');
+
+                    // 即座にスライドイン開始
+                    requestAnimationFrame(() => {
+                        heroSection.classList.add('show-characters');
+                    });
+                }, 160); // キャラクタースライドアウト完了(160ms)
+
+                // 4. キャラクター完全表示後にブルブル終了
+                setTimeout(() => {
+                    heroLogo.classList.remove('is-jiggle');
+                    isAnimating = false;
+                }, 400); // ブルブルアニメーション完了(400ms)
             });
         }
     }
