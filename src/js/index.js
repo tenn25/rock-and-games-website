@@ -343,8 +343,11 @@ function setupHeroAnimation() {
             randomizeCharacters();
             heroSection.classList.remove('hide-characters');
 
+            // Use double requestAnimationFrame to ensure CSS is applied
             requestAnimationFrame(() => {
-                heroSection.classList.add('show-characters');
+                requestAnimationFrame(() => {
+                    heroSection.classList.add('show-characters');
+                });
             });
         }, CONFIG.ANIMATION.SLIDE_OUT_DURATION);
 
