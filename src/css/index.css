@@ -113,8 +113,7 @@
 }
 
 .hero-logo.is-jiggle {
-    animation: logoJiggle 0.4s ease-out, logoShadowPop 0.15s ease-out;
-    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 16px rgba(0, 0, 0, 0.6)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+    animation: logoJiggle 0.4s ease-out, logoShadowPop 0.4s ease-out;
 }
 
 @keyframes logoShadowPop {
@@ -393,8 +392,7 @@
         filter: drop-shadow(0 0 18px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)) drop-shadow(0 4px 14px rgba(0, 0, 0, 0.45));
     }
     .hero-logo.is-jiggle {
-        animation: logoJiggle 0.4s ease-out, logoShadowPopMobile 0.15s ease-out;
-        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 6px rgba(0, 0, 0, 0.5)) drop-shadow(0 1px 6px rgba(0, 0, 0, 0.45));
+        animation: logoJiggle 0.4s ease-out, logoShadowPopMobile 0.4s ease-out;
     }
 
     @keyframes logoShadowPopMobile {
