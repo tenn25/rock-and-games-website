@@ -309,6 +309,60 @@ function randomizeCharacters() {
 // ============================================
 
 /**
+ * Trigger logo jiggle animation
+ */
+function triggerLogoJiggle(logoElement) {
+    logoElement.classList.remove('is-jiggle');
+    void logoElement.offsetWidth; // Force reflow to restart animation
+    logoElement.classList.add('is-jiggle');
+}
+
+/**
+ * Hide characters with slide out animation
+ */
+function hideCharacters(sectionElement) {
+    sectionElement.classList.remove('show-characters');
+    sectionElement.classList.add('hide-characters');
+}
+
+/**
+ * Show characters with slide in animation
+ * Uses double requestAnimationFrame to ensure proper rendering
+ */
+function showCharacters(sectionElement) {
+    requestAnimationFrame(() => {
+        sectionElement.classList.remove('hide-characters');
+
+        requestAnimationFrame(() => {
+            sectionElement.classList.add('show-characters');
+        });
+    });
+}
+
+/**
+ * Perform character swap animation sequence
+ */
+function performCharacterSwap(heroSection, heroLogo) {
+    return new Promise((resolve) => {
+        // Start animations
+        triggerLogoJiggle(heroLogo);
+        hideCharacters(heroSection);
+
+        // Wait for slide out, then swap characters
+        setTimeout(() => {
+            randomizeCharacters();
+            showCharacters(heroSection);
+        }, CONFIG.ANIMATION.SLIDE_OUT_DURATION);
+
+        // Complete animation
+        setTimeout(() => {
+            heroLogo.classList.remove('is-jiggle');
+            resolve();
+        }, CONFIG.ANIMATION.JIGGLE_DURATION);
+    });
+}
+
+/**
  * Setup hero section click animation
  */
 function setupHeroAnimation() {
@@ -320,7 +374,7 @@ function setupHeroAnimation() {
 
     let isAnimating = false;
 
-    heroMainRow.addEventListener('click', (e) => {
+    heroMainRow.addEventListener('click', async (e) => {
         // Ignore clicks on links and buttons
         if (e.target.closest('a') || e.target.closest('button')) return;
 
@@ -329,33 +383,11 @@ function setupHeroAnimation() {
 
         isAnimating = true;
 
-        // Start logo jiggle animation
-        heroLogo.classList.remove('is-jiggle');
-        void heroLogo.offsetWidth; // Force reflow
-        heroLogo.classList.add('is-jiggle');
-
-        // Start character slide out
-        heroSection.classList.remove('show-characters');
-        heroSection.classList.add('hide-characters');
-
-        // Replace characters after slide out
-        setTimeout(() => {
-            randomizeCharacters();
-            heroSection.classList.remove('hide-characters');
-
-            // Use double requestAnimationFrame to ensure CSS is applied
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    heroSection.classList.add('show-characters');
-                });
-            });
-        }, CONFIG.ANIMATION.SLIDE_OUT_DURATION);
-
-        // End animation
-        setTimeout(() => {
-            heroLogo.classList.remove('is-jiggle');
+        try {
+            await performCharacterSwap(heroSection, heroLogo);
+        } finally {
             isAnimating = false;
-        }, CONFIG.ANIMATION.JIGGLE_DURATION);
+        }
     });
 }
 

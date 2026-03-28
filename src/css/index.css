@@ -249,58 +249,64 @@
     top: 0;
     z-index: 1;
     pointer-events: none;
-    transition: all 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.16s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Default hidden state */
+    opacity: 0;
 }
 
 .character-peek-left {
     left: 0;
+    transform: translateX(-200%);
 }
 
 .character-peek-right {
     right: 0;
+    transform: translateX(200%);
+}
+
+/* Visible state - different positions per breakpoint */
+.hero-section.show-characters .character-peek-left,
+.hero-section.show-characters .character-peek-right {
+    opacity: 0.9;
+}
+
+/* Force hidden state (higher specificity for animation) */
+.hero-section.hide-characters .character-peek-left,
+.hero-section.hide-characters .character-peek-right {
+    opacity: 0 !important;
+}
+
+.hero-section.hide-characters .character-peek-left {
+    transform: translateX(-200%) !important;
+}
+
+.hero-section.hide-characters .character-peek-right {
+    transform: translateX(200%) !important;
 }
 
 
-/* Desktop/Tablet: Hidden by default, visible on click/show */
+/* Desktop/Tablet positioning */
 
 @media (min-width: 641px) {
-    .character-peek-left {
-        opacity: 0;
-        transform: translateX(-200%);
-    }
-    .character-peek-right {
-        opacity: 0;
-        transform: translateX(200%);
-    }
     .hero-section.show-characters .character-peek-left {
-        opacity: 0.9;
         transform: translateX(-30%);
     }
     .hero-section.show-characters .character-peek-right {
-        opacity: 0.9;
         transform: translateX(30%);
-    }
-    .hero-section.hide-characters .character-peek-left {
-        opacity: 0 !important;
-        transform: translateX(-200%) !important;
-    }
-    .hero-section.hide-characters .character-peek-right {
-        opacity: 0 !important;
-        transform: translateX(200%) !important;
     }
 }
 
 
-/* Mobile: Hidden by default, visible on tap/show */
+/* Mobile positioning */
 
 @media (max-width: 640px) {
-    .character-peek-left {
-        opacity: 0;
-        transform: translateX(-200%);
+    .hero-section.show-characters .character-peek-left {
+        transform: translateX(-20%);
     }
-    .character-peek-right {
-        opacity: 0;
-        transform: translateX(200%);
+    .hero-section.show-characters .character-peek-right {
+        transform: translateX(20%);
     }
 }
 
@@ -317,21 +323,11 @@
     .character-peek {
         max-height: 600px;
     }
-    /* 大画面では少し離す（でも以前より近く） */
     .hero-section.show-characters .character-peek-left {
-        transform: translateX(-35%) !important;
+        transform: translateX(-35%);
     }
     .hero-section.show-characters .character-peek-right {
-        transform: translateX(35%) !important;
-    }
-    /* 大画面用スライドアウト */
-    .hero-section.hide-characters .character-peek-left {
-        opacity: 0 !important;
-        transform: translateX(-200%) !important;
-    }
-    .hero-section.hide-characters .character-peek-right {
-        opacity: 0 !important;
-        transform: translateX(200%) !important;
+        transform: translateX(35%);
     }
 }
 
@@ -350,20 +346,10 @@
         max-height: 400px;
     }
     .hero-section.show-characters .character-peek-left {
-        opacity: 0.9;
-        transform: translateX(-25%) !important;
+        transform: translateX(-25%);
     }
     .hero-section.show-characters .character-peek-right {
-        opacity: 0.9;
-        transform: translateX(25%) !important;
-    }
-    .hero-section.hide-characters .character-peek-left {
-        opacity: 0 !important;
-        transform: translateX(-200%) !important;
-    }
-    .hero-section.hide-characters .character-peek-right {
-        opacity: 0 !important;
-        transform: translateX(200%) !important;
+        transform: translateX(25%);
     }
     .hero-subtitle {
         font-size: 1rem;
@@ -407,22 +393,6 @@
         height: 280px;
         width: auto;
         object-fit: contain;
-    }
-    .hero-section.show-characters .character-peek-left {
-        opacity: 0.9 !important;
-        transform: translateX(-20%) !important;
-    }
-    .hero-section.show-characters .character-peek-right {
-        opacity: 0.9 !important;
-        transform: translateX(20%) !important;
-    }
-    .hero-section.hide-characters .character-peek-left {
-        opacity: 0 !important;
-        transform: translateX(-200%) !important;
-    }
-    .hero-section.hide-characters .character-peek-right {
-        opacity: 0 !important;
-        transform: translateX(200%) !important;
     }
     .hero-subtitle {
         font-size: 0.85rem;
