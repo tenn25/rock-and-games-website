@@ -195,6 +195,8 @@
     color: #a0aec0;
     max-width: 800px;
     padding: 0 20px;
+    /* Reserve space to prevent layout shift */
+    min-height: 4.8rem;
 }
 
 .hero-subtitle .no-break {

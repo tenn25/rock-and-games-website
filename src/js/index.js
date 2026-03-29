@@ -319,6 +319,18 @@ const CharacterLoader = {
 
 const Character = {
     /**
+     * Preload image to ensure it's cached
+     */
+    preloadImage(filename) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(filename);
+            img.onerror = () => resolve(filename); // Resolve anyway to not block
+            img.src = `${CONFIG.CHARACTER.DIRECTORY_URL}${filename}`;
+        });
+    },
+
+    /**
      * Find character different from previous ones
      */
     findDifferentCharacter(shuffled, excludeList) {
@@ -355,7 +367,7 @@ const Character = {
     /**
      * Update character images in DOM
      */
-    updateImages() {
+    async updateImages() {
         const leftChar = DOM.get(CONFIG.SELECTORS.CHARACTER_LEFT);
         const rightChar = DOM.get(CONFIG.SELECTORS.CHARACTER_RIGHT);
 
@@ -363,11 +375,28 @@ const Character = {
 
         const [left, right] = this.selectRandomPair();
 
+        // Preload images before updating src
+        await Promise.all([
+            this.preloadImage(left),
+            this.preloadImage(right)
+        ]);
+
         leftChar.src = `${CONFIG.CHARACTER.DIRECTORY_URL}${left}`;
         leftChar.setAttribute('data-character', Utils.removeExtension(left));
 
         rightChar.src = `${CONFIG.CHARACTER.DIRECTORY_URL}${right}`;
         rightChar.setAttribute('data-character', Utils.removeExtension(right));
+    },
+
+    /**
+     * Preload all character images for smoother transitions
+     */
+    async preloadAllImages() {
+        const imagesToPreload = state.characterFiles.length >= CONFIG.CHARACTER.MIN_FILES
+            ? state.characterFiles
+            : CONFIG.CHARACTER.DEFAULT_FILES;
+
+        await Promise.all(imagesToPreload.map(file => this.preloadImage(file)));
     }
 };
 
@@ -408,27 +437,27 @@ const Animation = {
      * Perform complete character swap animation sequence
      */
     async performCharacterSwap(heroSection, heroLogo) {
-        return new Promise((resolve) => {
-            // Start animations
-            this.triggerLogoJiggle(heroLogo);
-            this.hideCharacters(heroSection);
+        // Start animations
+        this.triggerLogoJiggle(heroLogo);
+        this.hideCharacters(heroSection);
 
-            // Swap characters after slide out
-            setTimeout(() => {
-                Character.updateImages();
+        // Wait for slide out to complete
+        await new Promise(resolve => setTimeout(resolve, CONFIG.ANIMATION.SLIDE_OUT_DURATION));
 
-                // Show characters after brief delay
-                setTimeout(() => {
-                    this.showCharacters(heroSection);
-                }, CONFIG.ANIMATION.SLIDE_IN_DELAY);
-            }, CONFIG.ANIMATION.SLIDE_OUT_DURATION);
+        // Update images and wait for preload
+        await Character.updateImages();
 
-            // Complete animation
-            setTimeout(() => {
-                heroLogo.classList.remove('is-jiggle');
-                resolve();
-            }, CONFIG.ANIMATION.JIGGLE_DURATION);
-        });
+        // Wait brief delay before showing
+        await new Promise(resolve => setTimeout(resolve, CONFIG.ANIMATION.SLIDE_IN_DELAY));
+
+        // Show characters
+        this.showCharacters(heroSection);
+
+        // Wait for jiggle to complete
+        await new Promise(resolve => setTimeout(resolve, CONFIG.ANIMATION.JIGGLE_DURATION - CONFIG.ANIMATION.SLIDE_OUT_DURATION - CONFIG.ANIMATION.SLIDE_IN_DELAY));
+
+        // Clean up
+        heroLogo.classList.remove('is-jiggle');
     },
 
     /**
@@ -477,7 +506,12 @@ const App = {
         // Load content
         Activity.fetch();
         await CharacterLoader.load();
-        Character.updateImages();
+
+        // Preload all character images
+        await Character.preloadAllImages();
+
+        // Display initial characters
+        await Character.updateImages();
 
         // Setup interactions
         Animation.setupHeroAnimation();

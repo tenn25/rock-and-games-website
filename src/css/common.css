@@ -16,6 +16,8 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+    /* Prevent layout shift during font loading */
+    font-display: swap;
 }
 
 html {
