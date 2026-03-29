@@ -15,401 +15,474 @@ const CONFIG = {
         MIN_FILES: 2
     },
     ANIMATION: {
-        SLIDE_OUT_DURATION: 160,
-        JIGGLE_DURATION: 400,
-        NAVBAR_SCROLL_THRESHOLD: 50
+        SLIDE_OUT_DURATION: 120,      // Character slide out animation duration (ms)
+        SLIDE_IN_DELAY: 30,            // Delay before character slide in (ms)
+        RENDER_DELAY: 10,              // Delay for ensuring DOM render (ms)
+        JIGGLE_DURATION: 400,          // Logo jiggle animation duration (ms)
+        NAVBAR_SCROLL_THRESHOLD: 50    // Scroll distance to trigger navbar style (px)
     },
     ACTIVITY: {
         JSON_URL: './contents/activity.json',
-        DISPLAY_COUNT: 3
+        DISPLAY_COUNT: 3,
+        ERROR_MESSAGE: '活動履歴の読み込みに失敗しました。',
+        EMPTY_MESSAGE: '活動履歴はありません。'
+    },
+    SELECTORS: {
+        NAVBAR: '#navbar',
+        HERO_SECTION: '.hero-section',
+        HERO_LOGO: '.hero-logo',
+        HERO_MAIN_ROW: '.hero-main-row',
+        HERO_LOGO_HINT: '#hero-logo-hint',
+        CHARACTER_LEFT: '.character-peek-left',
+        CHARACTER_RIGHT: '.character-peek-right',
+        ACTIVITY_LIST: '#activity-list',
+        CURRENT_YEAR: '#current-year'
     }
 };
 
 // ============================================
-// State
+// State Management
 // ============================================
 const state = {
     characterFiles: [...CONFIG.CHARACTER.DEFAULT_FILES],
-    previousCharacters: []
+    previousCharacters: [],
+    isAnimating: false
+};
+
+// ============================================
+// DOM Utilities
+// ============================================
+const DOM = {
+    /**
+     * Get element by selector with null check
+     */
+    get(selector) {
+        return document.querySelector(selector);
+    },
+
+    /**
+     * Get element by ID with null check
+     */
+    getById(id) {
+        return document.getElementById(id);
+    },
+
+    /**
+     * Create element with optional className
+     */
+    create(tag, className = '') {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        return element;
+    },
+
+    /**
+     * Set text content safely
+     */
+    setText(element, text) {
+        if (element) element.textContent = text;
+    },
+
+    /**
+     * Force reflow for animation restart
+     */
+    forceReflow(element) {
+        void element.offsetWidth;
+    }
 };
 
 // ============================================
 // Utility Functions
 // ============================================
-
-/**
- * Fisher-Yates shuffle algorithm for better randomization
- */
-function shuffleArray(array) {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-}
-
-/**
- * Remove file extension from filename
- */
-function removeExtension(filename) {
-    return filename.replace(/\.[^.]+$/, '').toLowerCase();
-}
-
-/**
- * Check if device supports touch
- */
-function isTouchDevice() {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-}
-
-// ============================================
-// UI Update Functions
-// ============================================
-
-/**
- * Update footer year
- */
-function updateFooterYear() {
-    const yearElement = document.getElementById('current-year');
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
-    }
-}
-
-/**
- * Setup navbar scroll effect
- */
-function setupNavbarScroll() {
-    const navbar = document.getElementById('navbar');
-    if (!navbar) return;
-
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > CONFIG.ANIMATION.NAVBAR_SCROLL_THRESHOLD) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+const Utils = {
+    /**
+     * Fisher-Yates shuffle algorithm
+     */
+    shuffleArray(array) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
-    });
-}
+        return shuffled;
+    },
 
-/**
- * Update logo hint text based on device type
- */
-function updateLogoHint() {
-    const logoHint = document.getElementById('hero-logo-hint');
-    if (logoHint) {
-        logoHint.textContent = isTouchDevice() ? '＼ロゴをタップ／' : '＼ロゴをクリック／';
-    }
-}
+    /**
+     * Remove file extension from filename
+     */
+    removeExtension(filename) {
+        return filename.replace(/\.[^.]+$/, '').toLowerCase();
+    },
 
-// ============================================
-// Activity Functions
-// ============================================
+    /**
+     * Check if device supports touch
+     */
+    isTouchDevice() {
+        return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    },
 
-/**
- * Create activity item element
- */
-function createActivityElement(activity) {
-    const activityElement = document.createElement('div');
-    activityElement.className = 'activity-item';
-
-    const dateElement = document.createElement('div');
-    dateElement.className = 'activity-date';
-    dateElement.textContent = activity.date;
-    activityElement.appendChild(dateElement);
-
-    const contentWrapper = document.createElement('div');
-    contentWrapper.className = 'activity-content';
-    activity.content.forEach(line => {
-        const contentElement = document.createElement('p');
-        contentElement.textContent = line;
-        contentWrapper.appendChild(contentElement);
-    });
-    activityElement.appendChild(contentWrapper);
-
-    return activityElement;
-}
-
-/**
- * Fetch and display activity history
- */
-async function fetchActivityHistory() {
-    const activityContainer = document.getElementById('activity-list');
-    if (!activityContainer) return;
-
-    try {
-        const response = await fetch(CONFIG.ACTIVITY.JSON_URL);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-
-        if (data?.activities?.length > 0) {
-            activityContainer.innerHTML = '';
-            const recentActivities = data.activities.slice(0, CONFIG.ACTIVITY.DISPLAY_COUNT);
-            recentActivities.forEach(activity => {
-                activityContainer.appendChild(createActivityElement(activity));
-            });
-        } else {
-            activityContainer.innerHTML = '<p class="activity-content">活動履歴はありません。</p>';
-        }
-    } catch (error) {
-        console.error('活動履歴の読み込みに失敗しました:', error);
-        activityContainer.innerHTML = '<p class="activity-content">活動履歴の読み込みに失敗しました。</p>';
-    }
-}
-
-// ============================================
-// Character Functions
-// ============================================
-
-/**
- * Validate and filter image filenames
- */
-function filterImageFiles(files) {
-    return files
-        .filter(name => typeof name === 'string')
-        .map(name => name.trim())
-        .filter(name => CONFIG.CHARACTER.IMAGE_EXTENSIONS.test(name));
-}
-
-/**
- * Try loading character files from manifest
- */
-async function loadFromManifest() {
-    try {
-        const response = await fetch(CONFIG.CHARACTER.MANIFEST_URL, { cache: 'no-cache' });
-        if (response.ok) {
-            const manifest = await response.json();
-            if (manifest?.files && Array.isArray(manifest.files)) {
-                const filtered = filterImageFiles(manifest.files);
-                const unique = [...new Set(filtered)];
-                if (unique.length >= CONFIG.CHARACTER.MIN_FILES) {
-                    return unique;
-                }
-            }
-        }
-    } catch (error) {
-        // Silent fail, try directory listing
-    }
-    return null;
-}
-
-/**
- * Try loading character files from directory listing
- */
-async function loadFromDirectory() {
-    try {
-        const response = await fetch(CONFIG.CHARACTER.DIRECTORY_URL);
-        if (!response.ok) {
-            if (response.status === 403 || response.status === 404) {
-                return null;
-            }
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const html = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-
-        const files = Array.from(doc.querySelectorAll('a[href]'))
-            .map(link => link.getAttribute('href') || '')
-            .map(href => href.split('/').pop() || '')
+    /**
+     * Validate and filter image filenames
+     */
+    filterImageFiles(files) {
+        return files
+            .filter(name => typeof name === 'string')
+            .map(name => name.trim())
             .filter(name => CONFIG.CHARACTER.IMAGE_EXTENSIONS.test(name));
+    },
 
-        const unique = [...new Set(files)];
-        if (unique.length >= CONFIG.CHARACTER.MIN_FILES) {
-            return unique;
-        }
-    } catch (error) {
-        console.warn('キャラクター画像一覧の取得に失敗したため、既定値を使用します。', error);
+    /**
+     * Get unique array items
+     */
+    unique(array) {
+        return [...new Set(array)];
     }
-    return null;
-}
-
-/**
- * Load character image files
- */
-async function loadCharacterFiles() {
-    const fromManifest = await loadFromManifest();
-    if (fromManifest) {
-        state.characterFiles = fromManifest;
-        return;
-    }
-
-    const fromDirectory = await loadFromDirectory();
-    if (fromDirectory) {
-        state.characterFiles = fromDirectory;
-        return;
-    }
-
-    state.characterFiles = [...CONFIG.CHARACTER.DEFAULT_FILES];
-}
-
-/**
- * Select two different random characters, avoiding previous selection if possible
- */
-function selectRandomCharacters() {
-    const characters = state.characterFiles.length >= CONFIG.CHARACTER.MIN_FILES
-        ? state.characterFiles
-        : CONFIG.CHARACTER.DEFAULT_FILES;
-
-    const shuffled = shuffleArray(characters);
-
-    // Try to avoid repeating the same characters
-    let [left, right] = shuffled;
-
-    if (state.previousCharacters.length === 2) {
-        const [prevLeft, prevRight] = state.previousCharacters;
-
-        // If both characters are the same as before, try to find different ones
-        if ((left === prevLeft && right === prevRight) || (left === prevRight && right === prevLeft)) {
-            // Find a character that wasn't shown before
-            for (let i = 0; i < shuffled.length; i++) {
-                if (shuffled[i] !== prevLeft && shuffled[i] !== prevRight) {
-                    left = shuffled[i];
-                    break;
-                }
-            }
-            // Find another different character
-            for (let i = 0; i < shuffled.length; i++) {
-                if (shuffled[i] !== left && shuffled[i] !== prevLeft && shuffled[i] !== prevRight) {
-                    right = shuffled[i];
-                    break;
-                }
-            }
-        }
-    }
-
-    state.previousCharacters = [left, right];
-    return [left, right];
-}
-
-/**
- * Update character images
- */
-function randomizeCharacters() {
-    const leftChar = document.querySelector('.character-peek-left');
-    const rightChar = document.querySelector('.character-peek-right');
-
-    if (!leftChar || !rightChar) return;
-
-    const [left, right] = selectRandomCharacters();
-
-    leftChar.src = `${CONFIG.CHARACTER.DIRECTORY_URL}${left}`;
-    leftChar.setAttribute('data-character', removeExtension(left));
-
-    rightChar.src = `${CONFIG.CHARACTER.DIRECTORY_URL}${right}`;
-    rightChar.setAttribute('data-character', removeExtension(right));
-}
+};
 
 // ============================================
-// Hero Animation
+// UI Components
 // ============================================
+const UI = {
+    /**
+     * Update footer year to current year
+     */
+    updateFooterYear() {
+        const yearElement = DOM.getById('current-year');
+        DOM.setText(yearElement, new Date().getFullYear());
+    },
 
-/**
- * Trigger logo jiggle animation
- */
-function triggerLogoJiggle(logoElement) {
-    logoElement.classList.remove('is-jiggle');
-    void logoElement.offsetWidth; // Force reflow to restart animation
-    logoElement.classList.add('is-jiggle');
-}
+    /**
+     * Update logo hint based on device type
+     */
+    updateLogoHint() {
+        const logoHint = DOM.getById('hero-logo-hint');
+        const hintText = Utils.isTouchDevice() ? '＼ロゴをタップ／' : '＼ロゴをクリック／';
+        DOM.setText(logoHint, hintText);
+    },
 
-/**
- * Hide characters with slide out animation
- */
-function hideCharacters(sectionElement) {
-    sectionElement.classList.remove('show-characters');
-    sectionElement.classList.add('hide-characters');
-}
+    /**
+     * Setup navbar scroll effect
+     */
+    setupNavbarScroll() {
+        const navbar = DOM.getById('navbar');
+        if (!navbar) return;
 
-/**
- * Show characters with slide in animation
- * Uses double requestAnimationFrame to ensure proper rendering
- */
-function showCharacters(sectionElement) {
-    requestAnimationFrame(() => {
-        sectionElement.classList.remove('hide-characters');
+        const handleScroll = () => {
+            const shouldAddClass = window.pageYOffset > CONFIG.ANIMATION.NAVBAR_SCROLL_THRESHOLD;
+            navbar.classList.toggle('scrolled', shouldAddClass);
+        };
 
-        requestAnimationFrame(() => {
-            sectionElement.classList.add('show-characters');
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+};
+
+// ============================================
+// Activity Management
+// ============================================
+const Activity = {
+    /**
+     * Create activity item DOM element
+     */
+    createActivityElement(activity) {
+        const activityElement = DOM.create('div', 'activity-item');
+
+        const dateElement = DOM.create('div', 'activity-date');
+        dateElement.textContent = activity.date;
+        activityElement.appendChild(dateElement);
+
+        const contentWrapper = DOM.create('div', 'activity-content');
+        activity.content.forEach(line => {
+            const contentElement = DOM.create('p');
+            contentElement.textContent = line;
+            contentWrapper.appendChild(contentElement);
         });
-    });
-}
+        activityElement.appendChild(contentWrapper);
 
-/**
- * Perform character swap animation sequence
- */
-function performCharacterSwap(heroSection, heroLogo) {
-    return new Promise((resolve) => {
-        // Start animations
-        triggerLogoJiggle(heroLogo);
-        hideCharacters(heroSection);
+        return activityElement;
+    },
 
-        // Wait for slide out, then swap characters
-        setTimeout(() => {
-            randomizeCharacters();
-            showCharacters(heroSection);
-        }, CONFIG.ANIMATION.SLIDE_OUT_DURATION);
+    /**
+     * Display activities in container
+     */
+    displayActivities(container, activities) {
+        container.innerHTML = '';
+        const recentActivities = activities.slice(0, CONFIG.ACTIVITY.DISPLAY_COUNT);
+        recentActivities.forEach(activity => {
+            container.appendChild(this.createActivityElement(activity));
+        });
+    },
 
-        // Complete animation
-        setTimeout(() => {
-            heroLogo.classList.remove('is-jiggle');
-            resolve();
-        }, CONFIG.ANIMATION.JIGGLE_DURATION);
-    });
-}
+    /**
+     * Display error or empty message
+     */
+    displayMessage(container, message) {
+        container.innerHTML = `<p class="activity-content">${message}</p>`;
+    },
 
-/**
- * Setup hero section click animation
- */
-function setupHeroAnimation() {
-    const heroSection = document.querySelector('.hero-section');
-    const heroLogo = document.querySelector('.hero-logo');
-    const heroMainRow = document.querySelector('.hero-main-row');
-
-    if (!heroSection || !heroLogo || !heroMainRow) return;
-
-    let isAnimating = false;
-
-    heroMainRow.addEventListener('click', async (e) => {
-        // Ignore clicks on links and buttons
-        if (e.target.closest('a') || e.target.closest('button')) return;
-
-        // Prevent animation overlap
-        if (isAnimating) return;
-
-        isAnimating = true;
+    /**
+     * Fetch and display activity history
+     */
+    async fetch() {
+        const container = DOM.getById('activity-list');
+        if (!container) return;
 
         try {
-            await performCharacterSwap(heroSection, heroLogo);
-        } finally {
-            isAnimating = false;
+            const response = await fetch(CONFIG.ACTIVITY.JSON_URL);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data?.activities?.length > 0) {
+                this.displayActivities(container, data.activities);
+            } else {
+                this.displayMessage(container, CONFIG.ACTIVITY.EMPTY_MESSAGE);
+            }
+        } catch (error) {
+            console.error('活動履歴の読み込みに失敗しました:', error);
+            this.displayMessage(container, CONFIG.ACTIVITY.ERROR_MESSAGE);
         }
-    });
-}
+    }
+};
 
 // ============================================
-// Initialization
+// Character Management
 // ============================================
+const CharacterLoader = {
+    /**
+     * Try loading character files from manifest
+     */
+    async loadFromManifest() {
+        try {
+            const response = await fetch(CONFIG.CHARACTER.MANIFEST_URL, { cache: 'no-cache' });
+            if (!response.ok) return null;
 
-/**
- * Initialize all components
- */
-async function init() {
-    updateFooterYear();
-    setupNavbarScroll();
-    updateLogoHint();
+            const manifest = await response.json();
+            if (!manifest?.files || !Array.isArray(manifest.files)) return null;
 
-    fetchActivityHistory();
+            const filtered = Utils.filterImageFiles(manifest.files);
+            const unique = Utils.unique(filtered);
 
-    await loadCharacterFiles();
-    randomizeCharacters();
+            return unique.length >= CONFIG.CHARACTER.MIN_FILES ? unique : null;
+        } catch (error) {
+            return null;
+        }
+    },
 
-    setupHeroAnimation();
-}
+    /**
+     * Try loading character files from directory listing
+     */
+    async loadFromDirectory() {
+        try {
+            const response = await fetch(CONFIG.CHARACTER.DIRECTORY_URL);
+            if (!response.ok) {
+                return response.status === 403 || response.status === 404 ? null : null;
+            }
 
-// Start when DOM is ready
-document.addEventListener('DOMContentLoaded', init);
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const files = Array.from(doc.querySelectorAll('a[href]'))
+                .map(link => link.getAttribute('href') || '')
+                .map(href => href.split('/').pop() || '')
+                .filter(name => CONFIG.CHARACTER.IMAGE_EXTENSIONS.test(name));
+
+            const unique = Utils.unique(files);
+            return unique.length >= CONFIG.CHARACTER.MIN_FILES ? unique : null;
+        } catch (error) {
+            console.warn('キャラクター画像一覧の取得に失敗したため、既定値を使用します。', error);
+            return null;
+        }
+    },
+
+    /**
+     * Load character files with fallback strategy
+     */
+    async load() {
+        const fromManifest = await this.loadFromManifest();
+        if (fromManifest) {
+            state.characterFiles = fromManifest;
+            return;
+        }
+
+        const fromDirectory = await this.loadFromDirectory();
+        if (fromDirectory) {
+            state.characterFiles = fromDirectory;
+            return;
+        }
+
+        state.characterFiles = [...CONFIG.CHARACTER.DEFAULT_FILES];
+    }
+};
+
+const Character = {
+    /**
+     * Find character different from previous ones
+     */
+    findDifferentCharacter(shuffled, excludeList) {
+        return shuffled.find(char => !excludeList.includes(char));
+    },
+
+    /**
+     * Select two different random characters, avoiding previous selection
+     */
+    selectRandomPair() {
+        const characters = state.characterFiles.length >= CONFIG.CHARACTER.MIN_FILES
+            ? state.characterFiles
+            : CONFIG.CHARACTER.DEFAULT_FILES;
+
+        const shuffled = Utils.shuffleArray(characters);
+        let [left, right] = shuffled;
+
+        // Avoid repeating the same pair
+        if (state.previousCharacters.length === 2) {
+            const [prevLeft, prevRight] = state.previousCharacters;
+            const isSamePair = (left === prevLeft && right === prevRight) ||
+                               (left === prevRight && right === prevLeft);
+
+            if (isSamePair && shuffled.length > 2) {
+                left = this.findDifferentCharacter(shuffled, [prevLeft, prevRight]) || left;
+                right = this.findDifferentCharacter(shuffled, [left, prevLeft, prevRight]) || right;
+            }
+        }
+
+        state.previousCharacters = [left, right];
+        return [left, right];
+    },
+
+    /**
+     * Update character images in DOM
+     */
+    updateImages() {
+        const leftChar = DOM.get(CONFIG.SELECTORS.CHARACTER_LEFT);
+        const rightChar = DOM.get(CONFIG.SELECTORS.CHARACTER_RIGHT);
+
+        if (!leftChar || !rightChar) return;
+
+        const [left, right] = this.selectRandomPair();
+
+        leftChar.src = `${CONFIG.CHARACTER.DIRECTORY_URL}${left}`;
+        leftChar.setAttribute('data-character', Utils.removeExtension(left));
+
+        rightChar.src = `${CONFIG.CHARACTER.DIRECTORY_URL}${right}`;
+        rightChar.setAttribute('data-character', Utils.removeExtension(right));
+    }
+};
+
+// ============================================
+// Animation System
+// ============================================
+const Animation = {
+    /**
+     * Trigger logo jiggle animation
+     */
+    triggerLogoJiggle(logoElement) {
+        logoElement.classList.remove('is-jiggle');
+        DOM.forceReflow(logoElement);
+        logoElement.classList.add('is-jiggle');
+    },
+
+    /**
+     * Hide characters with slide out animation
+     */
+    hideCharacters(sectionElement) {
+        sectionElement.classList.remove('show-characters');
+        sectionElement.classList.add('hide-characters');
+    },
+
+    /**
+     * Show characters with slide in animation
+     */
+    showCharacters(sectionElement) {
+        sectionElement.classList.remove('hide-characters');
+        DOM.forceReflow(sectionElement);
+
+        setTimeout(() => {
+            sectionElement.classList.add('show-characters');
+        }, CONFIG.ANIMATION.RENDER_DELAY);
+    },
+
+    /**
+     * Perform complete character swap animation sequence
+     */
+    async performCharacterSwap(heroSection, heroLogo) {
+        return new Promise((resolve) => {
+            // Start animations
+            this.triggerLogoJiggle(heroLogo);
+            this.hideCharacters(heroSection);
+
+            // Swap characters after slide out
+            setTimeout(() => {
+                Character.updateImages();
+
+                // Show characters after brief delay
+                setTimeout(() => {
+                    this.showCharacters(heroSection);
+                }, CONFIG.ANIMATION.SLIDE_IN_DELAY);
+            }, CONFIG.ANIMATION.SLIDE_OUT_DURATION);
+
+            // Complete animation
+            setTimeout(() => {
+                heroLogo.classList.remove('is-jiggle');
+                resolve();
+            }, CONFIG.ANIMATION.JIGGLE_DURATION);
+        });
+    },
+
+    /**
+     * Setup hero section click animation handler
+     */
+    setupHeroAnimation() {
+        const heroSection = DOM.get(CONFIG.SELECTORS.HERO_SECTION);
+        const heroLogo = DOM.get(CONFIG.SELECTORS.HERO_LOGO);
+        const heroMainRow = DOM.get(CONFIG.SELECTORS.HERO_MAIN_ROW);
+
+        if (!heroSection || !heroLogo || !heroMainRow) return;
+
+        const handleClick = async (e) => {
+            // Ignore clicks on interactive elements
+            if (e.target.closest('a') || e.target.closest('button')) return;
+
+            // Prevent animation overlap
+            if (state.isAnimating) return;
+
+            state.isAnimating = true;
+
+            try {
+                await this.performCharacterSwap(heroSection, heroLogo);
+            } finally {
+                state.isAnimating = false;
+            }
+        };
+
+        heroMainRow.addEventListener('click', handleClick);
+    }
+};
+
+// ============================================
+// Application Initialization
+// ============================================
+const App = {
+    /**
+     * Initialize all application components
+     */
+    async init() {
+        // UI setup
+        UI.updateFooterYear();
+        UI.setupNavbarScroll();
+        UI.updateLogoHint();
+
+        // Load content
+        Activity.fetch();
+        await CharacterLoader.load();
+        Character.updateImages();
+
+        // Setup interactions
+        Animation.setupHeroAnimation();
+    }
+};
+
+// Start application when DOM is ready
+document.addEventListener('DOMContentLoaded', () => App.init());

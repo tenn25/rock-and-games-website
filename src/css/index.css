@@ -249,8 +249,8 @@
     top: 0;
     z-index: 1;
     pointer-events: none;
-    transition: opacity 0.16s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.12s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.12s cubic-bezier(0.4, 0, 0.2, 1);
 
     /* Default hidden state */
     opacity: 0;
