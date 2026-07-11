@@ -1,66 +1,141 @@
-/* ============================================
-   Common Styles - Shared across all pages
-   ============================================ */
 
-/* Reset & Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --paper:        #15110c;   /* 黒箱の地（ページ背景） */
+    --paper-2:      #211b13;   /* カード・パネル面（一段持ち上げる） */
+    --paper-3:      #1b1610;   /* 卓（ヒーロー）の板 */
+    --ink:          #eae1cf;   /* 白インク（文字・見出し） */
+    --ink-2:        #bcb19a;   /* 二次テキスト */
+    --ink-3:        #8a8070;   /* 補助・キャプション */
+    --deep:         #1a1410;   /* 金や朱のチップに載せる黒文字 */
+    --vermilion:    #d94a31;   /* signature スポットインク（朱・文字/マーク用） */
+    --vermilion-ink:#b7301d;   /* 白文字を載せる濃い朱（スタンプ地） */
+    --table:        #579a80;   /* 卓のフェルト緑（サブ・黒地で読める明度） */
+    --gold:         #c2933a;   /* 硬貨/駒の金（ごく控えめに） */
+
+    /* 駒色（プレイヤーカラー）— メンバートークン専用の差し色 */
+    --piece-blue:   #6d94c4;
+    --piece-plum:   #a381c0;
+
+    /* 罫線はテキストより暗く。輪郭は主張しすぎない */
+    --line:         rgba(216, 205, 184, 0.42);  /* カード・パネルの輪郭 */
+    --rule:         rgba(216, 205, 184, 0.12);  /* 区切りの細罫 */
+    --rule-strong:  rgba(216, 205, 184, 0.28);  /* 破線・強調罫 */
+
+    /* --- Type --- */
+    --font-jp:      'Zen Kaku Gothic New', 'Archivo', system-ui, sans-serif;
+    --font-latin:   'Archivo', 'Zen Kaku Gothic New', system-ui, sans-serif;
+
+    --shadow-card:  6px 7px 0 rgba(0, 0, 0, 0.5);
+    --shadow-lid:   0 18px 28px rgba(0, 0, 0, 0.55);
 }
+
+/* ---------- Reset / base ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
-    font-family: 'Inter', 'Noto Sans JP', -apple-system, sans-serif;
-    background: #0a0a0a;
-    color: #e2e8f0;
+    font-family: var(--font-jp);
+    background-color: var(--paper);
+    /* 卓上の座標ドット。極薄で「盤面」を匂わせる程度に。 */
+    background-image: radial-gradient(var(--rule) 1px, transparent 1.4px);
+    background-size: 26px 26px;
+    background-position: -13px -13px;
+    color: var(--ink);
     min-height: 100vh;
     overflow-x: hidden;
-    position: relative;
-    /* Prevent layout shift during font loading */
-    font-display: swap;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+a { color: inherit; }
 
-/* Main Container */
 .container {
-    max-width: 1280px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
-/* Footer */
-footer {
-    background: #0f0f0f;
-    border-top: 1px solid #2d3748;
-    padding: 40px 0;
+/* Latin ラベル（GAMES / LOG など構造ラベル）は Archivo 大文字で刷り込む */
+.eyebrow {
+    font-family: var(--font-latin);
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--vermilion);
+}
+
+/* 見出し（和文）は Zen Kaku 900、詰め気味に */
+.section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 44px;
     text-align: center;
+}
+.section-title {
+    font-family: var(--font-jp);
+    font-weight: 900;
+    font-size: clamp(1.7rem, 4.4vw, 2.5rem);
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    line-height: 1.15;
+}
+/* 見出し下の朱の罫（ダイスの目マーカー付き） */
+.section-title-rule {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+}
+.section-title-rule::before,
+.section-title-rule::after {
+    content: "";
+    width: 46px;
+    height: 3px;
+    background: var(--rule-strong);
+}
+.pip {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--vermilion);
+    box-shadow: 14px 0 0 var(--rule-strong), -14px 0 0 var(--rule-strong);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+    background: #0c0a07;
+    color: var(--ink);
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    padding: 30px 0;
     position: relative;
     z-index: 1;
 }
+.footer-text { font-size: 0.84rem; letter-spacing: 0.04em; opacity: 0.85; }
 
-.footer-text {
-    color: #718096;
-    font-size: 0.875rem;
+/* ============================================================
+   Focus / a11y
+   ============================================================ */
+a:focus-visible,
+.hero-main-row:focus-visible {
+    outline: 3px solid var(--vermilion);
+    outline-offset: 3px;
+    border-radius: 2px;
 }
 
-/* Scrollbar styling */
-body::-webkit-scrollbar {
-    width: 10px;
+/* Reduced motion — 演出は1つに絞る精神。動きを尊重して止める。 */
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
 
-body::-webkit-scrollbar-track {
-    background: rgba(45, 55, 72, 0.5);
+@media (max-width: 640px) {
+    .container { padding: 0 18px; }
+    .section-title-rule::before,
+    .section-title-rule::after { width: 30px; }
 }
-
-body::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #6366f1, #4f46e5);
-    border-radius: 5px;
-}
-
-body::-webkit-scrollbar-thumb:hover {
-    background: #6366f1;
-}
-

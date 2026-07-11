@@ -15,50 +15,61 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@69andGames" />
     <title>Rock and Games アナログゲームサークル</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/common.css?v=4">
-    <link rel="stylesheet" href="css/index.css?v=4">
+    <link rel="stylesheet" href="css/common.css?v=9">
+    <link rel="stylesheet" href="css/index.css?v=9">
 </head>
 
 <body>
+    <!-- Inline icon symbols: meeple / hourglass -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="i-meeple" viewBox="0 0 24 24">
+            <path d="M12 1.8c1.6 0 2.9 1.3 2.9 2.9 0 1-.5 1.9-1.3 2.4l3.6 1.7c.9.5 1.5 1.4 1.5 2.4v.7c0 .6-.5 1.1-1.1 1.1h-3.4l.9 6.6c.1.8-.5 1.5-1.3 1.5H9.3c-.8 0-1.4-.7-1.3-1.5l.9-6.6H5.5c-.6 0-1.1-.5-1.1-1.1v-.7c0-1 .6-1.9 1.5-2.4l3.6-1.7c-.8-.5-1.3-1.4-1.3-2.4C8.2 3.1 9.5 1.8 11 1.8z"/>
+        </symbol>
+        <symbol id="i-timer" viewBox="0 0 24 24">
+            <path d="M6 3h12a1 1 0 0 1 0 2h-1v2.3a4 4 0 0 1-1.6 3.2L13.1 12l2.3 1.5A4 4 0 0 1 17 16.7V19h1a1 1 0 0 1 0 2H6a1 1 0 0 1 0-2h1v-2.3a4 4 0 0 1 1.6-3.2L10.9 12 8.6 10.5A4 4 0 0 1 7 7.3V5H6a1 1 0 0 1 0-2zm3 2v2.3c0 .5.2.9.6 1.2L12 10l2.4-1.5c.4-.3.6-.7.6-1.2V5H9z"/>
+        </symbol>
+    </svg>
+
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 w-full bg-white/98 backdrop-blur-lg border-b border-gray-200/60 z-[9999]" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="flex justify-between items-center h-16">
-                <a href="./index.html" class="flex-shrink-0">
-                    <img src="images/Circle_Logo_Rectangle.png" alt="Rock and Games" class="h-8 sm:h-10 w-auto">
-                </a>
-                <a href="https://bodoge.hoobby.net/market/items?q%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank" class="nav-purchase-btn">
-                    <span class="hidden sm:inline">ゲームの購入はこちら</span>
-                    <span class="sm:hidden">購入</span>
-                </a>
-            </div>
+    <nav class="site-nav" id="navbar">
+        <div class="nav-inner">
+            <a href="./index.html" class="nav-logo">
+                <img src="images/Circle_Logo_Rectangle.png" alt="Rock and Games">
+            </a>
+            <a href="https://bodoge.hoobby.net/market/items?q%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank" rel="noopener" class="nav-stamp">
+                <span class="full">ゲームの購入はこちら</span>
+                <span class="short">購入</span>
+            </a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero-section">
         <div class="hero-container">
-            <!-- Main row with logo and characters -->
-            <div class="hero-main-row">
+            <div class="hero-main-row" tabindex="0" role="button" aria-label="ロゴをタップしてキャラクターを入れ替える">
                 <p class="hero-logo-hint" id="hero-logo-hint">＼ロゴをタップ／</p>
-                <img src="images/character/anubis.png" alt="Character" class="character-peek character-peek-left">
+                <img src="images/character/anubis.png" alt="" class="character-peek character-peek-left">
                 <img src="images/Circle_Logo.png" alt="Rock and Games" class="hero-logo">
-                <img src="images/character/bastet.png" alt="Character" class="character-peek character-peek-right">
+                <img src="images/character/bastet.png" alt="" class="character-peek character-peek-right">
             </div>
 
-            <!-- Text content below -->
             <div class="hero-text-container">
-                <p class="hero-subtitle">
-                    Web・ゲーム業界で活動するメンバーを中心に構成された、<span class="no-break">アナログゲームサークル</span>です。<br> 企画・<span class="no-break">デザイン</span>・制作まで、<span class="no-break">オリジナル作品</span>をすべて自分たちで手がけています。<br> ゲームマーケットへの出展や通販を通じて、作品をお届けしています。
-                </p>
+                <div class="hero-blurb">
+                    <span class="hero-blurb-label">About the circle</span>
+                    <p class="hero-subtitle">
+                        Web・ゲーム業界で活動するメンバーを中心に構成された、<span class="no-break">アナログゲームサークルです。</span><br>
+                        企画・<span class="no-break">デザイン</span>・制作まで、<span class="no-break">オリジナル作品</span>をすべて自分たちで手がけています。<br>
+                        ゲームマーケットへの出展や通販を通じて、作品をお届けしています。
+                    </p>
+                </div>
 
-                <a href="https://twitter.com/69andgames" target="_blank" class="hero-x-link">
+                <a href="https://twitter.com/69andgames" target="_blank" rel="noopener" class="hero-x-link">
                     <svg viewBox="0 0 24 24" aria-hidden="true" class="x-icon">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
                     </svg>
@@ -68,128 +79,102 @@
         </div>
     </section>
 
-    <!-- Games Section -->
+    <!-- Games -->
     <section class="games-section">
         <div class="container">
-            <h2 class="section-title">制作ゲーム</h2>
+            <div class="section-head">
+                <span class="eyebrow">Our games</span>
+                <h2 class="section-title">制作ゲーム</h2>
+                <div class="section-title-rule"><span class="pip"></span></div>
+            </div>
 
             <div class="games-grid">
-                <!-- GOAT -->
-                <a href="https://gamemarket.jp/game/186200" target="_blank" class="game-card">
-                    <div class="game-image-wrapper">
-                        <img src="images/goat_top.png" alt="GOAT" class="game-image">
-                    </div>
-                    <div class="game-content">
+                <a href="https://gamemarket.jp/game/186200" target="_blank" rel="noopener" class="game-card">
+                    <div class="game-frame"><img src="images/goat_top.png" alt="GOAT" class="game-image"></div>
+                    <div class="game-body">
                         <h3 class="game-title">GOAT</h3>
-                        <p class="game-description">ようこそ、悪魔の遊び場へ。味方にするべきものは、運か、それとも悪魔か。</p>
+                        <p class="game-desc">ようこそ、悪魔の遊び場へ。味方にするべきものは、運か、それとも悪魔か。</p>
                         <div class="game-tags">
-                            <span class="game-tag">悪魔</span>
-                            <span class="game-tag">契約</span>
-                            <span class="game-tag">ギャンブル</span>
+                            <span class="tag">悪魔</span><span class="tag">契約</span><span class="tag">ギャンブル</span>
                         </div>
                         <div class="game-meta">
-                            <span>2-5人</span>
-                            <span>30-45分</span>
+                            <span class="meta"><svg><use href="#i-meeple"></use></svg>2-5人</span>
+                            <span class="meta"><svg><use href="#i-timer"></use></svg>30-45分</span>
                         </div>
                     </div>
                 </a>
 
-                <!-- ナビラビ拡張キット -->
-                <a href="https://navirabi.rock-and-games.com/" target="_blank" class="game-card">
-                    <div class="game-image-wrapper">
-                        <img src="images/navirabi2_top.png" alt="ナビラビ拡張キット" class="game-image">
-                    </div>
-                    <div class="game-content">
+                <a href="https://navirabi.rock-and-games.com/" target="_blank" rel="noopener" class="game-card">
+                    <div class="game-frame"><img src="images/navirabi2_top.png" alt="ナビラビ拡張キット" class="game-image"></div>
+                    <div class="game-body">
                         <h3 class="game-title">ナビラビ拡張キット</h3>
-                        <p class="game-description">新キャラ「ティラミス」が登場！5人でも遊べるようになりました。</p>
+                        <p class="game-desc">新キャラ「ティラミス」が登場！5人でも遊べるようになりました。</p>
                         <div class="game-tags">
-                            <span class="game-tag">SF</span>
-                            <span class="game-tag">コミュニケーション制限</span>
-                            <span class="game-tag">チーム戦</span>
+                            <span class="tag">SF</span><span class="tag">コミュニケーション制限</span><span class="tag">チーム戦</span>
                         </div>
                         <div class="game-meta">
-                            <span>4-5人</span>
-                            <span>15-30分</span>
+                            <span class="meta"><svg><use href="#i-meeple"></use></svg>4-5人</span>
+                            <span class="meta"><svg><use href="#i-timer"></use></svg>15-30分</span>
                         </div>
                     </div>
                 </a>
 
-                <!-- カミサマーケット -->
-                <a href="https://bodoge.hoobby.net/games/kamisamarket?srsltid=AfmBOopf605VqAe9udKqRPPCXrj_te0zJedpfD32wUBIiytEM6xDSaO2" target="_blank" class="game-card">
-                    <div class="game-image-wrapper">
-                        <img src="images/kamima_top.png" alt="カミサマーケット" class="game-image">
-                    </div>
-                    <div class="game-content">
+                <a href="https://bodoge.hoobby.net/games/kamisamarket?srsltid=AfmBOopf605VqAe9udKqRPPCXrj_te0zJedpfD32wUBIiytEM6xDSaO2" target="_blank" rel="noopener" class="game-card">
+                    <div class="game-frame"><img src="images/kamima_top.png" alt="カミサマーケット" class="game-image"></div>
+                    <div class="game-body">
                         <h3 class="game-title">カミサマーケット</h3>
-                        <p class="game-description">セカイの価値はカミサマのみぞ知る。「価値変動」する世界創造バトル！</p>
+                        <p class="game-desc">セカイの価値はカミサマのみぞ知る。「価値変動」する世界創造バトル！</p>
                         <div class="game-tags">
-                            <span class="game-tag">神様</span>
-                            <span class="game-tag">市場操作</span>
-                            <span class="game-tag">価値変動</span>
+                            <span class="tag">神様</span><span class="tag">市場操作</span><span class="tag">価値変動</span>
                         </div>
                         <div class="game-meta">
-                            <span>2-5人</span>
-                            <span>30-50分</span>
+                            <span class="meta"><svg><use href="#i-meeple"></use></svg>2-5人</span>
+                            <span class="meta"><svg><use href="#i-timer"></use></svg>30-50分</span>
                         </div>
                     </div>
                 </a>
 
-                <!-- ナビラビ -->
-                <a href="https://navirabi.rock-and-games.com/" target="_blank" class="game-card">
-                    <div class="game-image-wrapper">
-                        <img src="images/navirabi_top.png" alt="ナビラビ" class="game-image">
-                    </div>
-                    <div class="game-content">
+                <a href="https://navirabi.rock-and-games.com/" target="_blank" rel="noopener" class="game-card">
+                    <div class="game-frame"><img src="images/navirabi_top.png" alt="ナビラビ" class="game-image"></div>
+                    <div class="game-body">
                         <h3 class="game-title">ナビラビ</h3>
-                        <p class="game-description">信じて行動。見極めろ指令。新感覚の以心伝心二人羽織ゲーム！</p>
+                        <p class="game-desc">信じて行動。見極めろ指令。新感覚の以心伝心二人羽織ゲーム！</p>
                         <div class="game-tags">
-                            <span class="game-tag">SF</span>
-                            <span class="game-tag">コミュニケーション制限</span>
-                            <span class="game-tag">チーム戦</span>
+                            <span class="tag">SF</span><span class="tag">コミュニケーション制限</span><span class="tag">チーム戦</span>
                         </div>
                         <div class="game-meta">
-                            <span>4人</span>
-                            <span>15-30分</span>
+                            <span class="meta"><svg><use href="#i-meeple"></use></svg>4人</span>
+                            <span class="meta"><svg><use href="#i-timer"></use></svg>15-30分</span>
                         </div>
                     </div>
                 </a>
 
-                <!-- ハイエナ勇者 拡張版 -->
-                <a href="https://haiena.rock-and-games.com/" target="_blank" class="game-card">
-                    <div class="game-image-wrapper">
-                        <img src="images/haiena2_top.jpg" alt="ハイエナ勇者はサボリたい（拡張版）" class="game-image">
-                    </div>
-                    <div class="game-content">
+                <a href="https://haiena.rock-and-games.com/" target="_blank" rel="noopener" class="game-card">
+                    <div class="game-frame"><img src="images/haiena2_top.jpg" alt="ハイエナ勇者はサボリたい（拡張版）" class="game-image"></div>
+                    <div class="game-body">
                         <h3 class="game-title">ハイエナ勇者はサボリたい（拡張版）</h3>
-                        <p class="game-description">気になるあの娘「ハイエナちゃん」が登場！あの娘の前じゃサボれない！？</p>
+                        <p class="game-desc">気になるあの娘「ハイエナちゃん」が登場！あの娘の前じゃサボれない！？</p>
                         <div class="game-tags">
-                            <span class="game-tag">異世界ファンタジー</span>
-                            <span class="game-tag">ブラフ</span>
-                            <span class="game-tag">駆け引き</span>
+                            <span class="tag">異世界ファンタジー</span><span class="tag">ブラフ</span><span class="tag">駆け引き</span>
                         </div>
                         <div class="game-meta">
-                            <span>3-6人</span>
-                            <span>10-15分</span>
+                            <span class="meta"><svg><use href="#i-meeple"></use></svg>3-6人</span>
+                            <span class="meta"><svg><use href="#i-timer"></use></svg>10-15分</span>
                         </div>
                     </div>
                 </a>
 
-                <!-- ハイエナ勇者 -->
-                <a href="https://haiena.rock-and-games.com/" target="_blank" class="game-card">
-                    <div class="game-image-wrapper">
-                        <img src="images/haiena_top.png" alt="ハイエナ勇者はサボリたい" class="game-image">
-                    </div>
-                    <div class="game-content">
+                <a href="https://haiena.rock-and-games.com/" target="_blank" rel="noopener" class="game-card">
+                    <div class="game-frame"><img src="images/haiena_top.png" alt="ハイエナ勇者はサボリたい" class="game-image"></div>
+                    <div class="game-body">
                         <h3 class="game-title">ハイエナ勇者はサボリたい</h3>
-                        <p class="game-description">軽ゲーの新定番！協力×駆け引き 新感覚サボタージュRPG</p>
+                        <p class="game-desc">軽ゲーの新定番！協力×駆け引き 新感覚サボタージュRPG</p>
                         <div class="game-tags">
-                            <span class="game-tag">異世界ファンタジー</span>
-                            <span class="game-tag">ブラフ</span>
-                            <span class="game-tag">駆け引き</span>
+                            <span class="tag">異世界ファンタジー</span><span class="tag">ブラフ</span><span class="tag">駆け引き</span>
                         </div>
                         <div class="game-meta">
-                            <span>3-6人</span>
-                            <span>10-15分</span>
+                            <span class="meta"><svg><use href="#i-meeple"></use></svg>3-6人</span>
+                            <span class="meta"><svg><use href="#i-timer"></use></svg>10-15分</span>
                         </div>
                     </div>
                 </a>
@@ -197,82 +182,54 @@
         </div>
     </section>
 
-    <!-- Activity & Members Section -->
+    <!-- Activity & Members -->
     <section class="info-section">
         <div class="container">
             <div class="info-grid">
-                <!-- Activity History -->
                 <div class="info-card">
-                    <h2 class="info-card-title">活動履歴</h2>
+                    <div class="section-head" style="align-items:flex-start;text-align:left;margin-bottom:28px;">
+                        <span class="eyebrow">Log</span>
+                        <h2 class="section-title">活動履歴</h2>
+                    </div>
                     <div id="activity-list" class="activity-list">
-                        <div class="activity-item">
-                            <p class="activity-content">活動履歴を読み込み中...</p>
-                        </div>
+                        <div class="activity-item"><p class="activity-content">活動履歴を読み込み中...</p></div>
                     </div>
-                    <div class="text-left">
-                        <a href="profile.html" class="btn-more">
-                            もっと見る
-                        </a>
-                    </div>
+                    <a href="profile.html" class="btn-more">もっと見る</a>
                 </div>
 
-                <!-- Members -->
                 <div class="info-card">
-                    <h2 class="info-card-title">メンバー</h2>
+                    <div class="section-head" style="align-items:flex-start;text-align:left;margin-bottom:28px;">
+                        <span class="eyebrow">Members</span>
+                        <h2 class="section-title">メンバー</h2>
+                    </div>
                     <div class="members-grid">
-                        <div class="member-card">
-                            <p class="member-name">tenn25</p>
-                        </div>
-                        <div class="member-card">
-                            <p class="member-name">f.a.d</p>
-                        </div>
-                        <div class="member-card">
-                            <p class="member-name">Do</p>
-                        </div>
-                        <div class="member-card">
-                            <p class="member-name">KEI</p>
-                        </div>
-                        <div class="member-card">
-                            <p class="member-name">KOJI</p>
-                        </div>
-                        <div class="member-card">
-                            <p class="member-name">ringo</p>
-                        </div>
+                        <div class="member-card"><svg class="member-token"><use href="#i-meeple"></use></svg><p class="member-name">tenn25</p></div>
+                        <div class="member-card"><svg class="member-token"><use href="#i-meeple"></use></svg><p class="member-name">f.a.d</p></div>
+                        <div class="member-card"><svg class="member-token"><use href="#i-meeple"></use></svg><p class="member-name">Do</p></div>
+                        <div class="member-card"><svg class="member-token"><use href="#i-meeple"></use></svg><p class="member-name">KEI</p></div>
+                        <div class="member-card"><svg class="member-token"><use href="#i-meeple"></use></svg><p class="member-name">KOJI</p></div>
+                        <div class="member-card"><svg class="member-token"><use href="#i-meeple"></use></svg><p class="member-name">ringo</p></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Links Section -->
+    <!-- Links -->
     <section class="links-section">
         <div class="container">
-            <h2 class="section-title">関連リンク</h2>
-
+            <div class="section-head">
+                <span class="eyebrow">Links</span>
+                <h2 class="section-title">関連リンク</h2>
+                <div class="section-title-rule"><span class="pip"></span></div>
+            </div>
             <div class="links-container">
-                <a href="https://bodoge.hoobby.net/games?search%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank" class="link-button">
-                    ボドゲーマ
-                </a>
-
-                <a href="https://twitter.com/69andgames" target="_blank" class="link-button">
-                    X
-                </a>
-
-                <a href="https://www.youtube.com/@rockandgames455" target="_blank" class="link-button">
-                    YouTube
-                </a>
-
-                <a href="https://note.com/rock_and_games" target="_blank" class="link-button">
-                    Note
-                </a>
-
-                <a href="mailto:69andgames@gmail.com" class="link-button">
-                    お問い合わせ
-                </a>
-
-                <a href="https://forms.gle/LG2kpvP7HJ8mgoKZA" target="_blank" class="link-button">
-                    アンケート
-                </a>
+                <a href="https://bodoge.hoobby.net/games?search%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank" rel="noopener" class="link-button">ボドゲーマ</a>
+                <a href="https://twitter.com/69andgames" target="_blank" rel="noopener" class="link-button">X</a>
+                <a href="https://www.youtube.com/@rockandgames455" target="_blank" rel="noopener" class="link-button">YouTube</a>
+                <a href="https://note.com/rock_and_games" target="_blank" rel="noopener" class="link-button">Note</a>
+                <a href="mailto:69andgames@gmail.com" class="link-button">お問い合わせ</a>
+                <a href="https://forms.gle/LG2kpvP7HJ8mgoKZA" target="_blank" rel="noopener" class="link-button">アンケート</a>
             </div>
         </div>
     </section>
@@ -323,7 +280,6 @@
     </script>
 
     <!-- External Scripts -->
-    <!-- Particles removed in favor of modern CSS effects -->
     <script src="js/index.js"></script>
 </body>
 

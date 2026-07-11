@@ -1,133 +1,135 @@
-/* ============================================
-   Profile Page Specific Styles
-   ============================================ */
+/* ============================================================
+   Profile Page — "Tabletop Press"
+   活動履歴の全ログ。共通の変数・見出し・フッターは common.css を参照。
+   ============================================================ */
 
 /* ======================
    NAVIGATION
    ====================== */
-
-#navbar {
-    background: rgba(250, 250, 250, 0.95) !important;
-    border-bottom: 1px solid rgba(229, 231, 235, 0.6) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+.site-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 9999;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    transition: box-shadow 0.25s ease;
 }
+.site-nav.scrolled {
+    box-shadow: 0 6px 0 -3px rgba(0, 0, 0, 0.4);
+}
+.nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+/* 横長ロゴPNGは黒刷りなので、黒地では白インクに反転させる */
+.nav-logo img { height: 34px; width: auto; display: block; filter: brightness(0) invert(0.93); }
 
+/* 戻るボタン = 版面の輪郭のみ（購入スタンプより控えめに） */
 .nav-back-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 24px;
-    background: transparent;
-    color: #4b5563;
-    font-size: 0.875rem;
-    font-weight: 600;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
+    gap: 8px;
+    padding: 9px 20px;
+    background: var(--paper);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
     text-decoration: none;
-    transition: all 0.2s ease;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
+.nav-back-btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55); background: var(--paper-2); }
+.nav-back-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.55); }
+.nav-back-btn .short { display: none; }
 
-.nav-back-btn:hover {
-    background: #f9fafb;
-    border-color: #6366f1;
-    color: #6366f1;
-}
-
-.nav-back-btn:active {
-    transform: scale(0.98);
-}
-
-@media (max-width: 640px) {
-    .nav-back-btn {
-        padding: 8px 16px;
-        font-size: 0.8rem;
-    }
-}
-
-/* Main Content */
+/* ======================
+   MAIN CONTENT
+   ====================== */
 .main-content {
-    margin-top: 64px; /* Fixed navbar height */
-    padding-top: 40px;
-    padding-bottom: 40px;
+    margin-top: 64px;
+    padding: 56px 0 80px;
     position: relative;
     z-index: 1;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.page-title {
-    font-size: 3rem;
-    font-weight: 700;
+.page-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
     text-align: center;
-    margin-bottom: 32px;
-    background: linear-gradient(135deg, #ffffff, #a5b4fc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    margin-bottom: 48px;
+}
+.page-title {
+    font-family: var(--font-jp);
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    line-height: 1.15;
 }
 
-/* Activity Card */
+/* ======================
+   ACTIVITY LOG
+   ====================== */
+#activity-container {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
 .activity-card {
-    background: transparent;
-    padding: 16px 0;
-    margin-bottom: 16px;
-    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+    padding: 18px 0 18px 24px;
+    border-bottom: 1px solid var(--rule);
     position: relative;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease;
 }
-
-.activity-card:hover {
-    transform: translateX(5px);
-    border-bottom-color: rgba(99, 102, 241, 0.3);
+.activity-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 25px;
+    width: 9px; height: 9px;
+    background: var(--vermilion);
 }
+.activity-card:hover { transform: translateX(4px); }
 
 .activity-date {
-    color: #818cf8;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 12px;
-    letter-spacing: 0.5px;
-}
-
-.activity-title {
-    font-size: 1.5rem;
+    font-family: var(--font-latin);
     font-weight: 700;
-    color: white;
-    margin-bottom: 20px;
-}
-
-.activity-description {
-    color: #cbd5e1;
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 20px;
-}
-
-.activity-content-item {
-    background: transparent;
-    padding: 6px 0;
-    margin-bottom: 6px;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    color: var(--table);
+    margin-bottom: 8px;
 }
 
 .activity-content-item p {
-    color: #cbd5e1;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 0;
+    color: var(--ink);
+    font-size: 1rem;
+    line-height: 1.65;
+}
+
+.activity-description {
+    color: var(--ink-2);
+    font-size: 1rem;
+    line-height: 1.65;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-    .page-title {
-        font-size: 2rem;
-    }
-
-    .activity-title {
-        font-size: 1.25rem;
-    }
+@media (max-width: 640px) {
+    .nav-logo img { height: 24px; }
+    .nav-back-btn { padding: 8px 14px; }
+    .nav-back-btn .full { display: none; }
+    .nav-back-btn .short { display: inline; }
+    .main-content { padding: 40px 0 60px; }
+    .activity-card { padding: 16px 0 16px 20px; }
 }

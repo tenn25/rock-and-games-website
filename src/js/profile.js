@@ -45,8 +45,17 @@ async function loadActivities() {
     }
 }
 
+// Update footer year
+function updateFooterYear() {
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) yearElement.textContent = new Date().getFullYear();
+}
+
 // Initialize
-document.addEventListener('DOMContentLoaded', loadActivities);
+document.addEventListener('DOMContentLoaded', () => {
+    loadActivities();
+    updateFooterYear();
+});
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
