@@ -43,14 +43,14 @@
     letter-spacing: 0.04em;
     text-decoration: none;
     border: 1px solid var(--line);
-    border-radius: 4px;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background 0.15s ease;
     flex-shrink: 0;
     white-space: nowrap;
 }
-.nav-back-btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55); background: var(--paper-2); }
-.nav-back-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.55); }
+.nav-back-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); background: var(--paper-2); }
+.nav-back-btn:active { transform: translateY(0) scale(0.97); }
 .nav-back-btn .short { display: none; }
 
 /* ======================
@@ -92,16 +92,14 @@
     padding: 18px 0 18px 24px;
     border-bottom: 1px solid var(--rule);
     position: relative;
-    transition: transform 0.2s ease;
 }
 .activity-card::before {
     content: "";
     position: absolute;
     left: 0; top: 25px;
     width: 9px; height: 9px;
-    background: var(--vermilion);
+    background: var(--accent);
 }
-.activity-card:hover { transform: translateX(4px); }
 
 .activity-date {
     font-family: var(--font-latin);

@@ -7,12 +7,13 @@
     --ink-2:        #bcb19a;   /* 二次テキスト */
     --ink-3:        #8a8070;   /* 補助・キャプション */
     --deep:         #1a1410;   /* 金や朱のチップに載せる黒文字 */
-    --vermilion:    #d94a31;   /* signature スポットインク（朱・文字/マーク用） */
-    --vermilion-ink:#b7301d;   /* 白文字を載せる濃い朱（スタンプ地） */
+    --accent:       #f5efdf;   /* signature スポットインク（白・文字/マーク用） */
+    --accent-ink:   #e9e1cd;   /* 黒文字を載せる白（スタンプ地） */
     --table:        #579a80;   /* 卓のフェルト緑（サブ・黒地で読める明度） */
     --gold:         #c2933a;   /* 硬貨/駒の金（ごく控えめに） */
 
     /* 駒色（プレイヤーカラー）— メンバートークン専用の差し色 */
+    --piece-red:    #d94a31;
     --piece-blue:   #6d94c4;
     --piece-plum:   #a381c0;
 
@@ -25,7 +26,7 @@
     --font-jp:      'Zen Kaku Gothic New', 'Archivo', system-ui, sans-serif;
     --font-latin:   'Archivo', 'Zen Kaku Gothic New', system-ui, sans-serif;
 
-    --shadow-card:  6px 7px 0 rgba(0, 0, 0, 0.5);
+    --shadow-card:  0 6px 16px rgba(0, 0, 0, 0.35), 0 18px 44px rgba(0, 0, 0, 0.28);
     --shadow-lid:   0 18px 28px rgba(0, 0, 0, 0.55);
 }
 
@@ -64,7 +65,7 @@ a { color: inherit; }
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--vermilion);
+    color: var(--accent);
 }
 
 /* 見出し（和文）は Zen Kaku 900、詰め気味に */
@@ -101,7 +102,7 @@ a { color: inherit; }
 .pip {
     width: 9px; height: 9px;
     border-radius: 50%;
-    background: var(--vermilion);
+    background: var(--accent);
     box-shadow: 14px 0 0 var(--rule-strong), -14px 0 0 var(--rule-strong);
 }
 
@@ -124,7 +125,7 @@ footer {
    ============================================================ */
 a:focus-visible,
 .hero-main-row:focus-visible {
-    outline: 3px solid var(--vermilion);
+    outline: 3px solid var(--accent);
     outline-offset: 3px;
     border-radius: 2px;
 }

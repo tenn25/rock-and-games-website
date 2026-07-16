@@ -30,27 +30,27 @@
 /* 横長ロゴPNGは黒刷りなので、黒地では白インクに反転させる */
 .nav-logo img { height: 34px; width: auto; display: block; filter: brightness(0) invert(0.93); }
 
-/* 購入ボタン = 朱の「スタンプ」 */
+/* 購入ボタン = 硬貨の金の「スタンプ」（チャットボットと統一） */
 .nav-stamp {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 9px 20px;
-    background: var(--vermilion-ink);
-    color: var(--ink);
+    background: linear-gradient(135deg, #e8b54e 0%, #c2933a 100%);
+    color: var(--deep);
     font-weight: 700;
     font-size: 0.9rem;
     letter-spacing: 0.04em;
     text-decoration: none;
-    border: 2px solid #8c2415;
-    border-radius: 4px;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55);
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    border: none;
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(194, 147, 58, 0.3);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
     flex-shrink: 0;
     white-space: nowrap;
 }
-.nav-stamp:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55); }
-.nav-stamp:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.55); }
+.nav-stamp:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35), 0 12px 28px rgba(194, 147, 58, 0.4); }
+.nav-stamp:active { transform: translateY(0) scale(0.97); }
 .nav-stamp .short { display: none; }
 
 /* ============================================================
@@ -62,7 +62,13 @@
     padding: 56px 24px 48px;
     position: relative;
     overflow: hidden;
+    /* 先頭4層 = クロップマークの右上・左下（横棒＋縦棒）。
+       疑似要素は左上・右下で使用済みのため背景で描く。色は ::before と同じ ink-2 × 0.5 */
     background:
+        linear-gradient(rgba(188, 177, 154, 0.5), rgba(188, 177, 154, 0.5)) right 16px top 16px / 22px 2px no-repeat,
+        linear-gradient(rgba(188, 177, 154, 0.5), rgba(188, 177, 154, 0.5)) right 16px top 16px / 2px 22px no-repeat,
+        linear-gradient(rgba(188, 177, 154, 0.5), rgba(188, 177, 154, 0.5)) left 16px bottom 16px / 22px 2px no-repeat,
+        linear-gradient(rgba(188, 177, 154, 0.5), rgba(188, 177, 154, 0.5)) left 16px bottom 16px / 2px 22px no-repeat,
         radial-gradient(rgba(216, 205, 184, 0.06) 1px, transparent 1.5px) -8px -8px / 24px 24px,
         var(--paper-3);
     border-bottom: 1px solid var(--line);
@@ -170,7 +176,7 @@
     position: relative;
     background: var(--paper);
     border: 1px solid var(--line);
-    border-radius: 6px;
+    border-radius: 16px;
     padding: 22px 26px 24px;
     box-shadow: var(--shadow-card);
     text-align: center;
@@ -188,7 +194,7 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     padding: 3px 12px;
-    border-radius: 3px;
+    border-radius: 999px;
     white-space: nowrap;
 }
 .hero-subtitle {
@@ -210,11 +216,11 @@
     text-decoration: none;
     font-weight: 700;
     font-size: 0.9rem;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.15s ease;
 }
-.hero-x-link:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55); border-color: var(--rule-strong); }
-.hero-x-link:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.55); }
+.hero-x-link:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); border-color: var(--rule-strong); }
+.hero-x-link:active { transform: translateY(0) scale(0.97); }
 .hero-x-link .x-icon { width: 17px; height: 17px; fill: currentColor; }
 
 /* ============================================================
@@ -234,15 +240,15 @@
     color: var(--ink);
     background: var(--paper-2);
     border: 1px solid var(--line);
-    border-radius: 10px;
+    border-radius: 18px;
     overflow: hidden;
     box-shadow: var(--shadow-card);
-    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    transition: transform 0.25s cubic-bezier(0.34, 1.3, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .game-card:hover {
-    transform: translate(-2px, -3px);
-    box-shadow: 9px 11px 0 rgba(0, 0, 0, 0.55);
-    border-color: var(--vermilion);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 28px 60px rgba(0, 0, 0, 0.35);
+    border-color: var(--accent);
 }
 
 /* 箱絵は罫で囲った「窓」に収める */
@@ -282,8 +288,8 @@
     color: var(--ink-2);
     background: var(--paper);
     border: 1px solid var(--rule-strong);
-    border-radius: 3px;
-    padding: 3px 9px;
+    border-radius: 999px;
+    padding: 3px 11px;
 }
 
 .game-meta {
@@ -296,7 +302,7 @@
     font-weight: 700;
 }
 .game-meta .meta { display: inline-flex; align-items: center; gap: 6px; }
-.game-meta .meta svg { width: 16px; height: 16px; fill: var(--vermilion); flex-shrink: 0; }
+.game-meta .meta svg { width: 16px; height: 16px; fill: var(--accent); flex-shrink: 0; }
 
 /* ============================================================
    INFO — 活動履歴（刷りログ）+ メンバー（駒トークン）
@@ -317,7 +323,6 @@
     padding: 12px 0 12px 20px;
     border-bottom: 1px solid var(--rule);
     position: relative;
-    transition: transform 0.2s ease;
 }
 /* 各ログ頭の朱のティック */
 .activity-item::before {
@@ -325,9 +330,8 @@
     position: absolute;
     left: 0; top: 19px;
     width: 8px; height: 8px;
-    background: var(--vermilion);
+    background: var(--accent);
 }
-.activity-item:hover { transform: translateX(4px); }
 .activity-date {
     font-family: var(--font-latin);
     font-weight: 700;
@@ -343,7 +347,7 @@
     align-items: center;
     gap: 6px;
     margin-top: 18px;
-    color: var(--vermilion);
+    color: var(--accent);
     font-weight: 700;
     font-size: 0.92rem;
     text-decoration: none;
@@ -351,7 +355,7 @@
     transition: border-color 0.2s ease, gap 0.2s ease;
 }
 .btn-more::after { content: "→"; }
-.btn-more:hover { border-color: var(--vermilion); gap: 10px; }
+.btn-more:hover { border-color: var(--accent); gap: 10px; }
 
 /* メンバー = 木駒（meeple）トークン。色は駒色を巡回。 */
 .members-grid {
@@ -370,7 +374,7 @@
     fill: var(--ink);
 }
 /* プレイヤーカラーの慣習（赤・青・緑・黄・紫・白）で6人全員別の色に */
-.member-card:nth-child(6n+1) .member-token { fill: var(--vermilion); }
+.member-card:nth-child(6n+1) .member-token { fill: var(--piece-red); }
 .member-card:nth-child(6n+2) .member-token { fill: var(--piece-blue); }
 .member-card:nth-child(6n+3) .member-token { fill: var(--table); }
 .member-card:nth-child(6n+4) .member-token { fill: var(--gold); }
@@ -399,11 +403,11 @@
     font-weight: 700;
     font-size: 0.92rem;
     text-decoration: none;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, color 0.12s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-.link-button:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55); background: var(--gold); color: var(--deep); border-color: var(--deep); }
-.link-button:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.55); }
+.link-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(194, 147, 58, 0.35); background: var(--gold); color: var(--deep); border-color: var(--gold); }
+.link-button:active { transform: translateY(0) scale(0.97); }
 
 /* Scrollbar */
 .activity-list::-webkit-scrollbar { width: 8px; }

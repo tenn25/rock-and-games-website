@@ -1,0 +1,363 @@
+/* ============================================================
+   RULE CHATBOT — 右下フローティングウィジェット
+   黒基調＋硬貨の金（--gold／アンバー）をアクセントに。
+   赤はエラー表示のみ。形状はソフトUI（大きめ角丸・多層ソフトシャドウ・
+   すりガラス）で安心感と楽しさを演出する。
+   ============================================================ */
+
+.rbot {
+    position: fixed;
+    /* ナビの「ゲームの購入はこちら」と縦の右端を揃える。
+       ナビは max-width:1200px + padding 24px の中央寄せ版面なので、
+       ビューポートが1200pxを超えると版面の右端が中央に寄っていく分をここでも足す。 */
+    right: calc(max(0px, (100vw - 1200px) / 2) + 24px);
+    bottom: 20px;
+    z-index: 10000;  /* ナビ(9999)より前面。モバイルの全画面シートがナビに隠れないように */
+    font-family: var(--font-jp);
+}
+
+/* ---------- 呼び出しボタン（金のピル） ---------- */
+.rbot-fab {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px 22px;
+    background: linear-gradient(135deg, #e8b54e 0%, #c2933a 100%);
+    color: var(--deep);
+    font-family: var(--font-jp);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    border: none;
+    border-radius: 999px;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.35),
+        0 10px 28px rgba(194, 147, 58, 0.3);
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+    white-space: nowrap;
+}
+.rbot-fab:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.35),
+        0 14px 36px rgba(194, 147, 58, 0.4);
+}
+.rbot-fab:active { transform: translateY(0) scale(0.97); }
+.rbot-fab:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.rbot-fab svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+
+.rbot.is-open .rbot-fab { display: none; }
+
+/* ---------- パネル（すりガラスの浮遊カード） ---------- */
+.rbot-panel {
+    position: relative; /* 免責ポップオーバーの基準位置 */
+    display: flex;
+    flex-direction: column;
+    width: min(390px, calc(100vw - 40px));
+    height: min(580px, calc(100dvh - 40px));
+    background: rgba(27, 22, 16, 0.9);            /* --paper-3 ベース */
+    -webkit-backdrop-filter: blur(18px) saturate(1.1);
+    backdrop-filter: blur(18px) saturate(1.1);
+    border: 1px solid rgba(216, 205, 184, 0.14);
+    border-radius: 24px;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.06) inset,
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 24px 64px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transform-origin: bottom right;
+    animation: rbot-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.rbot-panel[hidden] { display: none; }
+
+@keyframes rbot-pop {
+    from { opacity: 0; transform: translateY(16px) scale(0.94); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------- ヘッダー ---------- */
+.rbot-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 16px 18px 12px;
+    background: linear-gradient(180deg, rgba(194, 147, 58, 0.08), transparent);
+}
+.rbot-head-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    flex: 1;
+    padding-top: 3px; /* 右上の✕ボタンと視覚的な高さを揃える */
+}
+.rbot-eyebrow-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.rbot-eyebrow {
+    font-family: var(--font-jp);
+    font-weight: 900;
+    font-size: 1.02rem;
+    letter-spacing: 0.02em;
+    color: var(--gold);
+}
+
+/* 「?」= 免責事項の開閉トグル */
+.rbot-info {
+    flex-shrink: 0;
+    width: 19px;
+    height: 19px;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ink-2);
+    font-family: var(--font-latin);
+    font-weight: 700;
+    font-size: 0.7rem;
+    line-height: 1;
+    border: 1px solid rgba(216, 205, 184, 0.28);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.rbot-info:hover,
+.rbot-info[aria-expanded="true"] {
+    background: rgba(194, 147, 58, 0.2);
+    color: var(--gold);
+    border-color: rgba(194, 147, 58, 0.5);
+}
+.rbot-info:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.rbot-close {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--ink-2);
+    font-size: 1rem;
+    line-height: 1;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.rbot-close:hover { background: rgba(255, 255, 255, 0.12); color: var(--ink); transform: rotate(90deg); }
+.rbot-close:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+
+.rbot-game {
+    width: 100%;
+    padding: 10px 34px 10px 12px; /* 右側は自前の矢印分あける */
+    background-color: rgba(21, 17, 12, 0.7);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5.5 8L10 12.5L14.5 8' stroke='%23bcb19a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+    color: var(--ink);
+    font-family: var(--font-jp);
+    font-weight: 700;
+    /* select も 16px 未満だと iOS がフォーカス時に自動ズームするため 16px 以上にする */
+    font-size: 16px;
+    border: 1px solid rgba(216, 205, 184, 0.28);
+    border-radius: 12px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: border-color 0.15s ease;
+}
+.rbot-game:hover { border-color: rgba(194, 147, 58, 0.5); }
+.rbot-game:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+
+/* ---------- 免責（「?」ボタンで開閉するポップオーバー） ---------- */
+.rbot-disclaimer {
+    position: absolute;
+    top: 58px;
+    left: 14px;
+    right: 14px;
+    z-index: 5;
+    margin: 0;
+    padding: 10px 14px;
+    background: rgba(27, 22, 16, 0.98);
+    border: 1px solid rgba(194, 147, 58, 0.3);
+    border-radius: 12px;
+    color: var(--ink-2);
+    font-size: 0.78rem;
+    line-height: 1.55;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+.rbot-disclaimer[hidden] { display: none; }
+
+/* ---------- メッセージ一覧 ---------- */
+.rbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(216, 205, 184, 0.25) transparent;
+}
+.rbot-msg {
+    max-width: 88%;
+    padding: 12px 15px;
+    border-radius: 18px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    animation: rbot-msg-in 0.3s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+@keyframes rbot-msg-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.rbot-msg-user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #e8b54e 0%, #c2933a 100%);
+    color: var(--deep);
+    font-weight: 600;
+    border-bottom-right-radius: 6px;
+    box-shadow: 0 4px 14px rgba(194, 147, 58, 0.2);
+}
+.rbot-msg-bot {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--ink);
+    border: 1px solid rgba(216, 205, 184, 0.16);
+    border-bottom-left-radius: 6px;
+}
+.rbot-msg-system {
+    align-self: center;
+    max-width: 100%;
+    padding: 4px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 999px;
+    color: var(--ink-2);
+    font-size: 0.76rem;
+    text-align: center;
+    animation: none;
+}
+.rbot-msg-error {
+    align-self: flex-start;
+    background: rgba(217, 74, 49, 0.1);
+    color: var(--ink-2);
+    border: 1px solid rgba(217, 74, 49, 0.35);
+}
+.rbot-source {
+    display: block;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(216, 205, 184, 0.25);
+    color: var(--ink-2);
+    font-size: 0.76rem;
+}
+
+/* 考え中インジケータ */
+.rbot-typing { display: inline-flex; gap: 5px; padding: 4px 0; }
+.rbot-typing span {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: rbot-blink 1.2s infinite ease-in-out;
+}
+.rbot-typing span:nth-child(2) { animation-delay: 0.2s; }
+.rbot-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes rbot-blink {
+    0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-3px); }
+}
+
+/* ---------- Turnstile（チャレンジ表示が必要な時だけ現れる） ---------- */
+.rbot-ts { padding: 0 16px; }
+.rbot-ts:has(iframe) { padding: 8px 16px; }
+
+/* ---------- 入力フォーム ---------- */
+.rbot-form {
+    padding: 10px 14px 14px;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.03), transparent);
+}
+.rbot-input {
+    width: 100%;
+    min-height: 46px;
+    max-height: 120px;
+    resize: none;
+    padding: 12px 16px;
+    background: rgba(21, 17, 12, 0.7);
+    color: var(--ink);
+    font-family: var(--font-jp);
+    /* 16px 未満だと iOS がフォーカス時に自動ズームし、画面拡大→左右パン→タップ判定ズレを招く。
+       16px 以上にして自動ズームを抑止する（送信・閉じるボタンが効かない不具合の根本対策）。 */
+    font-size: 16px;
+    line-height: 1.5;
+    border: 1px solid rgba(216, 205, 184, 0.18);
+    border-radius: 16px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.rbot-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(194, 147, 58, 0.2);
+}
+.rbot-input::placeholder { color: var(--ink-3); }
+
+.rbot-form-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding: 0 4px;
+}
+.rbot-count { color: var(--ink-3); font-size: 0.72rem; letter-spacing: 0.04em; }
+.rbot-send {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;          /* タップ領域を確保（モバイルの押しやすさ） */
+    padding: 9px 24px;
+    background: linear-gradient(135deg, #e8b54e 0%, #c2933a 100%);
+    color: var(--deep);
+    font-family: var(--font-jp);
+    font-weight: 700;
+    font-size: 0.85rem;
+    border: none;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(194, 147, 58, 0.25);
+    cursor: pointer;
+    touch-action: manipulation; /* ダブルタップズーム待ちの遅延を除去 */
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, opacity 0.15s ease;
+}
+.rbot-send:hover:not(:disabled) {
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(194, 147, 58, 0.35);
+}
+.rbot-send:active:not(:disabled) { transform: scale(0.96); }
+.rbot-send:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+.rbot-send:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* ---------- モバイル ---------- */
+@media (max-width: 640px) {
+    .rbot { right: 14px; bottom: 14px; }
+    .rbot-fab { padding: 13px 18px; font-size: 0.85rem; }
+    /* ボトムシート化。position:fixed で可視ビューポートに直接アンカーし、
+       高さ・下端は JS（Viewport モジュール）が visualViewport に合わせて上書きする。
+       キーボード表示時もパネルが可視領域に収まる。 */
+    .rbot-panel {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        width: auto;
+        height: calc(100dvh - 24px);
+        max-height: calc(100dvh - 24px);
+        border-radius: 20px;
+    }
+}
