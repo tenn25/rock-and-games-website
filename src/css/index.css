@@ -44,12 +44,12 @@
     text-decoration: none;
     border: none;
     border-radius: 999px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(194, 147, 58, 0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
     flex-shrink: 0;
     white-space: nowrap;
 }
-.nav-stamp:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35), 0 12px 28px rgba(194, 147, 58, 0.4); }
+.nav-stamp:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35); }
 .nav-stamp:active { transform: translateY(0) scale(0.97); }
 .nav-stamp .short { display: none; }
 
@@ -65,11 +65,11 @@
     /* 先頭4層 = クロップマークの右上・左下（横棒＋縦棒）。
        疑似要素は左上・右下で使用済みのため背景で描く。色は ::before と同じ ink-2 × 0.5 */
     background:
-        linear-gradient(rgba(188, 177, 154, 0.5), rgba(188, 177, 154, 0.5)) right 16px top 16px / 22px 2px no-repeat,
-        linear-gradient(rgba(188, 177, 154, 0.5), rgba(188, 177, 154, 0.5)) right 16px top 16px / 2px 22px no-repeat,
-        linear-gradient(rgba(188, 177, 154, 0.5), rgba(188, 177, 154, 0.5)) left 16px bottom 16px / 22px 2px no-repeat,
-        linear-gradient(rgba(188, 177, 154, 0.5), rgba(188, 177, 154, 0.5)) left 16px bottom 16px / 2px 22px no-repeat,
-        radial-gradient(rgba(216, 205, 184, 0.06) 1px, transparent 1.5px) -8px -8px / 24px 24px,
+        linear-gradient(rgba(184, 179, 170, 0.5), rgba(184, 179, 170, 0.5)) right 16px top 16px / 22px 2px no-repeat,
+        linear-gradient(rgba(184, 179, 170, 0.5), rgba(184, 179, 170, 0.5)) right 16px top 16px / 2px 22px no-repeat,
+        linear-gradient(rgba(184, 179, 170, 0.5), rgba(184, 179, 170, 0.5)) left 16px bottom 16px / 22px 2px no-repeat,
+        linear-gradient(rgba(184, 179, 170, 0.5), rgba(184, 179, 170, 0.5)) left 16px bottom 16px / 2px 22px no-repeat,
+        radial-gradient(rgba(215, 211, 203, 0.06) 1px, transparent 1.5px) -8px -8px / 24px 24px,
         var(--paper-3);
     border-bottom: 1px solid var(--line);
 }
@@ -406,7 +406,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-.link-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(194, 147, 58, 0.35); background: var(--gold); color: var(--deep); border-color: var(--gold); }
+.link-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); background: var(--gold); color: var(--deep); border-color: var(--gold); }
 .link-button:active { transform: translateY(0) scale(0.97); }
 
 /* Scrollbar */
