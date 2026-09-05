@@ -5,16 +5,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
-    <meta name="description" content="Web・ゲーム業界で活動するメンバーを中心に構成されたアナログゲームサークル RockAndGames。ゲームマーケット等で「ハイエナ勇者はサボリたい」などのボードゲームを作成・販売しています。">
-    <meta property="og:title" content="Web・ゲーム業界で活動するメンバーを中心に構成されたアナログゲームサークル RockAndGames。ゲームマーケット等で「ハイエナ勇者はサボリたい」などのボードゲームを作成・販売しています。" />
+    <meta name="description" content="Web・ゲーム業界で活動するメンバーを中心に構成されたボドゲ制作サークル RockAndGames。ゲームマーケット等で「ハイエナ勇者はサボリたい」などのボードゲームを作成・販売しています。">
+    <meta property="og:title" content="Rock and Games｜ボドゲ制作サークル" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.rock-and-games.com/" />
-    <meta property="og:image" content="./favicon.ico" />
-    <meta property="og:site_name" content="Rock and games" />
-    <meta property="og:description" content="Web・ゲーム業界で活動するメンバーを中心に構成されたアナログゲームサークル RockAndGames。ゲームマーケット等で「ハイエナ勇者はサボリたい」などのボードゲームを作成・販売しています。" />
+    <meta property="og:image" content="https://www.rock-and-games.com/images/ogp.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Rock and Games" />
+    <meta property="og:description" content="Web・ゲーム業界のメンバーが集まったボドゲ制作サークル。企画・デザイン・制作まで、オリジナル作品をすべて自分たちの手で。ゲームマーケットや通販で作品をお届けしています。" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@69andGames" />
-    <title>Rock and Games アナログゲームサークル</title>
+    <title>Rock and Games｜ボドゲ制作サークル</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,8 +24,8 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/common.css?v=12">
-    <link rel="stylesheet" href="css/index.css?v=15">
-    <link rel="stylesheet" href="css/chatbot.css?v=14">
+    <link rel="stylesheet" href="css/index.css?v=28">
+    <link rel="stylesheet" href="css/chatbot.css?v=18">
 </head>
 
 <body>
@@ -43,33 +45,32 @@
             <a href="./index.html" class="nav-logo">
                 <img src="images/Circle_Logo_Rectangle.png" alt="Rock and Games">
             </a>
-            <a href="https://bodoge.hoobby.net/market/items?q%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank" rel="noopener" class="nav-stamp">
-                <span class="full">ゲームの購入はこちら</span>
-                <span class="short">購入</span>
-            </a>
+            <div class="nav-links">
+                <a href="#games">制作ゲーム</a>
+                <a href="#members">メンバー</a>
+                <a href="#links">リンク</a>
+            </div>
         </div>
     </nav>
 
     <!-- Hero -->
     <section class="hero-section">
         <div class="hero-container">
-            <div class="hero-main-row" tabindex="0" role="button" aria-label="ロゴをタップしてキャラクターを入れ替える">
-                <p class="hero-logo-hint" id="hero-logo-hint">＼ロゴをタップ／</p>
-                <img src="images/character/anubis.png" alt="" class="character-peek character-peek-left">
-                <img src="images/Circle_Logo.png" alt="Rock and Games" class="hero-logo">
-                <img src="images/character/bastet.png" alt="" class="character-peek character-peek-right">
-            </div>
-
-            <div class="hero-text-container">
-                <div class="hero-blurb">
-                    <span class="hero-blurb-label">About the circle</span>
-                    <p class="hero-subtitle">
-                        Web・ゲーム業界で活動するメンバーを中心に構成された、<span class="no-break">アナログゲームサークルです。</span><br>
-                        企画・<span class="no-break">デザイン</span>・制作まで、<span class="no-break">オリジナル作品</span>をすべて自分たちで手がけています。<br>
-                        ゲームマーケットへの出展や通販を通じて、作品をお届けしています。
-                    </p>
+            <div class="hero-copy">
+                <h1 class="hero-headline">音楽とゲームが好きな<br>ボドゲ制作サークル</h1>
+                <p class="hero-lead">
+                    Web・ゲーム業界のメンバーが集まったボドゲ制作サークルです。
+                    明確なリーダーはおらず、全員が納得いくまで話し合い、企画・デザイン・制作を行っています。
+                    ゲームマーケットへの出展や通販を通じて、皆さんに作品をお届けしています。
+                </p>
+                <div class="hero-actions">
+                    <a href="#games" class="btn btn-primary">
+                        制作ゲームを見る
+                    </a>
+                    <a href="https://bodoge.hoobby.net/market/items?q%5Bfreeword%5D=%E3%83%AD%E3%83%83%E3%82%AF%E3%82%A2%E3%83%B3%E3%83%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%BA%EF%BC%88Rock+And+Games%EF%BC%89" target="_blank" rel="noopener" class="btn btn-secondary">
+                        ゲームを購入する
+                    </a>
                 </div>
-
                 <a href="https://twitter.com/69andgames" target="_blank" rel="noopener" class="hero-x-link">
                     <svg viewBox="0 0 24 24" aria-hidden="true" class="x-icon">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
@@ -77,11 +78,20 @@
                     <span>最新情報をチェック</span>
                 </a>
             </div>
+
+            <div class="hero-visual">
+                <p class="hero-logo-hint" id="hero-logo-hint">＼ロゴをタップ／</p>
+                <div class="hero-main-row" tabindex="0" role="button" aria-label="ロゴをタップしてキャラクターを入れ替える">
+                    <img src="images/character/anubis.png" alt="" class="character-peek character-peek-left">
+                    <img src="images/Circle_Logo.png" alt="Rock and Games" class="hero-logo">
+                    <img src="images/character/bastet.png" alt="" class="character-peek character-peek-right">
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Games -->
-    <section class="games-section">
+    <section class="games-section" id="games">
         <div class="container">
             <div class="section-head">
                 <span class="eyebrow">Our games</span>
@@ -91,7 +101,7 @@
 
             <div class="games-grid">
                 <a href="https://gamemarket.jp/game/186200" target="_blank" rel="noopener" class="game-card">
-                    <div class="game-frame"><img src="images/goat_top.png" alt="GOAT" class="game-image"></div>
+                    <div class="game-frame"><img src="images/goat_top.png" alt="GOAT" class="game-image" loading="lazy" decoding="async"></div>
                     <div class="game-body">
                         <h3 class="game-title">GOAT</h3>
                         <p class="game-desc">ようこそ、悪魔の遊び場へ。味方にするべきものは、運か、それとも悪魔か。</p>
@@ -106,7 +116,7 @@
                 </a>
 
                 <a href="https://navirabi.rock-and-games.com/" target="_blank" rel="noopener" class="game-card">
-                    <div class="game-frame"><img src="images/navirabi2_top.png" alt="ナビラビ拡張キット" class="game-image"></div>
+                    <div class="game-frame"><img src="images/navirabi2_top.png" alt="ナビラビ拡張キット" class="game-image" loading="lazy" decoding="async"></div>
                     <div class="game-body">
                         <h3 class="game-title">ナビラビ拡張キット</h3>
                         <p class="game-desc">新キャラ「ティラミス」が登場！5人でも遊べるようになりました。</p>
@@ -121,7 +131,7 @@
                 </a>
 
                 <a href="https://bodoge.hoobby.net/games/kamisamarket?srsltid=AfmBOopf605VqAe9udKqRPPCXrj_te0zJedpfD32wUBIiytEM6xDSaO2" target="_blank" rel="noopener" class="game-card">
-                    <div class="game-frame"><img src="images/kamima_top.png" alt="カミサマーケット" class="game-image"></div>
+                    <div class="game-frame"><img src="images/kamima_top.png" alt="カミサマーケット" class="game-image" loading="lazy" decoding="async"></div>
                     <div class="game-body">
                         <h3 class="game-title">カミサマーケット</h3>
                         <p class="game-desc">セカイの価値はカミサマのみぞ知る。「価値変動」する世界創造バトル！</p>
@@ -136,7 +146,7 @@
                 </a>
 
                 <a href="https://navirabi.rock-and-games.com/" target="_blank" rel="noopener" class="game-card">
-                    <div class="game-frame"><img src="images/navirabi_top.png" alt="ナビラビ" class="game-image"></div>
+                    <div class="game-frame"><img src="images/navirabi_top.png" alt="ナビラビ" class="game-image" loading="lazy" decoding="async"></div>
                     <div class="game-body">
                         <h3 class="game-title">ナビラビ</h3>
                         <p class="game-desc">信じて行動。見極めろ指令。新感覚の以心伝心二人羽織ゲーム！</p>
@@ -151,7 +161,7 @@
                 </a>
 
                 <a href="https://haiena.rock-and-games.com/" target="_blank" rel="noopener" class="game-card">
-                    <div class="game-frame"><img src="images/haiena2_top.jpg" alt="ハイエナ勇者はサボリたい（拡張版）" class="game-image"></div>
+                    <div class="game-frame"><img src="images/haiena2_top.jpg" alt="ハイエナ勇者はサボリたい（拡張版）" class="game-image" loading="lazy" decoding="async"></div>
                     <div class="game-body">
                         <h3 class="game-title">ハイエナ勇者はサボリたい（拡張版）</h3>
                         <p class="game-desc">気になるあの娘「ハイエナちゃん」が登場！あの娘の前じゃサボれない！？</p>
@@ -166,7 +176,7 @@
                 </a>
 
                 <a href="https://haiena.rock-and-games.com/" target="_blank" rel="noopener" class="game-card">
-                    <div class="game-frame"><img src="images/haiena_top.png" alt="ハイエナ勇者はサボリたい" class="game-image"></div>
+                    <div class="game-frame"><img src="images/haiena_top.png" alt="ハイエナ勇者はサボリたい" class="game-image" loading="lazy" decoding="async"></div>
                     <div class="game-body">
                         <h3 class="game-title">ハイエナ勇者はサボリたい</h3>
                         <p class="game-desc">軽ゲーの新定番！協力×駆け引き 新感覚サボタージュRPG</p>
@@ -184,7 +194,7 @@
     </section>
 
     <!-- Activity & Members -->
-    <section class="info-section">
+    <section class="info-section" id="members">
         <div class="container">
             <div class="info-grid">
                 <div class="info-card">
@@ -217,7 +227,7 @@
     </section>
 
     <!-- Links -->
-    <section class="links-section">
+    <section class="links-section" id="links">
         <div class="container">
             <div class="section-head">
                 <span class="eyebrow">Links</span>
@@ -236,11 +246,23 @@
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="site-footer">
         <div class="container">
-            <p class="footer-text">
-                © <span id="current-year"></span> Rock and Games. All rights reserved.
-            </p>
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="images/Circle_Logo_Rectangle.png" alt="Rock and Games" class="footer-logo">
+                    <p class="footer-brand-desc">ボドゲ制作サークル。企画・デザイン・制作まで、オリジナル作品をすべて自分たちの手で。</p>
+                </div>
+                <nav class="footer-nav" aria-label="フッターナビゲーション">
+                    <a href="#games">制作ゲーム</a>
+                    <a href="#members">メンバー</a>
+                    <a href="profile.html">活動履歴</a>
+                    <a href="mailto:69andgames@gmail.com">お問い合わせ</a>
+                </nav>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-text">© <span id="current-year"></span> Rock and Games. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
@@ -282,8 +304,8 @@
 
     <!-- External Scripts -->
     <script src="js/protect.js?v=1"></script>
-    <script src="js/index.js"></script>
-    <script src="js/chatbot.js?v=12"></script>
+    <script src="js/index.js?v=2"></script>
+    <script src="js/chatbot.js?v=13"></script>
 </body>
 
 </html>

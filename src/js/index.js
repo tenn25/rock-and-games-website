@@ -46,6 +46,7 @@ const CONFIG = {
 const state = {
     characterFiles: [...CONFIG.CHARACTER.DEFAULT_FILES],
     previousCharacters: [],
+    bag: [],
     isAnimating: false
 };
 
@@ -331,34 +332,35 @@ const Character = {
     },
 
     /**
-     * Find character different from previous ones
+     * 「山札」を作り直す。全キャラをシャッフルして1周ぶんの引き順にする。
+     * 山札の切れ目で直前の2体が続けて出ないよう、先頭2枚が直前と被れば後ろの札と入れ替える。
      */
-    findDifferentCharacter(shuffled, excludeList) {
-        return shuffled.find(char => !excludeList.includes(char));
-    },
-
-    /**
-     * Select two different random characters, avoiding previous selection
-     */
-    selectRandomPair() {
+    refillBag() {
         const characters = state.characterFiles.length >= CONFIG.CHARACTER.MIN_FILES
             ? state.characterFiles
             : CONFIG.CHARACTER.DEFAULT_FILES;
 
-        const shuffled = Utils.shuffleArray(characters);
-        let [left, right] = shuffled;
+        const bag = Utils.shuffleArray(characters);
 
-        // Avoid repeating the same pair
-        if (state.previousCharacters.length === 2) {
-            const [prevLeft, prevRight] = state.previousCharacters;
-            const isSamePair = (left === prevLeft && right === prevRight) ||
-                               (left === prevRight && right === prevLeft);
-
-            if (isSamePair && shuffled.length > 2) {
-                left = this.findDifferentCharacter(shuffled, [prevLeft, prevRight]) || left;
-                right = this.findDifferentCharacter(shuffled, [left, prevLeft, prevRight]) || right;
+        if (state.previousCharacters.length && bag.length > 2) {
+            for (let i = 0; i < 2; i++) {
+                if (!state.previousCharacters.includes(bag[i])) continue;
+                const swapWith = bag.findIndex((char, idx) =>
+                    idx >= 2 && !state.previousCharacters.includes(char));
+                if (swapWith !== -1) [bag[i], bag[swapWith]] = [bag[swapWith], bag[i]];
             }
         }
+        state.bag = bag;
+    },
+
+    /**
+     * 山札から2体を引く。全員が一巡するまで重複せず、連続で同じキャラも出ない。
+     */
+    selectRandomPair() {
+        if (!state.bag || state.bag.length < 2) this.refillBag();
+
+        const left = state.bag.shift();
+        const right = state.bag.shift();
 
         state.previousCharacters = [left, right];
         return [left, right];

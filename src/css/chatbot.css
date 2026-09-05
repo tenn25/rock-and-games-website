@@ -42,6 +42,8 @@
 .rbot-fab:active { transform: translateY(0) scale(0.97); }
 .rbot-fab:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .rbot-fab svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+/* 短縮ラベルはデスクトップでは隠す（モバイルでのみ表示） */
+.rbot-fab-short { display: none; }
 
 .rbot.is-open .rbot-fab { display: none; }
 
@@ -50,17 +52,18 @@
     position: relative; /* 免責ポップオーバーの基準位置 */
     display: flex;
     flex-direction: column;
-    width: min(390px, calc(100vw - 40px));
+    width: min(384px, calc(100vw - 40px));
     height: min(580px, calc(100dvh - 40px));
-    background: rgba(25, 23, 20, 0.9);            /* --paper-3 ベース */
-    -webkit-backdrop-filter: blur(18px) saturate(1.1);
-    backdrop-filter: blur(18px) saturate(1.1);
-    border: 1px solid rgba(215, 211, 203, 0.14);
-    border-radius: 24px;
+    /* 卓上ドットの上でも濁らないよう、すりガラスは弱めにして地を締める */
+    background: rgba(20, 18, 16, 0.97);
+    -webkit-backdrop-filter: blur(10px) saturate(1.05);
+    backdrop-filter: blur(10px) saturate(1.05);
+    border: 1px solid rgba(215, 211, 203, 0.12);
+    border-radius: 20px;
     box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.06) inset,
-        0 8px 24px rgba(0, 0, 0, 0.4),
-        0 24px 64px rgba(0, 0, 0, 0.5);
+        0 1px 0 rgba(255, 255, 255, 0.05) inset,
+        0 12px 32px rgba(0, 0, 0, 0.5),
+        0 32px 72px rgba(0, 0, 0, 0.55);
     overflow: hidden;
     transform-origin: bottom right;
     animation: rbot-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -75,31 +78,31 @@
 /* ---------- ヘッダー ---------- */
 .rbot-head {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 16px 18px 12px;
+    align-items: flex-start;   /* タイトル行と✕を上端で揃える */
+    gap: 12px;
+    padding: 15px 14px 13px;
     background: linear-gradient(180deg, rgba(194, 147, 58, 0.08), transparent);
+    border-bottom: 1px solid rgba(215, 211, 203, 0.08);
 }
 .rbot-head-titles {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
     min-width: 0;
     flex: 1;
-    padding-top: 3px; /* 右上の✕ボタンと視覚的な高さを揃える */
 }
 .rbot-eyebrow-row {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
+    min-height: 34px;          /* 右の✕(34px)と行高を揃える */
 }
 .rbot-eyebrow {
     font-family: var(--font-jp);
-    font-weight: 900;
+    font-weight: 800;
     font-size: 1.02rem;
     letter-spacing: 0.02em;
-    color: var(--gold);
+    color: var(--ink);
 }
 
 /* 「?」= 免責事項の開閉トグル */
@@ -173,7 +176,7 @@
 /* ---------- 免責（「?」ボタンで開閉するポップオーバー） ---------- */
 .rbot-disclaimer {
     position: absolute;
-    top: 58px;
+    top: 64px;
     left: 14px;
     right: 14px;
     z-index: 5;
@@ -225,10 +228,11 @@
 }
 .rbot-msg-bot {
     align-self: flex-start;
-    background: rgba(255, 255, 255, 0.1);
+    background: #26221d;
     color: var(--ink);
-    border: 1px solid rgba(215, 211, 203, 0.16);
+    border: 1px solid rgba(215, 211, 203, 0.14);
     border-bottom-left-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 .rbot-msg-system {
     align-self: center;
@@ -341,8 +345,12 @@
 
 /* ---------- モバイル ---------- */
 @media (max-width: 640px) {
-    .rbot { right: 14px; bottom: 14px; }
-    .rbot-fab { padding: 13px 18px; font-size: 0.85rem; }
+    .rbot { right: 16px; bottom: 16px; }
+    /* モバイルは小さめのピル＋短縮ラベル「質問」。アイコン＝チャット、文字＝用途で迷わせない */
+    .rbot-fab { padding: 11px 16px; font-size: 0.9rem; gap: 7px; }
+    .rbot-fab-full { display: none; }
+    .rbot-fab-short { display: inline; }
+    .rbot-fab svg { width: 20px; height: 20px; }
     /* ボトムシート化。position:fixed で可視ビューポートに直接アンカーし、
        高さ・下端は JS（Viewport モジュール）が visualViewport に合わせて上書きする。
        キーボード表示時もパネルが可視領域に収まる。 */

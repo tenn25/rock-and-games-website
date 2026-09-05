@@ -184,9 +184,10 @@ const ChatUI = {
             .join('');
 
         root.innerHTML = `
-            <button type="button" class="rbot-fab" aria-expanded="false" aria-controls="rbot-panel">
+            <button type="button" class="rbot-fab" aria-expanded="false" aria-controls="rbot-panel" aria-label="ゲームについて質問する">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.5 2 2 5.9 2 10.7c0 2.8 1.5 5.2 3.9 6.8-.2 1.4-.8 2.7-1.8 3.7-.2.2 0 .6.3.6 2.1-.2 4-1 5.4-2.1.7.1 1.4.2 2.2.2 5.5 0 10-3.9 10-8.7S17.5 2 12 2zm-4.5 9.9c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2zm4.5 0c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2zm4.5 0c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2z"/></svg>
-                <span>ゲームについて質問</span>
+                <span class="rbot-fab-full">ゲームについて質問</span>
+                <span class="rbot-fab-short">質問</span>
             </button>
             <div class="rbot-panel" id="rbot-panel" role="dialog" aria-label="ゲーム質問チャット" hidden>
                 <div class="rbot-head">
