@@ -2,10 +2,11 @@
    Index Page — "Tabletop Press"
    卓上に置かれた「箱」を開ける瞬間がヒーロー。
    共通の変数・見出し・フッターは common.css を参照。
+   余白/文字/行間/角丸は common.css の設計トークンから選ぶ。
    ============================================================ */
 
 /* ============================================================
-   NAVIGATION — 刷り物の版面。下端に2pxの黒罫（印刷のベースライン）。
+   NAVIGATION
    ============================================================ */
 .site-nav {
     position: fixed;
@@ -21,27 +22,27 @@
 .nav-inner {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px;
-    height: 64px;
+    padding: 0 var(--space-5);
+    height: 60px;
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: var(--space-5);
 }
 /* 横長ロゴPNGは黒刷りなので、黒地では白インクに反転させる */
 .nav-logo { flex-shrink: 0; }
-.nav-logo img { height: 34px; width: auto; display: block; filter: brightness(0) invert(0.93); }
+.nav-logo img { height: 26px; width: auto; display: block; filter: brightness(0) invert(0.93); }
 
-/* セクションへのアンカー（版面の見出し索引）。中央に配置し、両端をロゴ／購入で挟む */
+/* セクションへのアンカー */
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: var(--space-6);
     margin-left: auto;
 }
 .nav-links a {
     position: relative;
     font-weight: 700;
-    font-size: 0.92rem;
+    font-size: var(--text-sm);
     letter-spacing: 0.02em;
     color: var(--ink-2);
     text-decoration: none;
@@ -54,51 +55,26 @@
     left: 0; bottom: 0;
     width: 100%;
     height: 2px;
-    background: var(--accent);
+    background: var(--gold);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.22s ease;
 }
 .nav-links a:hover { color: var(--ink); }
 .nav-links a:hover::after { transform: scaleX(1); }
-.nav-links + .nav-stamp { margin-left: 0; }
-
-/* 購入ボタン = 硬貨の金の「スタンプ」（チャットボットと統一） */
-.nav-stamp {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 20px;
-    background: linear-gradient(135deg, #e8b54e 0%, #c2933a 100%);
-    color: var(--deep);
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.04em;
-    text-decoration: none;
-    border: none;
-    border-radius: 999px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
-    flex-shrink: 0;
-    white-space: nowrap;
-}
-.nav-stamp:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35); }
-.nav-stamp:active { transform: translateY(0) scale(0.97); }
-.nav-stamp .short { display: none; }
 
 /* ============================================================
-   HERO — signature。卓上に置かれた「箱」を開ける瞬間。
-   ロゴ=箱の蓋、キャラ=覗く駒、タップで箱を振る（既存JS）。
+   HERO — ロゴ=箱の蓋、キャラ=覗く駒、タップで箱を振る（既存JS）。
    ============================================================ */
 .hero-section {
-    margin-top: 64px;
-    padding: clamp(40px, 6vh, 80px) 24px;
-    min-height: min(720px, calc(100vh - 64px));
+    margin-top: 60px;
+    padding: var(--space-8) var(--space-5);
+    min-height: min(560px, calc(100vh - 60px));
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
-    /* 卓上の座標ドット（極薄）＋ 卓の板。四隅のトンボは撤去。 */
+    /* 卓上の座標ドット（極薄）＋ 卓の板 */
     background:
         radial-gradient(rgba(215, 211, 203, 0.06) 1px, transparent 1.5px) -8px -8px / 24px 24px,
         var(--paper-3);
@@ -112,49 +88,52 @@
     display: grid;
     grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
     align-items: center;
-    gap: 48px;
+    gap: var(--space-7);
     position: relative;
     z-index: 1;
 }
 
-/* ---- 左：メッセージ列（何者か → 要点 → 行動） ---- */
+/* ---- 左：メッセージ列 ---- */
 .hero-copy {
     min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    /* スライドインするキャラ画像(z-index:1)より手前に。文字が隠れないように */
+    position: relative;
+    z-index: 2;
 }
 .hero-headline {
     font-family: var(--font-jp);
     font-weight: 900;
     font-size: clamp(1.9rem, 4vw, 3rem);
-    line-height: 1.25;
+    line-height: var(--lh-tight);
     letter-spacing: 0.01em;
     color: var(--ink);
 }
 .hero-lead {
-    margin-top: 22px;
-    font-size: 1.02rem;
-    line-height: 1.85;
+    margin-top: var(--space-5);
+    font-size: var(--text-lg);
+    line-height: var(--lh-body);
     color: var(--ink-2);
     max-width: 34em;
 }
 .hero-actions {
-    margin-top: 30px;
+    margin-top: var(--space-6);
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
+    gap: var(--space-3);
 }
-.hero-x-link { margin-top: 18px; }
+.hero-x-link { margin-top: var(--space-4); }
 
-/* ---- 右：ブランドビジュアル（箱＝ロゴ＋覗く駒。タップで振る） ---- */
+/* ---- 右：ブランドビジュアル ---- */
 .hero-visual {
     min-width: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 6px;
+    gap: var(--space-2);
 }
 .hero-main-row {
     display: flex;
@@ -167,20 +146,20 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-/* タップ誘導 = ロゴの上に置くシンプルな案内（ロゴには重ねない） */
+/* タップ誘導 = ロゴの上に置くシンプルな案内 */
 .hero-logo-hint {
     position: relative;
     z-index: 4;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     letter-spacing: 0.06em;
-    color: var(--ink-2);
+    color: var(--ink-3);
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
     pointer-events: none;
     animation: hintBob 1.6s ease-in-out infinite;
 }
 
-/* ロゴ = 白刷り。黒地にそのまま大きく置く。 */
+/* ロゴ = 白刷り */
 .hero-logo {
     width: auto;
     max-width: 84%;
@@ -219,18 +198,18 @@
 .hero-section.hide-characters .character-peek-right { opacity: 0 !important; transform: translateX(200%) !important; }
 
 /* ============================================================
-   BUTTONS — 主要導線。金のスタンプ＝一次、白抜き＝二次。
+   BUTTONS — 金＝一次、白抜き＝二次、透明＝三次。
    ============================================================ */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 14px 28px;
-    border-radius: 999px;
+    gap: var(--space-2);
+    padding: 12px 26px;
+    border-radius: var(--radius-pill);
     font-family: var(--font-jp);
     font-weight: 700;
-    font-size: 1rem;
+    font-size: var(--text-base);
     letter-spacing: 0.02em;
     text-decoration: none;
     white-space: nowrap;
@@ -241,48 +220,47 @@
     background: linear-gradient(135deg, #e8b54e 0%, #c2933a 100%);
     color: var(--deep);
     border: 1px solid transparent;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
 .btn-primary:active { transform: translateY(0) scale(0.98); }
 .btn-secondary {
     background: var(--paper-2);
     color: var(--ink);
     border: 1px solid var(--line);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
-.btn-secondary:hover { transform: translateY(-2px); border-color: var(--rule-strong); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.38); }
+.btn-secondary:hover { transform: translateY(-2px); border-color: var(--gold); }
 .btn-secondary:active { transform: translateY(0) scale(0.98); }
 
-/* CTAと同じ丸型・同じ高さに統一。ただし透明地＝一次/二次より一段軽い三次アクション */
+/* Xリンク＝三次アクション。CTAと同じ丸型・同じ高さ、透明地で一段軽く */
 .hero-x-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 14px 26px;
-    border-radius: 999px;
+    gap: var(--space-2);
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
     border: 1px solid var(--line);
     background: transparent;
     color: var(--ink-2);
     text-decoration: none;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: var(--text-base);
     transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.hero-x-link:hover { color: var(--ink); border-color: var(--rule-strong); background: var(--paper-2); transform: translateY(-2px); }
+.hero-x-link:hover { color: var(--ink); border-color: var(--gold); background: var(--paper-2); transform: translateY(-2px); }
 .hero-x-link:active { transform: translateY(0) scale(0.98); }
 .hero-x-link .x-icon { width: 16px; height: 16px; fill: currentColor; }
 
 /* ============================================================
-   GAMES — ルールブック見出し + 卓上に置いた印刷コンポーネント。
+   GAMES
    ============================================================ */
-.games-section { padding: 80px 0 70px; }
+.games-section { padding: var(--section-y) 0; }
 
 .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 30px 26px;
+    gap: var(--space-6) var(--space-5);
 }
 
 .game-card {
@@ -291,15 +269,15 @@
     color: var(--ink);
     background: var(--paper-2);
     border: 1px solid var(--line);
-    border-radius: 18px;
+    border-radius: var(--radius-card);
     overflow: hidden;
     box-shadow: var(--shadow-card);
     transition: transform 0.25s cubic-bezier(0.34, 1.3, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .game-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 28px 60px rgba(0, 0, 0, 0.35);
-    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+    border-color: rgba(194, 147, 58, 0.55);
 }
 
 /* 箱絵は罫で囲った「窓」に収める */
@@ -316,158 +294,159 @@
     object-position: top center;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.game-card:hover .game-image { transform: scale(1.05); }
+.game-card:hover .game-image { transform: scale(1.03); }
 
-.game-body { padding: 20px 20px 22px; }
+.game-body { padding: var(--space-5); }
 .game-title {
     font-weight: 900;
-    font-size: 1.28rem;
+    font-size: var(--text-xl);
     letter-spacing: 0.01em;
-    margin-bottom: 8px;
+    line-height: var(--lh-tight);
+    margin-bottom: var(--space-2);
 }
 .game-desc {
     color: var(--ink-2);
-    font-size: 0.92rem;
-    line-height: 1.65;
-    margin-bottom: 16px;
+    font-size: var(--text-sm);
+    line-height: var(--lh-body);
+    margin-bottom: var(--space-4);
 }
 
-.game-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+.game-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
 .tag {
-    font-size: 0.72rem;
+    font-size: var(--text-xs);
     font-weight: 700;
     letter-spacing: 0.02em;
     color: var(--ink-2);
     background: var(--paper);
     border: 1px solid var(--rule-strong);
-    border-radius: 999px;
-    padding: 3px 11px;
+    border-radius: var(--radius-pill);
+    padding: 4px 12px;
 }
 
 .game-meta {
     display: flex;
-    gap: 18px;
-    padding-top: 14px;
-    border-top: 1.5px dashed var(--rule-strong);
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule);
     color: var(--ink-2);
-    font-size: 0.86rem;
+    font-size: var(--text-sm);
     font-weight: 700;
 }
 .game-meta .meta { display: inline-flex; align-items: center; gap: 6px; }
-.game-meta .meta svg { width: 16px; height: 16px; fill: var(--accent); flex-shrink: 0; }
+.game-meta .meta svg { width: 16px; height: 16px; fill: var(--gold); flex-shrink: 0; }
 
 /* ============================================================
-   INFO — 活動履歴（刷りログ）+ メンバー（駒トークン）
+   INFO — 活動履歴 + メンバー
    ============================================================ */
-/* 帯（バンド）で章のリズムを作る。前後の黒地から一段沈めて区切る。 */
+/* 帯（バンド）で章のリズムを作る */
 .info-section {
-    padding: 72px 0;
+    padding: var(--section-y) 0;
     background: var(--paper-3);
     border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
 }
 
 /* 固定ヘッダー(64px)分、アンカー着地位置を下げる */
-.games-section, .info-section, .links-section { scroll-margin-top: 84px; }
+.games-section, .info-section, .links-section { scroll-margin-top: 80px; }
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
-    gap: 48px;
+    gap: var(--space-7);
 }
 
 .activity-list {
     max-height: 380px;
     overflow-y: auto;
-    padding-right: 10px;
+    padding-right: var(--space-3);
 }
 .activity-item {
-    padding: 12px 0 12px 20px;
+    padding: var(--space-3) 0 var(--space-3) var(--space-5);
     border-bottom: 1px solid var(--rule);
     position: relative;
 }
-/* 各ログ頭の朱のティック */
+/* 各ログ頭の金のティック */
 .activity-item::before {
     content: "";
     position: absolute;
-    left: 0; top: 19px;
+    left: 0; top: 20px;
     width: 8px; height: 8px;
-    background: var(--accent);
+    border-radius: 2px;
+    background: var(--gold);
 }
 .activity-date {
     font-family: var(--font-latin);
     font-weight: 700;
-    font-size: 0.82rem;
+    font-size: var(--text-sm);
     letter-spacing: 0.03em;
     color: var(--table);
-    margin-bottom: 3px;
+    margin-bottom: var(--space-1);
 }
-.activity-content { color: var(--ink); font-size: 0.92rem; line-height: 1.55; }
+.activity-content { color: var(--ink-2); font-size: var(--text-sm); line-height: var(--lh-body); }
 
 .btn-more {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin-top: 18px;
-    color: var(--accent);
+    margin-top: var(--space-4);
+    color: var(--gold);
     font-weight: 700;
-    font-size: 0.92rem;
+    font-size: var(--text-sm);
     text-decoration: none;
     border-bottom: 2px solid transparent;
     transition: border-color 0.2s ease, gap 0.2s ease;
 }
 .btn-more::after { content: "→"; }
-.btn-more:hover { border-color: var(--accent); gap: 10px; }
+.btn-more:hover { border-color: var(--gold); gap: 10px; }
 
-/* メンバー = 木駒（meeple）トークン。色は駒色を巡回。 */
+/* メンバー = 木駒（meeple）トークン */
 .members-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px 14px;
+    gap: var(--space-5) var(--space-4);
 }
 .member-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
 }
 .member-token {
     width: 42px; height: 42px;
     fill: var(--ink);
 }
-/* プレイヤーカラーの慣習（赤・青・緑・黄・紫・白）で6人全員別の色に */
+/* プレイヤーカラーの慣習で6人全員別の色に */
 .member-card:nth-child(6n+1) .member-token { fill: var(--piece-red); }
 .member-card:nth-child(6n+2) .member-token { fill: var(--piece-blue); }
 .member-card:nth-child(6n+3) .member-token { fill: var(--table); }
 .member-card:nth-child(6n+4) .member-token { fill: var(--gold); }
 .member-card:nth-child(6n+5) .member-token { fill: var(--piece-plum); }
 .member-card:nth-child(6n)   .member-token { fill: var(--ink); }
-.member-name { font-weight: 700; font-size: 1.02rem; letter-spacing: 0.02em; }
+.member-name { font-weight: 700; font-size: var(--text-base); letter-spacing: 0.02em; }
 
 /* ============================================================
-   LINKS — 刷りチップの列
+   LINKS
    ============================================================ */
-.links-section { padding: 72px 0 88px; }
+.links-section { padding: var(--section-y) 0; }
 .links-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 14px;
+    gap: var(--space-3);
 }
 .link-button {
     display: inline-flex;
     align-items: center;
-    padding: 10px 22px;
+    padding: var(--space-3) var(--space-5);
     background: var(--paper-2);
     color: var(--ink);
     border: 1px solid var(--line);
-    border-radius: 40px;
+    border-radius: var(--radius-pill);
     font-weight: 700;
-    font-size: 0.92rem;
+    font-size: var(--text-sm);
     text-decoration: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-.link-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); background: var(--gold); color: var(--deep); border-color: var(--gold); }
+.link-button:hover { transform: translateY(-2px); border-color: var(--gold); color: var(--ink); }
 .link-button:active { transform: translateY(0) scale(0.97); }
 
 /* Scrollbar */
@@ -476,48 +455,47 @@
 .activity-list::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 8px; }
 
 /* ============================================================
-   FOOTER — 版元の奥付。ブランド＋内部ナビ＋著作権で締める。
-   （common.css の footer 基本形を上書き）
+   FOOTER — ブランド＋内部ナビ＋著作権（common.css の footer を上書き）
    ============================================================ */
-.site-footer { padding: 0; }
+.site-footer { padding: 0; text-align: left; }
 .site-footer .container { padding-top: 0; padding-bottom: 0; }
 .footer-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 40px;
+    gap: var(--space-7);
     flex-wrap: wrap;
-    padding: 48px 0 32px;
+    padding: var(--space-7) 0 var(--space-6);
 }
 .footer-brand { max-width: 420px; }
 .footer-logo {
-    height: 30px;
+    height: 28px;
     width: auto;
     display: block;
     filter: brightness(0) invert(0.93);
-    margin-bottom: 14px;
+    margin-bottom: var(--space-3);
 }
 .footer-brand-desc {
-    font-size: 0.88rem;
-    line-height: 1.75;
-    color: var(--ink-3);
+    font-size: var(--text-sm);
+    line-height: var(--lh-body);
+    color: var(--ink-2);
 }
 .footer-nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px 26px;
+    gap: var(--space-3) var(--space-6);
 }
 .footer-nav a {
     color: var(--ink-2);
     text-decoration: none;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     transition: color 0.18s ease;
 }
-.footer-nav a:hover { color: var(--accent); }
+.footer-nav a:hover { color: var(--gold); }
 .footer-bottom {
     border-top: 1px solid var(--rule);
-    padding: 20px 0 4px;
+    padding: var(--space-5) 0 var(--space-1);
 }
 .site-footer .footer-text { text-align: left; }
 
@@ -541,24 +519,23 @@
 /* ============================================================
    Responsive
    ============================================================ */
-/* ヘッダーのアンカーは狭い幅では畳む（ロゴ＋購入だけ残す） */
 @media (max-width: 860px) {
     .nav-links { display: none; }
 }
 
-/* タブレット以下：ヒーローは縦積み。メッセージ→ビジュアルの順（要点先出し） */
+/* タブレット以下：ヒーローは縦積み */
 @media (max-width: 980px) {
     .hero-section { min-height: 0; }
     .hero-container {
         grid-template-columns: minmax(0, 1fr);
-        gap: 20px;
+        gap: var(--space-5);
         max-width: 640px;
     }
     .hero-copy { align-items: center; text-align: center; }
     .hero-lead { max-width: 42em; }
     .hero-actions { justify-content: center; }
     .hero-main-row { height: clamp(300px, 52vw, 430px); }
-    .info-grid { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; gap: var(--space-6); }
 }
 
 @media (max-width: 768px) {
@@ -568,33 +545,33 @@
 }
 
 @media (max-width: 640px) {
-    .nav-inner { padding: 0 18px; gap: 12px; }
+    /* モバイルはセクション縦を一段詰める */
+    :root { --section-y: var(--space-8); }
+    .nav-inner { padding: 0 var(--space-4); gap: var(--space-3); }
+    .nav-logo img { height: 24px; }
     /* ヒーローを詰めて、初期表示でロゴまで見えるようにする */
-    .hero-section { padding: 20px 18px 26px; }
-    .hero-container { gap: 12px; }
+    .hero-section { padding: var(--space-5) var(--space-4); }
+    .hero-container { gap: var(--space-3); }
     .hero-headline { font-size: clamp(1.75rem, 7.6vw, 2.2rem); }
-    .hero-lead { font-size: 0.9rem; line-height: 1.7; margin-top: 12px; }
-    .hero-actions { width: 100%; gap: 8px; margin-top: 16px; }
+    .hero-lead { font-size: var(--text-base); margin-top: var(--space-3); }
+    .hero-actions { width: 100%; gap: var(--space-2); margin-top: var(--space-4); }
     /* 2つのボタンを均等幅で横並び。小さめ・すっきりに */
-    .hero-actions .btn { flex: 1 1 0; min-width: 0; padding: 10px 12px; font-size: 0.86rem; }
+    .hero-actions .btn { flex: 1 1 0; min-width: 0; padding: 10px 12px; font-size: var(--text-sm); }
     /* Xリンクは2つのCTAの下に、同じ高さ・横幅いっぱいで揃える */
-    .hero-x-link { width: 100%; margin-top: 8px; padding: 10px 12px; font-size: 0.86rem; gap: 7px; }
+    .hero-x-link { width: 100%; margin-top: var(--space-2); padding: 10px 12px; font-size: var(--text-sm); gap: 7px; }
     .hero-x-link .x-icon { width: 14px; height: 14px; }
     .hero-main-row { height: clamp(190px, 50vw, 250px); }
     .hero-logo { max-width: 86%; }
-    .hero-logo-hint { font-size: 0.8rem; }
     .hero-section.show-characters .character-peek-left  { transform: translateX(-28%); }
     .hero-section.show-characters .character-peek-right { transform: translateX(28%); }
-    .nav-logo img { height: 24px; }
-    .info-section { padding: 52px 0; }
     .members-grid { grid-template-columns: repeat(2, 1fr); }
     /* 関連リンクはモバイルで2列に */
-    .links-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .links-container { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
     .link-button { justify-content: center; }
-    .footer-top { flex-direction: column; gap: 26px; padding: 40px 0 28px; }
+    .footer-top { flex-direction: column; gap: var(--space-6); padding: var(--space-7) 0 var(--space-5); }
 }
 
-/* 極小幅（〜360px）だけCTAを縦積みにして必ず収める。iPhone(375〜393)は横並び維持 */
+/* 極小幅（〜360px）だけCTAを縦積みにして必ず収める */
 @media (max-width: 360px) {
     .hero-actions { flex-direction: column; align-items: stretch; }
     .hero-actions .btn { width: 100%; flex: none; }

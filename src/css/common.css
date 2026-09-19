@@ -28,6 +28,33 @@
 
     --shadow-card:  0 6px 16px rgba(0, 0, 0, 0.35), 0 18px 44px rgba(0, 0, 0, 0.28);
     --shadow-lid:   0 18px 28px rgba(0, 0, 0, 0.55);
+
+    /* --- Spacing scale（8px基準。以後、余白はこの段階から選ぶ） --- */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+    --space-9: 96px;
+    --section-y: 96px;      /* セクションの縦リズム（モバイルで上書き） */
+
+    /* --- Type scale（5段。近接サイズの乱立を廃止） --- */
+    --text-xs:   0.75rem;   /* 12px: ラベル・タグ・キャプション */
+    --text-sm:   0.875rem;  /* 14px: 補助・メタ・二次テキスト */
+    --text-base: 1rem;      /* 16px: 本文 */
+    --text-lg:   1.125rem;  /* 18px: リード */
+    --text-xl:   1.375rem;  /* 22px: カード見出し */
+
+    /* --- Line height（2値だけ） --- */
+    --lh-tight:  1.25;      /* 見出し */
+    --lh-body:   1.7;       /* 本文 */
+
+    /* --- Radius --- */
+    --radius-card: 16px;
+    --radius-pill: 999px;
 }
 
 /* ---------- Reset / base ---------- */
@@ -45,7 +72,7 @@ body {
     color: var(--ink);
     min-height: 100vh;
     overflow-x: hidden;
-    line-height: 1.7;
+    line-height: var(--lh-body);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
 }
@@ -55,17 +82,17 @@ a { color: inherit; }
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 var(--space-5);
 }
 
 /* Latin ラベル（GAMES / LOG など構造ラベル）は Archivo 大文字で刷り込む */
 .eyebrow {
     font-family: var(--font-latin);
     font-weight: 700;
-    font-size: 0.72rem;
-    letter-spacing: 0.22em;
+    font-size: var(--text-xs);
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--ink-3);
 }
 
 /* 見出し（和文）は Zen Kaku 900、詰め気味に */
@@ -73,8 +100,8 @@ a { color: inherit; }
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 44px;
+    gap: var(--space-2);
+    margin-bottom: var(--space-7);
     text-align: center;
 }
 .section-title {
@@ -85,26 +112,15 @@ a { color: inherit; }
     color: var(--ink);
     line-height: 1.15;
 }
-/* 見出し下の朱の罫（ダイスの目マーカー付き） */
+/* 見出し下のアクセント罫（シンプルな短い金の線に整理） */
 .section-title-rule {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 4px;
-}
-.section-title-rule::before,
-.section-title-rule::after {
-    content: "";
-    width: 46px;
+    margin-top: var(--space-3);
+    width: 40px;
     height: 3px;
-    background: var(--rule-strong);
+    border-radius: var(--radius-pill);
+    background: var(--gold);
 }
-.pip {
-    width: 9px; height: 9px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 14px 0 0 var(--rule-strong), -14px 0 0 var(--rule-strong);
-}
+.pip { display: none; }
 
 /* ============================================================
    FOOTER
@@ -118,7 +134,7 @@ footer {
     position: relative;
     z-index: 1;
 }
-.footer-text { font-size: 0.84rem; letter-spacing: 0.04em; opacity: 0.85; }
+.footer-text { font-size: var(--text-sm); letter-spacing: 0.04em; color: var(--ink-3); opacity: 1; }
 
 /* ============================================================
    画像の保存抑止（casual deterrent）
@@ -152,7 +168,6 @@ a:focus-visible,
 }
 
 @media (max-width: 640px) {
-    .container { padding: 0 18px; }
-    .section-title-rule::before,
-    .section-title-rule::after { width: 30px; }
+    .container { padding: 0 var(--space-4); }
+    .section-title-rule { width: 32px; }
 }

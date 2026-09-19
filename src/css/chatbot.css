@@ -1,367 +1,423 @@
 /* ============================================================
-   RULE CHATBOT — 右下フローティングウィジェット
-   黒基調＋硬貨の金（--gold／アンバー）をアクセントに。
-   赤はエラー表示のみ。形状はソフトUI（大きめ角丸・多層ソフトシャドウ・
-   すりガラス）で安心感と楽しさを演出する。
+   RULE CHATBOT — LINE風チャットUI
+   フレーム（地・ヘッダー・入力）＝暗色でサイトに馴染ませ、
+   メッセージ（吹き出し・カード）＝明色で読みやすく（白寄り）のハイブリッド。
+   余白/角丸は common.css のトークンを使用。
    ============================================================ */
 
 .rbot {
     position: fixed;
-    /* ナビの「ゲームの購入はこちら」と縦の右端を揃える。
-       ナビは max-width:1200px + padding 24px の中央寄せ版面なので、
-       ビューポートが1200pxを超えると版面の右端が中央に寄っていく分をここでも足す。 */
     right: calc(max(0px, (100vw - 1200px) / 2) + 24px);
     bottom: 20px;
-    z-index: 10000;  /* ナビ(9999)より前面。モバイルの全画面シートがナビに隠れないように */
+    z-index: 10000;
     font-family: var(--font-jp);
+
+    /* --- ダーク（黒メイン：サイトに一体化。枠線で境界を明示） --- */
+    --c-edge:        rgba(238, 230, 214, 0.24);  /* パネルの枠線（暗地でも境界が見える） */
+    --c-bg:          #1c1811;   /* チャットの地（サイトの黒より僅かに明るい） */
+    --c-frame:       #17130d;   /* ヘッダー・入力フォーム */
+    --c-frame-text:  #eae6de;   /* 暗地の上の文字 */
+    --c-frame-sub:   #9a8f7f;   /* 暗地の上の補助（時刻・注記） */
+    --c-line:        rgba(215, 211, 203, 0.12);
+    --c-input:       #262019;   /* 入力欄 */
+    --c-input-focus: #2e2820;
+    --c-tint:        rgba(194, 147, 58, 0.14);   /* コンテキスト帯 */
+    --c-brand:       #c2933a;
+    --c-brand-text:  #e8c579;   /* 暗地の上の金文字 */
+    --c-online:      #4aa96e;
+    --c-hover:       rgba(255, 255, 255, 0.08);
+    --c-scroll:      rgba(255, 255, 255, 0.16);
+
+    /* --- メッセージ（暗い吹き出し・明るい文字で可読性を確保） --- */
+    --c-msg:         #2c261d;   /* Bot吹き出し・カードの地 */
+    --c-msg-text:    #ece7dd;   /* 暗吹き出しの上の文字 */
+    --c-msg-sub:     #9a8f7f;   /* 補助（出典） */
+    --c-msg-line:    rgba(215, 211, 203, 0.14);
+    --c-card-active: rgba(194, 147, 58, 0.16);   /* 選択カード */
+    --c-card-active-text: #e8c579;
+    --c-thumb:       #35302a;   /* サムネ下地 */
+
+    /* --- ユーザー吹き出し --- */
+    --c-user:        #7cbf7f;
+    --c-user-text:   #16281a;
 }
 
-/* ---------- 呼び出しボタン（金のピル） ---------- */
+/* ---------- 呼び出しボタン（金のピル / サイトに合わせる） ---------- */
 .rbot-fab {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    padding: 14px 22px;
+    gap: var(--space-2);
+    padding: 13px 20px;
     background: linear-gradient(135deg, #e8b54e 0%, #c2933a 100%);
     color: var(--deep);
     font-family: var(--font-jp);
     font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.04em;
+    font-size: var(--text-sm);
+    letter-spacing: 0.02em;
     border: none;
-    border-radius: 999px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    border-radius: var(--radius-pill);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
     white-space: nowrap;
 }
-.rbot-fab:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
-}
+.rbot-fab:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45); }
 .rbot-fab:active { transform: translateY(0) scale(0.97); }
 .rbot-fab:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .rbot-fab svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
-/* 短縮ラベルはデスクトップでは隠す（モバイルでのみ表示） */
 .rbot-fab-short { display: none; }
-
 .rbot.is-open .rbot-fab { display: none; }
 
-/* ---------- パネル（すりガラスの浮遊カード） ---------- */
+/* ---------- パネル ---------- */
 .rbot-panel {
-    position: relative; /* 免責ポップオーバーの基準位置 */
+    position: relative;
     display: flex;
     flex-direction: column;
     width: min(384px, calc(100vw - 40px));
-    height: min(580px, calc(100dvh - 40px));
-    /* 卓上ドットの上でも濁らないよう、すりガラスは弱めにして地を締める */
-    background: rgba(20, 18, 16, 0.97);
-    -webkit-backdrop-filter: blur(10px) saturate(1.05);
-    backdrop-filter: blur(10px) saturate(1.05);
-    border: 1px solid rgba(215, 211, 203, 0.12);
-    border-radius: 20px;
-    box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.05) inset,
-        0 12px 32px rgba(0, 0, 0, 0.5),
-        0 32px 72px rgba(0, 0, 0, 0.55);
+    height: min(600px, calc(100dvh - 40px));
+    background: var(--c-bg);
+    border: 1px solid var(--c-edge);        /* 黒地サイトでも境界が見える枠線 */
+    border-radius: 18px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.55), 0 40px 80px rgba(0, 0, 0, 0.6);
     overflow: hidden;
     transform-origin: bottom right;
-    animation: rbot-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: rbot-pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .rbot-panel[hidden] { display: none; }
 
 @keyframes rbot-pop {
-    from { opacity: 0; transform: translateY(16px) scale(0.94); }
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
     to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ---------- ヘッダー ---------- */
+/* ---------- ヘッダー（暗） ---------- */
 .rbot-head {
+    flex-shrink: 0;
     display: flex;
-    align-items: flex-start;   /* タイトル行と✕を上端で揃える */
-    gap: 12px;
-    padding: 15px 14px 13px;
-    background: linear-gradient(180deg, rgba(194, 147, 58, 0.08), transparent);
-    border-bottom: 1px solid rgba(215, 211, 203, 0.08);
+    align-items: center;
+    gap: var(--space-3);
+    padding: 10px 12px 10px 14px;
+    background: var(--c-frame);
+    border-bottom: 1px solid var(--c-line);
+}
+.rbot-avatar {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #f4c01c;
 }
 .rbot-head-titles {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1px;
     min-width: 0;
     flex: 1;
 }
-.rbot-eyebrow-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 34px;          /* 右の✕(34px)と行高を揃える */
-}
-.rbot-eyebrow {
-    font-family: var(--font-jp);
+.rbot-name {
     font-weight: 800;
-    font-size: 1.02rem;
-    letter-spacing: 0.02em;
-    color: var(--ink);
+    font-size: var(--text-base);
+    letter-spacing: 0.01em;
+    color: var(--c-frame-text);
 }
-
-/* 「?」= 免責事項の開閉トグル */
-.rbot-info {
-    flex-shrink: 0;
-    width: 19px;
-    height: 19px;
-    display: grid;
-    place-items: center;
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--ink-2);
-    font-family: var(--font-latin);
-    font-weight: 700;
-    font-size: 0.7rem;
-    line-height: 1;
-    border: 1px solid rgba(215, 211, 203, 0.28);
+.rbot-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-xs);
+    color: var(--c-frame-sub);
+}
+.rbot-dot {
+    width: 7px; height: 7px;
     border-radius: 50%;
-    cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    background: var(--c-online);
 }
-.rbot-info:hover,
-.rbot-info[aria-expanded="true"] {
-    background: rgba(194, 147, 58, 0.2);
-    color: var(--gold);
-    border-color: rgba(194, 147, 58, 0.5);
-}
-.rbot-info:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-
 .rbot-close {
     flex-shrink: 0;
-    width: 34px;
-    height: 34px;
+    width: 34px; height: 34px;
     display: grid;
     place-items: center;
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--ink-2);
-    font-size: 1rem;
-    line-height: 1;
+    background: transparent;
+    color: var(--c-frame-sub);
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: background 0.15s ease, color 0.15s ease;
 }
-.rbot-close:hover { background: rgba(255, 255, 255, 0.12); color: var(--ink); transform: rotate(90deg); }
-.rbot-close:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.rbot-close svg { width: 18px; height: 18px; }
+.rbot-close:hover { background: var(--c-hover); color: var(--c-frame-text); }
+.rbot-close:focus-visible { outline: 2px solid var(--c-brand); outline-offset: 1px; }
 
-.rbot-game {
-    width: 100%;
-    padding: 10px 34px 10px 12px; /* 右側は自前の矢印分あける */
-    background-color: rgba(18, 17, 16, 0.7);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5.5 8L10 12.5L14.5 8' stroke='%23b8b3aa' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 14px;
-    color: var(--ink);
-    font-family: var(--font-jp);
-    font-weight: 700;
-    /* select も 16px 未満だと iOS がフォーカス時に自動ズームするため 16px 以上にする */
-    font-size: 16px;
-    border: 1px solid rgba(215, 211, 203, 0.28);
-    border-radius: 12px;
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    transition: border-color 0.15s ease;
-}
-.rbot-game:hover { border-color: rgba(194, 147, 58, 0.5); }
-.rbot-game:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
-
-/* ---------- 免責（「?」ボタンで開閉するポップオーバー） ---------- */
-.rbot-disclaimer {
-    position: absolute;
-    top: 64px;
-    left: 14px;
-    right: 14px;
-    z-index: 5;
-    margin: 0;
-    padding: 10px 14px;
-    background: rgba(25, 23, 20, 0.98);
-    border: 1px solid rgba(194, 147, 58, 0.3);
-    border-radius: 12px;
-    color: var(--ink-2);
-    font-size: 0.78rem;
-    line-height: 1.55;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
-}
-.rbot-disclaimer[hidden] { display: none; }
-
-/* ---------- メッセージ一覧 ---------- */
+/* ---------- メッセージ一覧（暗い地） ---------- */
 .rbot-messages {
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;                     /* flex子が縮んで内部スクロールするために必須 */
     overflow-y: auto;
-    padding: 14px 16px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding: var(--space-4) 12px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    overscroll-behavior: contain;
+    gap: 10px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(215, 211, 203, 0.25) transparent;
+    scrollbar-color: var(--c-scroll) transparent;
 }
-.rbot-msg {
-    max-width: 88%;
-    padding: 12px 15px;
-    border-radius: 18px;
-    font-size: 0.95rem;
-    line-height: 1.7;
+.rbot-messages::-webkit-scrollbar { width: 7px; }
+.rbot-messages::-webkit-scrollbar-thumb { background: var(--c-scroll); border-radius: 8px; }
+
+/* 1メッセージの行（アバター＋吹き出し＋時刻） */
+.rbot-line {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    max-width: 100%;
+}
+.rbot-line-user { justify-content: flex-end; }
+.rbot-msg-avatar {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #f4c01c;
+    align-self: flex-start;
+}
+.rbot-bubble {
+    max-width: 72%;
+    padding: 9px 13px;
+    font-size: var(--text-sm);
+    line-height: var(--lh-body);
     white-space: pre-wrap;
     word-break: break-word;
-    animation: rbot-msg-in 0.3s cubic-bezier(0.34, 1.3, 0.64, 1);
+    animation: rbot-msg-in 0.26s cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 @keyframes rbot-msg-in {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
 }
-.rbot-msg-user {
-    align-self: flex-end;
-    background: linear-gradient(135deg, #e8b54e 0%, #c2933a 100%);
-    color: var(--deep);
+.rbot-line-bot .rbot-bubble {
+    background: var(--c-msg);
+    color: var(--c-msg-text);
+    border: 1px solid var(--c-msg-line);
+    border-radius: 4px 16px 16px 16px;   /* 左上を絞ってしっぽ風 */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.rbot-line-user .rbot-bubble {
+    background: var(--c-user);
+    color: var(--c-user-text);
     font-weight: 600;
-    border-bottom-right-radius: 6px;
-    box-shadow: 0 4px 14px rgba(194, 147, 58, 0.2);
+    border-radius: 16px 4px 16px 16px;   /* 右上を絞ってしっぽ風 */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
-.rbot-msg-bot {
-    align-self: flex-start;
-    background: #26221d;
-    color: var(--ink);
-    border: 1px solid rgba(215, 211, 203, 0.14);
-    border-bottom-left-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+.rbot-bubble-error {
+    background: #fbe3e0 !important;
+    color: #a3352b !important;
+    border: 1px solid rgba(163, 53, 43, 0.3);
 }
-.rbot-msg-system {
-    align-self: center;
-    max-width: 100%;
-    padding: 4px 14px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 999px;
-    color: var(--ink-2);
-    font-size: 0.76rem;
-    text-align: center;
-    animation: none;
-}
-.rbot-msg-error {
-    align-self: flex-start;
-    background: rgba(217, 74, 49, 0.1);
-    color: var(--ink-2);
-    border: 1px solid rgba(217, 74, 49, 0.35);
+.rbot-time {
+    flex-shrink: 0;
+    font-size: 10px;
+    color: var(--c-frame-sub);
+    white-space: nowrap;
+    padding-bottom: 2px;
 }
 .rbot-source {
     display: block;
-    margin-top: 8px;
+    margin-top: 7px;
     padding-top: 6px;
-    border-top: 1px dashed rgba(215, 211, 203, 0.25);
-    color: var(--ink-2);
-    font-size: 0.76rem;
+    border-top: 1px solid var(--c-msg-line);
+    color: var(--c-msg-sub);
+    font-size: var(--text-xs);
 }
 
-/* 考え中インジケータ */
-.rbot-typing { display: inline-flex; gap: 5px; padding: 4px 0; }
+/* ---------- ゲーム選択カード（サムネイル付き・明色） ---------- */
+.rbot-cards {
+    align-self: flex-start;
+    width: min(300px, 86%);
+    margin-left: 36px;                 /* アバター幅ぶん字下げしてBotの発言に揃える */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    animation: rbot-msg-in 0.26s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+.rbot-card {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    padding: 4px 12px 4px 4px;
+    background: var(--c-msg);
+    border: 1.5px solid var(--c-msg-line);
+    border-radius: 11px;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-jp);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.rbot-card-thumb {
+    flex-shrink: 0;
+    width: 34px; height: 34px;
+    border-radius: 7px;
+    object-fit: cover;
+    object-position: top center;
+    background: var(--c-thumb);
+}
+.rbot-card-name {
+    font-weight: 700;
+    font-size: var(--text-sm);
+    color: var(--c-msg-text);
+    line-height: 1.25;
+}
+.rbot-card:hover { border-color: var(--c-brand); transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); }
+.rbot-card:focus-visible { outline: 2px solid var(--c-brand); outline-offset: 2px; }
+.rbot-card.is-active {
+    border-color: var(--c-brand);
+    background: var(--c-card-active);
+}
+.rbot-card.is-active .rbot-card-name { color: var(--c-card-active-text); }
+.rbot-cards.is-done .rbot-card { cursor: default; opacity: 0.7; }
+.rbot-cards.is-done .rbot-card:hover { transform: none; border-color: var(--c-msg-line); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06); }
+.rbot-cards.is-done .rbot-card.is-active { opacity: 1; border-color: var(--c-brand); background: var(--c-card-active); }
+
+/* 考え中インジケータ（明い吹き出し内） */
+.rbot-bubble-typing { padding: 12px 14px; }
+.rbot-typing { display: inline-flex; gap: 5px; }
 .rbot-typing span {
     width: 7px; height: 7px;
     border-radius: 50%;
-    background: var(--gold);
+    background: var(--c-msg-sub);
     animation: rbot-blink 1.2s infinite ease-in-out;
 }
 .rbot-typing span:nth-child(2) { animation-delay: 0.2s; }
 .rbot-typing span:nth-child(3) { animation-delay: 0.4s; }
 @keyframes rbot-blink {
-    0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+    0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
     30% { opacity: 1; transform: translateY(-3px); }
 }
 
-/* ---------- Turnstile（チャレンジ表示が必要な時だけ現れる） ---------- */
-.rbot-ts { padding: 0 16px; }
-.rbot-ts:has(iframe) { padding: 8px 16px; }
+/* ---------- Turnstile ---------- */
+.rbot-ts { flex-shrink: 0; padding: 0 12px; background: var(--c-bg); }
+.rbot-ts:has(iframe) { padding: 8px 12px; }
 
-/* ---------- 入力フォーム ---------- */
-.rbot-form {
-    padding: 10px 14px 14px;
-    background: linear-gradient(0deg, rgba(255, 255, 255, 0.03), transparent);
-}
-.rbot-input {
-    width: 100%;
-    min-height: 46px;
-    max-height: 120px;
-    resize: none;
-    padding: 12px 16px;
-    background: rgba(18, 17, 16, 0.7);
-    color: var(--ink);
-    font-family: var(--font-jp);
-    /* 16px 未満だと iOS がフォーカス時に自動ズームし、画面拡大→左右パン→タップ判定ズレを招く。
-       16px 以上にして自動ズームを抑止する（送信・閉じるボタンが効かない不具合の根本対策）。 */
-    font-size: 16px;
-    line-height: 1.5;
-    border: 1px solid rgba(215, 211, 203, 0.18);
-    border-radius: 16px;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-.rbot-input:focus {
-    outline: none;
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(194, 147, 58, 0.2);
-}
-.rbot-input::placeholder { color: var(--ink-3); }
-
-.rbot-form-foot {
+/* ---------- 現在のゲーム表示バー（暗フレーム） ---------- */
+.rbot-context {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 8px;
-    padding: 0 4px;
+    gap: var(--space-3);
+    padding: 7px 14px;
+    background: var(--c-tint);
+    border-top: 1px solid var(--c-line);
 }
-.rbot-count { color: var(--ink-3); font-size: 0.72rem; letter-spacing: 0.04em; }
-.rbot-send {
+.rbot-context[hidden] { display: none; }
+.rbot-context-label {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    min-height: 44px;          /* タップ領域を確保（モバイルの押しやすさ） */
-    padding: 9px 24px;
-    background: linear-gradient(135deg, #e8b54e 0%, #c2933a 100%);
-    color: var(--deep);
+    gap: 7px;
+    min-width: 0;
+    color: var(--c-frame-sub);
+    font-size: var(--text-xs);
+}
+.rbot-context-ic { width: 15px; height: 15px; fill: var(--c-brand); flex-shrink: 0; }
+.rbot-context-game { color: var(--c-brand-text); font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rbot-context-change {
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    color: var(--c-brand-text);
     font-family: var(--font-jp);
     font-weight: 700;
-    font-size: 0.85rem;
-    border: none;
-    border-radius: 999px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    font-size: var(--text-xs);
     cursor: pointer;
-    touch-action: manipulation; /* ダブルタップズーム待ちの遅延を除去 */
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, opacity 0.15s ease;
+    padding: 2px 4px;
 }
-.rbot-send:hover:not(:disabled) {
-    transform: translateY(-1px) scale(1.03);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+.rbot-context-change:hover { text-decoration: underline; }
+.rbot-context-change:focus-visible { outline: 2px solid var(--c-brand); outline-offset: 2px; border-radius: 4px; }
+
+/* ---------- 入力フォーム（暗フレーム） ---------- */
+.rbot-form {
+    flex-shrink: 0;
+    padding: 10px 12px;
+    background: var(--c-frame);
+    border-top: 1px solid var(--c-line);
 }
-.rbot-send:active:not(:disabled) { transform: scale(0.96); }
-.rbot-send:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
-.rbot-send:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.rbot-input-row {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-2);
+}
+.rbot-input {
+    flex: 1;
+    min-width: 0;
+    min-height: 42px;
+    max-height: 120px;
+    resize: none;
+    padding: 10px 14px;
+    background: var(--c-input);
+    color: var(--c-frame-text);
+    font-family: var(--font-jp);
+    /* iOS 自動ズーム抑止のため 16px 以上 */
+    font-size: 16px;
+    line-height: 1.45;
+    border: 1px solid var(--c-line);
+    border-radius: 21px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+.rbot-input:focus {
+    outline: none;
+    border-color: var(--c-brand);
+    background: var(--c-input-focus);
+}
+.rbot-input::placeholder { color: var(--c-frame-sub); }
+.rbot-input:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.rbot-send {
+    flex-shrink: 0;
+    width: 42px; height: 42px;
+    display: grid;
+    place-items: center;
+    background: var(--c-brand);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, opacity 0.15s ease;
+}
+.rbot-send svg { width: 20px; height: 20px; fill: currentColor; }
+.rbot-send:hover:not(:disabled) { transform: translateY(-1px) scale(1.05); background: #d1a24a; }
+.rbot-send:active:not(:disabled) { transform: scale(0.95); }
+.rbot-send:disabled { opacity: 0.4; cursor: not-allowed; }
+.rbot-send:focus-visible { outline: 2px solid var(--c-brand); outline-offset: 2px; }
+
+.rbot-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: 7px;
+    padding: 0 4px;
+}
+.rbot-note { color: var(--c-frame-sub); font-size: 11px; line-height: 1.4; }
+.rbot-count { flex-shrink: 0; color: var(--c-frame-sub); font-size: 11px; letter-spacing: 0.03em; }
 
 /* ---------- モバイル ---------- */
 @media (max-width: 640px) {
     .rbot { right: 16px; bottom: 16px; }
-    /* モバイルは小さめのピル＋短縮ラベル「質問」。アイコン＝チャット、文字＝用途で迷わせない */
-    .rbot-fab { padding: 11px 16px; font-size: 0.9rem; gap: 7px; }
+    .rbot-fab { padding: 11px 16px; gap: 7px; }
     .rbot-fab-full { display: none; }
     .rbot-fab-short { display: inline; }
     .rbot-fab svg { width: 20px; height: 20px; }
-    /* ボトムシート化。position:fixed で可視ビューポートに直接アンカーし、
-       高さ・下端は JS（Viewport モジュール）が visualViewport に合わせて上書きする。
-       キーボード表示時もパネルが可視領域に収まる。 */
     .rbot-panel {
         position: fixed;
-        left: 12px;
-        right: 12px;
-        bottom: 12px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
         width: auto;
-        height: calc(100dvh - 24px);
-        max-height: calc(100dvh - 24px);
-        border-radius: 20px;
+        height: calc(100dvh - 20px);
+        max-height: calc(100dvh - 20px);
+        border-radius: 18px;
     }
 }
